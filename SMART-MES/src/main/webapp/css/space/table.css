@@ -1,0 +1,163 @@
+
+#spacecontainer{float:center;height:auto !important; padding-bottom:10px;padding-left:10px;}
+
+
+table, td, a {
+	color: #000;
+	font: normal normal 13px Verdana, Geneva, Arial, Helvetica, sans-serif
+}
+
+#captionTitle {
+	background: #D1E5F8;
+	/* border-left: 1px solid #EB8;
+	border-right: 1px solid #B74;
+	border-top: 1px solid #EB8; */
+	font-weight: bold;
+	padding: 4px 3px;
+	text-align: center;
+	height:20px
+}
+
+#captionSubTitle {
+	background: #EFEEEE;
+	/* border-left: 1px solid #EB8;
+	border-right: 1px solid #B74;
+	border-top: 1px solid #EB8; */
+	font-weight: normal;
+	padding: 4px 3px;
+	height:20px
+}
+
+/* define height and width of scrollable area. Add 16px to width for scrollbar          */
+div.tableContainer {
+	border: 1px solid #D5D1B0;
+}
+
+
+/* make the TH elements pretty */
+thead.fixedHeader th {
+	background: #C96;
+	font-weight: bold;
+	text-align: center;
+	vertical-align:middle;
+	height:30px
+}
+
+/* make TD elements pretty. Provide alternating classes for striping the table */
+/* http://www.alistapart.com/articles/zebratables/                             */
+tbody.scrollContent td, tbody.scrollContent tr.normalRow td {
+	background: #FFF;
+	text-align: center;
+	vertical-align:middle;
+	height:25px
+}
+
+tbody.scrollContent tr.alternateRow td {
+	background: #EEE;
+	
+}
+
+div.tableContainer tr:hover {
+	outline: thin solid;
+    outline-color: #FF7DBE;
+	/* cursor: pointer; */
+}
+
+.process_container {
+       position:relative;
+       width:100%;
+       height:100%;
+}
+
+.process_background_25 {
+       position:absolute;
+       top:0px;
+       left:0px;
+       width:25%;
+       height:100%;
+       background-color:#95CAFF;
+       z-index:1;
+       opacity:.4;
+}
+
+.process_background_50 {
+       position:absolute;
+       top:0px;
+       left:0px;
+       width:50%;
+       height:100%;
+       background-color:#95CAFF;
+       z-index:1;
+       opacity:.4;
+}
+
+.process_background_75 {
+       position:absolute;
+       top:0px;
+       left:0px;
+       width:75%;
+       height:100%;
+       background-color:#95CAFF;
+       z-index:1;
+       opacity:.4;
+}
+
+.process_background_100 {
+       position:absolute;
+       top:0px;
+       left:0px;
+       width:100%;
+       height:100%;
+       background-color:#95CAFF;
+       z-index:1;
+       opacity:.4;
+}
+
+/* Blink Text*/
+#text-blink {
+  -moz-animation-duration: 400ms;
+  -moz-animation-name: blink;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-direction: alternate;
+  
+  -webkit-animation-duration: 400ms;
+  -webkit-animation-name: blink;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  
+  animation-duration: 400ms;
+  animation-name: blink;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@-moz-keyframes blink {
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes blink {
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+}
+

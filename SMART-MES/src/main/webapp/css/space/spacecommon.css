@@ -1,0 +1,245 @@
+
+#spacecontainer{float:center;height:auto !important; padding-bottom:10px;padding-left:10px;}
+
+
+
+table, td, a {
+	color: #000;
+	font: normal normal 12px Verdana, Geneva, Arial, Helvetica, sans-serif
+}
+
+h1 {
+	font: normal normal 18px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	margin: 0 0 5px 0
+}
+
+h2 {
+	font: normal normal 16px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	margin: 0 0 5px 0
+}
+
+h3 {
+	font: normal normal 13px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #008000;
+	margin: 0 0 15px 0
+}
+/* end basic styling                                 */
+
+.multi-select {
+	border-bottom : gray 1px solid;
+    border-top : gray 1px solid;
+    border-left : gray 1px solid;
+    border-right : gray 1px solid;
+}
+
+
+
+/* define height and width of scrollable area. Add 16px to width for scrollbar          */
+div.tableContainer {
+	clear: both;
+	border: 1px solid #D5D1B0;
+	overflow: auto;
+}
+
+/* Reset overflow value to hidden for all non-IE browsers. */
+html>body div.tableContainer {
+	overflow: hidden
+}
+
+/* define width of table. IE browsers only                 */
+div.tableContainer table {
+	float: left;
+}
+
+/* set table header to a fixed position. WinIE 6.x only                                       */
+/* In WinIE 6.x, any element with a position property set to relative and is a child of       */
+/* an element that has an overflow property set, the relative value translates into fixed.    */
+/* Ex: parent element DIV with a class of tableContainer has an overflow property set to auto */
+thead.fixedHeader tr {
+	position: relative
+}
+
+/* set THEAD element to have block level attributes. All other non-IE browsers            */
+/* this enables overflow to work on TBODY element. All other non-IE, non-Mozilla browsers */
+html>body thead.fixedHeader tr {
+	display: block
+}
+
+/* make the TH elements pretty */
+thead.fixedHeader th {
+	background: #C96;
+	border-left: none;
+	border-right: 1px solid #B74;
+	border-top: none;
+	border-bottom: 1px solid #B74;
+	font-weight: bold;
+	text-align: center;
+	height:30px
+}
+
+
+#captionTitle {
+	background: #D5D1B0;
+	border-left: 1px solid #EB8;
+	border-right: 1px solid #B74;
+	border-top: 1px solid #EB8;
+	font-weight: normal;
+	padding: 4px 3px;
+	text-align: center;
+	height:20px
+}
+
+#captionSubTitle {
+	background: #EFEEE0;
+	border-left: 1px solid #EB8;
+	border-right: 1px solid #B74;
+	border-top: 1px solid #EB8;
+	font-weight: normal;
+	padding: 4px 3px;
+	height:20px
+}
+
+/* define the table content to be scrollable                                              */
+/* set TBODY element to have block level attributes. All other non-IE browsers            */
+/* this enables overflow to work on TBODY element. All other non-IE, non-Mozilla browsers */
+/* induced side effect is that child TDs no longer accept width: auto                     */
+html>body tbody.scrollContent {
+	display: block;
+	overflow: auto;
+	width: 100%
+}
+
+/* make TD elements pretty. Provide alternating classes for striping the table */
+/* http://www.alistapart.com/articles/zebratables/                             */
+tbody.scrollContent td, tbody.scrollContent tr.normalRow td {
+	background: #FFF;
+	border-bottom: 1px solid #DDD;
+	border-left: none;
+	border-right: 1px solid #CCC;
+	border-top: none;
+	text-align: center;
+	height:25px
+}
+
+tbody.scrollContent tr.alternateRow td {
+	background: #EEE;
+	border-bottom: 1px solid #DDD;
+	border-left: none;
+	border-right: 1px solid #CCC;
+	border-top: none;
+}
+
+#status_progress {
+	background: #96FD8A;
+	font-color: #000000
+}
+
+#status_warning {
+	background: #FF8888;
+	font-color: #000000
+}
+
+#status_complete {
+	background: #3A35FF;
+	font-color: #FFFFFF
+}
+
+
+.process_container {
+       position:relative;
+       width:100%;
+       height:100%;
+}
+
+.process_background_25 {
+       position:absolute;
+       top:0px;
+       left:0px;
+       width:25%;
+       height:100%;
+       background-color:#95CAFF;
+       z-index:1;
+       opacity:.4;
+}
+
+.process_background_50 {
+       position:absolute;
+       top:0px;
+       left:0px;
+       width:50%;
+       height:100%;
+       background-color:#95CAFF;
+       z-index:1;
+       opacity:.4;
+}
+
+.process_background_75 {
+       position:absolute;
+       top:0px;
+       left:0px;
+       width:75%;
+       height:100%;
+       background-color:#95CAFF;
+       z-index:1;
+       opacity:.4;
+}
+
+.process_background_100 {
+       position:absolute;
+       top:0px;
+       left:0px;
+       width:100%;
+       height:100%;
+       background-color:#95CAFF;
+       z-index:1;
+       opacity:.4;
+}
+
+/* Blink Text*/
+.text-blink {
+  -moz-animation-duration: 400ms;
+  -moz-animation-name: blink;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-direction: alternate;
+  
+  -webkit-animation-duration: 400ms;
+  -webkit-animation-name: blink;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  
+  animation-duration: 400ms;
+  animation-name: blink;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@-moz-keyframes blink {
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes blink {
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  
+  to {
+    opacity: 0;
+  }
+}
+

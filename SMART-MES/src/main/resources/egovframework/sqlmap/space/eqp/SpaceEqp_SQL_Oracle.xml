@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Eqp">
+	
+	
+	<parameterMap id="paramMapEqpLogLocate" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpLogLocate" parameterMap="paramMapEqpLogLocate" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpLogLocate_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpLogDay" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpLogDay" parameterMap="paramMapEqpLogDay" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpLogDay_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapLampLevel" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getLampLevel" parameterMap="paramMapLampLevel" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getLampLevel_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpMonitoringTime" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpMonitoringTime" parameterMap="paramMapEqpMonitoringTime" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpMonitoringTime_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpStatus" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpStatus" parameterMap="paramMapEqpStatus" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpStatus_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEventHist" class="java.util.HashMap">
+		<parameter property="eventtime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqpname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEventHist" parameterMap="paramMapEventHist" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEventHist_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpStatusAlarm" class="java.util.HashMap">
+		<parameter property="eventtime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqpname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="alarmmsg" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setEqpStatusAlarm" parameterMap="paramMapEqpStatusAlarm" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.setEqpStatusAlarm_Pro(?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpRatioPartBasic" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpRatioPartBasic" parameterMap="paramMapEqpRatioPartBasic" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpRatioPartBasic_Pro(?)}
+        ]]>
+	</procedure>
+		
+		
+		
+		
+	<parameterMap id="paramMapEqpList" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="getEqpList" parameterMap="paramMapEqpList" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpList_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpLastStatus" class="java.util.HashMap">
+		<parameter property="macAddress" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="getEqpLastStatus" parameterMap="paramMapEqpLastStatus" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpLastStatus_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpRunningFlag" class="java.util.HashMap">
+		<parameter property="active_flag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="getEqpRunningFlag" parameterMap="paramMapEqpRunningFlag" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpRunningFlag_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<!-- 
+	<parameterMap id="paramMapEqpDailySummary" class="java.util.HashMap">
+		<parameter property="macAddress" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="runningTime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="runningFlag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="setEqpDailySummary" parameterMap="paramMapEqpDailySummary" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.setEqpDailySummary_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	 -->
+	<parameterMap id="paramMapEqpDailySummary" class="java.util.HashMap">
+		<parameter property="searchDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="setEqpDailySummary" parameterMap="paramMapEqpDailySummary" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.setEqpDailySummary_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapEqpLastErrorTime" class="java.util.HashMap">
+		<parameter property="macAddress" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="getEqpLastErrorTime" parameterMap="paramMapEqpLastErrorTime" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpLastErrorTime_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpErrorHist" class="java.util.HashMap">
+		<parameter property="macAddress" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="startTime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="endTime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="elapTime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="setEqpErrorHist" parameterMap="paramMapEqpErrorHist" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.setEqpErrorHist_Pro(?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpRatioData" class="java.util.HashMap">
+		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqp_part" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="getEqpRatioData" parameterMap="paramMapEqpRatioData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpRatioData_Pro(?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpErrorData" class="java.util.HashMap">
+		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqppart" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="getEqpErrorData" parameterMap="paramMapEqpErrorData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpErrorData_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpFlexSpecData" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpFlexSpecData" parameterMap="paramMapEqpFlexSpecData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpFlexSpecData_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpFlexSpecSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="arraystr" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setEqpFlexSpecSave" parameterMap="paramMapEqpFlexSpecSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.setEqpFlexSpecSave_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapEqpFlexStatus" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpFlexStatus" parameterMap="paramMapEqpFlexStatus" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpFlexStatus_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapLastData" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getLastData" parameterMap="paramMapLastData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getLastData_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpDailyData" class="java.util.HashMap">
+		<parameter property="insert_date" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="event_date" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="mac_addr" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="red_flag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="amber_flag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="green_flag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="blue_flag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="white_flag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="buzzer_flag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="wdt_flag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setEqpDailyData" parameterMap="paramMapEqpDailyData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.setEqpDailyData_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapDailyTimeLine" class="java.util.HashMap">
+		<parameter property="searchdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getDailyTimeLine" parameterMap="paramMapDailyTimeLine" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getDailyTimeLine_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapDailyDetailData" class="java.util.HashMap">
+		<parameter property="searchdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqpname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getDailyDetailData" parameterMap="paramMapDailyDetailData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getDailyDetailData_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapEqpRunningData" class="java.util.HashMap">
+		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqp_part" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpRunningData" parameterMap="paramMapEqpRunningData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpRunningData_Pro(?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpToolBasic" class="java.util.HashMap">
+		<parameter property="toollevel" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="toolid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpToolBasic" parameterMap="paramMapEqpToolBasic" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpToolBasic_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpToolManageList" class="java.util.HashMap">
+		<parameter property="tool_level_1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_level_2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_pie" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_fb" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_radius" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_length" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpToolManageList" parameterMap="paramMapEqpToolManageList" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpToolManageList_Pro(?, ?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpToolManageSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="actiontype" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="arraystr" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setEqpToolManageSave" parameterMap="paramMapEqpToolManageSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.setEqpToolSave_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpToolManageStock" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="actiontype" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="arraystr" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setEqpToolManageStock" parameterMap="paramMapEqpToolManageStock" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.setEqpToolStock_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpToolInsert" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_level_1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_level_2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_pie" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_fb" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_radius" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_length" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_unit" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_safe" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="tool_current" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setEqpToolInsert" parameterMap="paramMapEqpToolInsert" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.setEqpToolInsert_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpToolHistData" class="java.util.HashMap">
+		<parameter property="startDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="endDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpToolHistData" parameterMap="paramMapEqpToolHistData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpToolHistData_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpToolHistMonthly" class="java.util.HashMap">
+		<parameter property="searchDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpToolHistMonthly" parameterMap="paramMapEqpToolHistMonthly" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpToolHistMonthly_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpPmBasic" class="java.util.HashMap">
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqppart" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpPmBasic" parameterMap="paramMapEqpPmBasic" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpPmBasic_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpPmList" class="java.util.HashMap">
+		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pm_type" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqppart" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqpname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpPmList" parameterMap="paramMapEqpPmList" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpPmList_Pro(?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpPmInfo" class="java.util.HashMap">
+		<parameter property="pm_id" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getEqpPmInfo" parameterMap="paramMapEqpPmInfo" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.getEqpPmInfo_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapEqpPmSave" class="java.util.HashMap">
+		<parameter property="actiontype" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pm_id" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pm_type" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqppart" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="eqpname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pm_date" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pm_hour" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pm_cost" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pm_detail" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pm_desc" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pm_worker" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="image_info_1" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="image_info_2" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="image_info_3" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="image_info_4" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setEqpPmSave" parameterMap="paramMapEqpPmSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_EQP_DATA.setEqpPmSave_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+</sqlMap>

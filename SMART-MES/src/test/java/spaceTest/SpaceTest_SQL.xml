@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SpaceTest">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="spaceTestSerarchVO" type="test.sample.service.SpaceTestDefaultVO"/>
+	
+	<resultMap id="spaceTest" class="test.sample.service.SpaceTestVO">
+		<result property="column1" column="COLUMN1" columnIndex="1"/>
+		<result property="column2" column="COLUMN2" columnIndex="2"/>
+		<result property="column3" column="COLUMN3" columnIndex="3"/>
+	</resultMap>
+	
+	<insert id="spaceTestDAO.insertSpaceTest_S">
+		<![CDATA[
+			INSERT INTO SPACE_TEST 
+				( COLUMN1
+				  , COLUMN2
+				  , COLUMN3 )
+			VALUES ( #column1#
+				  , #column2#
+				  , #column3# )
+		]]>
+	</insert>
+	
+	<update id="spaceTestDAO.updateSpaceTest_S">
+		<![CDATA[
+			UPDATE SPACE_TEST
+			SET COLUMN1=#column1#
+				, COLUMN2=#column2#
+				, COLUMN3=#column3#
+			]]>
+	</update>
+	
+	<delete id="spaceTestDAO.deleteSpaceTest_S">
+		<![CDATA[
+			DELETE FROM SPACE_TEST 
+			]]>
+	</delete>
+	
+	<select id="spaceTestDAO.selectSpaceTest_S" resultMap="spaceTest">
+		<![CDATA[
+			SELECT
+				COLUMN1
+				, COLUMN2
+				, COLUMN3
+			FROM SPACE_TEST
+			]]>
+	</select>
+	
+	<select id="spaceTestDAO.selectSpaceTestList_D" parameterClass="spaceTestSerarchVO" resultClass="egovMap">
+SELECT * FROM (
+	SELECT A.*, ROWNUM RNUM FROM (
+				SELECT
+								COLUMN1
+								, COLUMN2
+								, COLUMN3
+						FROM SPACE_TEST
+				WHERE 1=1
+				<isEqual prepend="AND" property="searchCondition" compareValue="0">
+					COLUMN1 = #searchKeyword#
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					COLUMN2 LIKE '%' || #searchKeyword# || '%'
+				</isEqual>
+					ORDER BY 
+	
+		<![CDATA[					
+	) A WHERE ROWNUM <= #lastIndex#
+)WHERE RNUM > #firstIndex#
+]]>
+	</select>	
+	<select id="spaceTestDAO.selectSpaceTestListTotCnt_S" parameterClass="spaceTestSerarchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM SPACE_TEST
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				COLUMN1 = #searchKeyword#
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				COLUMN2 LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+
+</sqlMap>

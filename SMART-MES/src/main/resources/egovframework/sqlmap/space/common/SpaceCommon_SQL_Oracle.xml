@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SpaceCommon">
+
+	<parameterMap id="paramMapAlarmList" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="startDateField" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="endDateField" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getAlarmList" parameterMap="paramMapAlarmList" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_COMMON.getAlarmList_Pro(?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	<parameterMap id="paramMapAlarmSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="arrayid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setAlarmSave" parameterMap="paramMapAlarmSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_COMMON.setAlarmSave_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapLogInfoListTotalCnt" class="java.util.HashMap">
+		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getLogInfoListTotalCntProc" parameterMap="paramMapLogInfoListTotalCnt" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_COMMON.getLogInfoListTotalCnt_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapLogInfoList" class="java.util.HashMap">
+		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="pageno" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getLogInfoList" parameterMap="paramMapLogInfoList" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_COMMON.getLogInfoList_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+</sqlMap>

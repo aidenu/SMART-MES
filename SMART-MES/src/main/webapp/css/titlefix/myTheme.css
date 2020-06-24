@@ -1,0 +1,90 @@
+.divider {
+	margin-top: 40px;
+	}
+	
+.fancyTable td, .fancyTable th {
+	/* appearance */
+	border: 1px solid #cccccc;
+	
+	/* size */
+	padding: 2px;
+	}
+
+.fancyTable {
+	/* text */
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	}
+
+.fancyTable tbody tr td {
+	/* appearance */
+	/* background-color: #ffffff; */
+
+	/* background-image: -moz-linear-gradient(
+		top,
+		rgba(255,255,255,0.4) 0%,
+		rgba(255,255,255,0.2) 50%,
+		rgba(255,255,255,0.1) 51%,
+		rgba(255,255,255,0.0) 100%);
+	
+	background-image: -webkit-gradient(
+		linear, left top, left bottom,
+		color-stop(0%,rgba(255,255,255,0.4)),
+		color-stop(50%,rgba(255,255,255,0.2)),
+		color-stop(51%,rgba(255,255,255,0.1)),
+		color-stop(100%,rgba(255,255,255,0.0))); */
+		
+	/* text */
+	color: #262c31;
+	font-size: 12px;
+	text-align: center;
+	vertical-align:middle;
+	height:25px
+	}
+
+.fancyTable tbody tr.odd td {
+	/* appearance */
+	background-color: #d6e0ef;
+	background-image: -moz-linear-gradient(
+		top,
+		rgba(255,255,255,0.4) 0%,
+		rgba(255,255,255,0.2) 50%,
+		rgba(255,255,255,0.1) 51%,
+		rgba(255,255,255,0.0) 100%);
+	
+	background-image: -webkit-gradient(
+		linear, left top, left bottom,
+		color-stop(0%,rgba(255,255,255,0.4)),
+		color-stop(50%,rgba(255,255,255,0.2)),
+		color-stop(51%,rgba(255,255,255,0.1)),
+		color-stop(100%,rgba(255,255,255,0.0)));
+	}
+
+.fancyTable thead tr th,
+.fancyTable thead tr td,
+.fancyTable tfoot tr th, 
+.fancyTable tfoot tr td {
+	/* appearance */
+	background-color: #807C30;
+	background-image: -moz-linear-gradient(
+		top,
+		rgba(255,255,255,0.4) 0%,
+		rgba(255,255,255,0.2) 50%,
+		rgba(255,255,255,0.1) 51%,
+		rgba(255,255,255,0.0) 100%);
+	
+	background-image: -webkit-gradient(
+		linear, left top, left bottom,
+		color-stop(0%,rgba(255,255,255,0.4)),
+		color-stop(50%,rgba(255,255,255,0.2)),
+		color-stop(51%,rgba(255,255,255,0.1)),
+		color-stop(100%,rgba(255,255,255,0.0)));
+		
+	/* text */
+	color: #FFFFFF;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align:middle;
+	height:30px
+	}
+	
