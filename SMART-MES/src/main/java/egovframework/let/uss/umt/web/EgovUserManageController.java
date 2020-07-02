@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
-import space.common.SpaceCommonDAOImpl;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovCmmUseService;
@@ -29,6 +28,7 @@ import egovframework.let.uss.umt.service.UserManageVO;
 import egovframework.let.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import smes.common.SmesCommonDAOImpl;
 
 /**
  * 업무사용자관련 요청을  비지니스 클래스로 전달하고 처리된결과를  해당   웹 화면으로 전달하는  Controller를 정의한다
@@ -66,8 +66,8 @@ public class EgovUserManageController {
     @Autowired
 	private DefaultBeanValidator beanValidator;
     
-    @Resource(name="spaceCommonDAO")
-	private SpaceCommonDAOImpl spaceCommonDAO;
+    @Resource(name="SmesCommonDAO")
+	private SmesCommonDAOImpl SmesCommonDAO;
     
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
@@ -128,7 +128,7 @@ public class EgovUserManageController {
 				userlimit = EgovFileScrty.decode(userlimit);
 			}
 			
-	    	List<HashMap> resultUser = spaceCommonDAO.nosessioncommonDataProc("selectUserCount");
+	    	List<HashMap> resultUser = SmesCommonDAO.nosessioncommonDataProc("selectUserCount");
 	    	
 			if (resultUser != null && resultUser.size() > 0)
 			{

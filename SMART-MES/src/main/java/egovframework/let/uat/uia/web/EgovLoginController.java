@@ -20,7 +20,6 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import space.common.SpaceCommonDAOImpl;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.utl.slm.EgovHttpSessionBindingListener;
@@ -34,6 +33,7 @@ import egovframework.let.utl.sim.service.EgovClntInfo;
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
+import smes.common.SmesCommonDAOImpl;
 
 /**
  * 일반 로그인, 인증서 로그인을 처리하는 컨트롤러 클래스
@@ -75,8 +75,8 @@ public class EgovLoginController {
     @Resource(name="leaveaTrace")
     LeaveaTrace leaveaTrace;
     
-    @Resource(name="spaceCommonDAO")
-	private SpaceCommonDAOImpl spaceCommonDAO;
+    @Resource(name="SmesCommonDAO")
+	private SmesCommonDAOImpl SmesCommonDAO;
     
     /** EgovMenuManageService */
 	@Resource(name = "meunManageService")
@@ -109,10 +109,10 @@ public class EgovLoginController {
     		                   HttpServletRequest request,
     		                   ModelMap model)
             throws Exception {
-    	
     	// 접속IP
     	String userIp = EgovClntInfo.getClntIP(request);
-
+    	
+    	System.out.println(request.getAttribute("id"));
     	// 메뉴 컨텐츠 링크로 바로 들어 올 경우 사용자 정보가 없으면 로그인 화면으로 넘긴다
     	if(loginVO.getId() == null) {
     		model.addAttribute("message", egovMessageSource.getMessage("space.common.alert.session.expire"));
@@ -121,13 +121,6 @@ public class EgovLoginController {
     	
     	// 1. 일반 로그인 처리
         LoginVO resultVO = loginService.actionLogin(loginVO);
-        
-        //퇴사자는 로그인 할 수 없게 함
-        if("Y".equals(resultVO.getIhidNum()))
-        {
-            model.addAttribute("message", egovMessageSource.getMessage("fail.common.login.expire"));
-            return "uat/uia/EgovLoginUsr";
-        }
 
         boolean loginPolicyYn = true;
 
@@ -144,7 +137,6 @@ public class EgovLoginController {
 				}
 		    }
 		}
-
         if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
 
         	/*if(EgovMultiLoginPreventor.findByLoginId(resultVO.getId()))
@@ -207,120 +199,6 @@ public class EgovLoginController {
     	if(!isAuthenticated) {
     		//model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
     		
-    		/*
-    		// 타임서버의 시간과 라이센스 파일의 만료일을 비교하여 만료일이 지나면 로그인 불가
-        	try
-        	{
-        		//타임서버에서 현재 시간을 가져온다
-        		String TIME_SERVER = "time-a.nist.gov";   
-    			NTPUDPClient timeClient = new NTPUDPClient();
-    			InetAddress inetAddress = InetAddress.getByName(TIME_SERVER);
-    			TimeInfo timeInfo = timeClient.getTime(inetAddress);
-    			long returnTime = timeInfo.getMessage().getTransmitTimeStamp().getTime();
-    			Date servertime = new Date(returnTime);
-    			SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
-    			String timeServer = format.format(servertime);
-    			
-    			//라이센스 파일에서 만료일을 가져온다
-    			File file = new File(propertiesService.getString("Globals.fileStorePath")+"license.srt");
-    			filereader = new FileReader(file);
-    			bufferedReaderr = new BufferedReader(filereader);
-    			
-    			String expire = "";
-    			
-    			long diffDate = 0L;
-    			int countDate = 0;
-    			
-    			if((expire = bufferedReaderr.readLine()) != null)
-    			{
-    				expire = EgovFileScrty.decode(expire);
-    				
-    				Calendar startCal = Calendar.getInstance();
-    				Calendar endCal = Calendar.getInstance();
-    				
-    				startCal.set(Integer.parseInt(timeServer.substring(0, 4)),Integer.parseInt(timeServer.substring(5, 7)),Integer.parseInt(timeServer.substring(8, 10)));
-    				endCal.set(Integer.parseInt(expire.substring(0, 4)),Integer.parseInt(expire.substring(5, 7)),Integer.parseInt(expire.substring(8, 10)));
-    				
-    				diffDate = startCal.getTimeInMillis() - endCal.getTimeInMillis();
-    				
-    				countDate = (int) (diffDate/(24 *60 * 60 *1000));
-    				
-    				if(countDate == 0)
-    				{
-    					request.getSession().setAttribute("expiremsg", egovMessageSource.getMessage("alert.license.today"));
-    					//msg =  egovMessageSource.getMessage("alert.license.today");
-    				}
-    				else if(countDate<0 && countDate>-31)
-    				{
-    					request.getSession().setAttribute("expiremsg", egovMessageSource.getMessage("alert.license.remind.pre") + Math.abs(countDate) + egovMessageSource.getMessage("alert.license.remind.suf"));
-    					//msg =  egovMessageSource.getMessage("alert.license.remind.pre") + Math.abs(countDate) + egovMessageSource.getMessage("alert.license.remind.suf");
-    				}
-    				else if(countDate>0)
-    				{
-    					model.addAttribute("message", egovMessageSource.getMessage("alert.license.expire"));
-    					return "uat/uia/EgovLoginUsr";
-    				}
-    			}
-    			else
-    			{
-    				System.out.println("license file not found");
-    				return "uat/uia/EgovLoginUsr";
-    			}
-    			
-    			bufferedReaderr.close();
-    			filereader.close();
-        	}
-        	catch(Exception e)
-        	{
-        		System.out.println("license file read error : " + e.toString());
-        	}
-        	
-        	if(bufferedReaderr != null){bufferedReaderr.close();}
-        	if(filereader != null){filereader.close();}
-        	
-        	
-        	//사용자 정보 테이블의 유효 사용자수가 계약된 사용자수 보다 많으면 사용 제한을 건다
-        	try
-        	{
-        		//라이센스 파일에서 사용자 제한 수를 가져온다
-    			File file = new File(propertiesService.getString("Globals.fileStorePath")+"user.srt");
-    			filereader = new FileReader(file);
-    			bufferedReaderr = new BufferedReader(filereader);
-    			
-    			String userlimit = "";
-    			
-    			if((userlimit = bufferedReaderr.readLine()) != null)
-    			{
-    				userlimit = EgovFileScrty.decode(userlimit);
-    			}
-    			
-    	    	List<HashMap> resultUser = spaceCommonDAO.nosessioncommonDataProc("selectUserCount");
-    	    	
-    			if (resultUser != null && resultUser.size() > 0)
-    			{
-    					
-    				String userCnt = resultUser.get(0).get("USER_CNT").toString();
-    				
-    				int iuserCnt = Integer.parseInt(userCnt);
-    				int iuserlimit = Integer.parseInt(userlimit);
-    			
-    				if(iuserCnt > iuserlimit)
-    				{
-    					model.addAttribute("message", egovMessageSource.getMessage("alert.license.user.count"));
-    					return "uat/uia/EgovLoginUsr";
-    				}
-    			}
-    			
-    			bufferedReaderr.close();
-    			filereader.close();
-        	}
-        	catch(Exception ee)
-        	{
-        		System.out.println("user count select error : " + ee.toString());
-        	}
-        	
-        	if(bufferedReaderr != null){bufferedReaderr.close();}
-        	if(filereader != null){filereader.close();}*/
         	
         	return "uat/uia/EgovLoginUsr";
     	}

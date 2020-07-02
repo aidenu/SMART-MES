@@ -52,7 +52,6 @@ public class EgovLoginServiceImpl extends EgovAbstractServiceImpl implements
 	 */
     @Override
 	public LoginVO actionLogin(LoginVO vo) throws Exception {
-
     	// 1. 입력한 비밀번호를 암호화한다.
     	String enpassword = EgovFileScrty.encryptPassword(vo.getPassword(), vo.getId());
     	
@@ -69,7 +68,6 @@ public class EgovLoginServiceImpl extends EgovAbstractServiceImpl implements
     	} else {
     		loginVO = new LoginVO();
     	}
-
     	return loginVO;
     }
 

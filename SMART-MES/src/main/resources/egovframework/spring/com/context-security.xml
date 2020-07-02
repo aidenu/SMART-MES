@@ -12,6 +12,7 @@
     <security:http pattern="/css/**" security="none"/>
     <security:http pattern="/images/**" security="none"/>
     <security:http pattern="/js/**" security="none"/>
+    <security:http pattern="/assets/**" security="none"/>
     <security:http pattern="\A/WEB-INF/jsp/.*\Z" request-matcher="regex" security="none"/>
     
 	 

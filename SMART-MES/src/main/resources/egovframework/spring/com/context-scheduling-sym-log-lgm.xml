@@ -33,7 +33,7 @@
 	
 	
 	<!--  기간 만료 예정 라이센스 조회를 위해 스케줄러 등록 함-->
-	 <bean id="careerAlarmService" class="space.common.SpaceSchedulerWork" />
+	 <bean id="careerAlarmService" class="smes.common.SmesSchedulerWork" />
 	 <task:scheduler id="gsScheduler" pool-size="10" />
 	 <task:executor id="gsTaskExecutor" pool-size="10" />
 	 <task:annotation-driven executor="gsTaskExecutor" scheduler="gsScheduler" />

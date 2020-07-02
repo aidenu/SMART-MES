@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Mobile">
+
+	
+	
+ 	<parameterMap id="paramMaptMobileUserRole" class="java.util.HashMap">
+ 	 	<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getMobileUserRole" parameterMap="paramMaptMobileUserRole" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_MOBILE_DATA.getUserRole_Pro(?, ?)}
+        ]]>
+	</procedure> 
+	
+	
+	
+	<parameterMap id="paramMaptMobileAppkey" class="java.util.HashMap">
+ 	 	<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getMobileAppkey" parameterMap="paramMaptMobileAppkey" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_MOBILE_DATA.getAppKey_Pro(?, ?)}
+        ]]>
+	</procedure> 
+	
+	
+	
+	<parameterMap id="paramMaptMobileAppkeyUser" class="java.util.HashMap">
+ 	 	<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getMobileAppkeyUser" parameterMap="paramMaptMobileAppkeyUser" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_MOBILE_DATA.getAppKeyUser_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMaptMobileAppKeyBusiness" class="java.util.HashMap">
+ 	 	<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getAppKeyBusiness" parameterMap="paramMaptMobileAppKeyBusiness" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_MOBILE_DATA.getAppKeyBusiness_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMaptMobileAppKeyInfo" class="java.util.HashMap">
+ 	 	<parameter property="appkey" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getAppKeyInfo" parameterMap="paramMaptMobileAppKeyInfo" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_MOBILE_DATA.getAppKeyInfo_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapMobileAppkeyRegist" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="appkey" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="ostype" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+ 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setMobileAppkeyRegist" parameterMap="paramMapMobileAppkeyRegist" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_MOBILE_DATA.setAppKey_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapMobileAppkeyDelete" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="appkey" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+ 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setMobileAppkeyDelete" parameterMap="paramMapMobileAppkeyDelete" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_MOBILE_DATA.setDeleteAppKey_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMaptMobileAlarmList" class="java.util.HashMap">
+ 	 	<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+ 	 	<parameter property="pageno" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getMobileAlarmList" parameterMap="paramMaptMobileAlarmList" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_MOBILE_DATA.getAlarmList_Pro(?, ?, ?)}
+        ]]>
+	</procedure> 
+	
+	
+	
+	<parameterMap id="paramMaptMobileAlarmInfo" class="java.util.HashMap">
+ 	 	<parameter property="uniqueid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getMobileAlarmInfo" parameterMap="paramMaptMobileAlarmInfo" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_MOBILE_DATA.getAlarmInfo_Pro(?, ?)}
+        ]]>
+	</procedure> 
+	
+	
+	
+	<parameterMap id="paramMaptMobileAlarmData" class="java.util.HashMap">
+ 	 	<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+ 	 	<parameter property="arrayid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setMobileAlarmData" parameterMap="paramMaptMobileAlarmData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_MOBILE_DATA.setAlarmData_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+</sqlMap>

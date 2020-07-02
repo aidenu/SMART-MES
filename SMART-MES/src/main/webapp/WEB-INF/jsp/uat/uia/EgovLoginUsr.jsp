@@ -5,43 +5,22 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<%
-	String ExpireDate = (String)session.getAttribute("expiremsg");
-%>
-
 <html >
 <head>
-<title>설비모니터링</title>
-<link rel="shortcut icon" href="<c:url value='/'/>images/bl_circle.gif">
-<link rel="stylesheet" href="<c:url value='/css/login_style.css'/>">
-<style>
-
-.btn { display: inline-block; *display: inline; *zoom: 1; padding: 4px 10px 4px; margin-bottom: 0; font-size: 13px; line-height: 18px; color: #333333; text-align: center;text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); vertical-align: middle; background-color: #f5f5f5; background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6); background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6)); background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6); background-image: -o-linear-gradient(top, #ffffff, #e6e6e6); background-image: linear-gradient(top, #ffffff, #e6e6e6); background-repeat: repeat-x; filter: progid:dximagetransform.microsoft.gradient(startColorstr=#ffffff, endColorstr=#e6e6e6, GradientType=0); border-color: #e6e6e6 #e6e6e6 #e6e6e6; border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); border: 1px solid #e6e6e6; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); cursor: pointer; *margin-left: .3em; }
-.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] { background-color: #e6e6e6; }
-.btn-large { padding: 9px 14px; font-size: 15px; line-height: normal; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
-.btn:hover { color: #333333; text-decoration: none; background-color: #e6e6e6; background-position: 0 -15px; -webkit-transition: background-position 0.1s linear; -moz-transition: background-position 0.1s linear; -ms-transition: background-position 0.1s linear; -o-transition: background-position 0.1s linear; transition: background-position 0.1s linear; }
-.btn-primary, .btn-primary:hover { text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); color: #ffffff; }
-.btn-primary.active { color: rgba(255, 255, 255, 0.75); }
-.btn-primary { background-color: #4a77d4; background-image: -moz-linear-gradient(top, #6eb6de, #4a77d4); background-image: -ms-linear-gradient(top, #6eb6de, #4a77d4); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6eb6de), to(#4a77d4)); background-image: -webkit-linear-gradient(top, #6eb6de, #4a77d4); background-image: -o-linear-gradient(top, #6eb6de, #4a77d4); background-image: linear-gradient(top, #6eb6de, #4a77d4); background-repeat: repeat-x; filter: progid:dximagetransform.microsoft.gradient(startColorstr=#6eb6de, endColorstr=#4a77d4, GradientType=0);  border: 1px solid #3762bc; text-shadow: 1px 1px 1px rgba(0,0,0,0.4); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5); }
-.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] { filter: none; background-color: #4a77d4; }
-.btn-block { width: 100%; display:block; }
-</style>
-
-  <script type="text/javascript">
+<title>Login - SMART MES</title>
+<link rel="shortcut icon" type="image/x-icon" href="<c:url value='/'/>assets/img/favicon.png">
+<link rel="stylesheet" href="<c:url value='/'/>css/smart/smartstyles.css">
+<script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="<c:url value='/'/>js/smartscripts.js"></script>
+<script type="text/javascript">
 	
 	if("${sessionmessage}" == "session expire")
 	{
 		alert('<spring:message code="space.common.alert.session.expire" />');
 	}
-	
-	if("<%=ExpireDate%>" != "null" && "<%=ExpireDate%>" != "")
-	{
-		alert("<%=ExpireDate%>");
-		<%
-			session.setAttribute("expiremsg","");
-		%>
-	}
-	
 	
 	function actionLogin() {
 
@@ -77,37 +56,54 @@
 
 
 <body class="align" onload="fnInit();">
-
-  <div class="grid">
-  
-  	<p class="text--center"><H2><font color="#E68C0D">Equipment Monitoring System</font></H2></p>
-
-    <form name="loginForm" method="POST" class="form login">
-
-      <div class="form__field">
-        <label for="login__username"><svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use></svg><span class="hidden">Username</span></label>
-        <input id="login__username" type="text" id="id" name="id" maxlength="15" class="form__input" placeholder="Username" required>
-      </div>
-
-      <div class="form__field">
-        <label for="login__password"><svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#lock"></use></svg><span class="hidden">Password</span></label>
-        <input id="login__password" type="password" maxlength="25" id="password" name="password" onkeydown="javascript:if (event.keyCode == 13) { actionLogin(); }" class="form__input" placeholder="Password" required>
-      </div>
-
-      <div class="form__field">
-        <!-- <input type="submit" value="Sign In" onclick="actionLogin()"> -->
-        <a class="btn btn-primary btn-block btn-large" onclick="javascript:actionLogin()">로그인</a>
-      </div>
-
-		<input type="hidden" name="message" value="${message}" />
-		<input type="hidden" name="userSe" value="USR" />
-		<input name="j_username" type="hidden" />
-		
-    </form>
-
-  </div>
-
-  <svg xmlns="http://www.w3.org/2000/svg" class="icons"><symbol id="arrow-right" viewBox="0 0 1792 1792"><path d="M1600 960q0 54-37 91l-651 651q-39 37-91 37-51 0-90-37l-75-75q-38-38-38-91t38-91l293-293H245q-52 0-84.5-37.5T128 1024V896q0-53 32.5-90.5T245 768h704L656 474q-38-36-38-90t38-90l75-75q38-38 90-38 53 0 91 38l651 651q37 35 37 90z"/></symbol><symbol id="lock" viewBox="0 0 1792 1792"><path d="M640 768h512V576q0-106-75-181t-181-75-181 75-75 181v192zm832 96v576q0 40-28 68t-68 28H416q-40 0-68-28t-28-68V864q0-40 28-68t68-28h32V576q0-184 132-316t316-132 316 132 132 316v192h32q40 0 68 28t28 68z"/></symbol><symbol id="user" viewBox="0 0 1792 1792"><path d="M1600 1405q0 120-73 189.5t-194 69.5H459q-121 0-194-69.5T192 1405q0-53 3.5-103.5t14-109T236 1084t43-97.5 62-81 85.5-53.5T538 832q9 0 42 21.5t74.5 48 108 48T896 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T896 896 624.5 783.5 512 512t112.5-271.5T896 128t271.5 112.5T1280 512z"/></symbol></svg>
+	<div id="layoutAuthentication">
+		<div id="layoutAuthentication_content">
+			<main>
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-lg-5">
+							<div class="card shadow-lg border-0 rounded-lg mt-5">
+								<div class="card-header justify-content-center"><h3 class="font-weight-light my-4">Login</h3></div>
+								<div class="card-body">
+									<form name="loginForm" method="POST">
+										<input type="hidden" name="message" value="${message}" />
+										<input type="hidden" name="userSe" value="USR" />
+										<input name="j_username" type="hidden" />
+										<div class="form-group">
+											<label class="small mb-1" for="id">ID</label>
+											<input class="form-control py-4" id="id" name="id" type="text"  placeholder="Enter ID" />
+										</div>
+										<div class="form-group">
+											<label class="small mb-1" for="password">Password</label>
+											<input class="form-control py-4" id="password" name="password" type="password" onkeydown="javascript:if(event.keyCode == 13) { actionLogin(); }" placeholder="Enter password" />
+										</div>
+										<div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+											<a class="btn btn-primary" onclick="actionLogin()">Login</a>
+										</div>
+									</form>
+								</div>
+								<div class="card-footer text-center"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+		<div id="layoutAuthentication_footer">
+			<footer class="footer mt-auto footer-dark">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6 small">Copyright &copy; Your Website 2020</div>
+						<div class="col-md-6 text-md-right small">
+							<a href="#!">Privacy Policy</a>
+							&middot;
+							<a href="#!">Terms &amp; Conditions</a>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
 
 </body>
 </html>
