@@ -1,4 +1,4 @@
-package smes.eqp;
+package smart.eqp;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,25 +38,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import smes.common.SmesCommonDAOImpl;
-import smes.common.SmesGcmSender;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.EgovFileMngUtil;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
+import smart.common.SmartCommonDAOImpl;
+import smart.common.SmartGcmSender;
 
 @Controller
-public class SmesEqpController {
+public class SmartEqpController {
 
 	Logger logger = Logger.getLogger("egovframework");
 	
-	@Resource(name="SmesCommonDAO")
-	private SmesCommonDAOImpl SmesCommonDAO;
+	@Resource(name="smartCommonDAO")
+	private SmartCommonDAOImpl SmartCommonDAO;
 	
-	@Resource(name="smesGcmSender")
-	private SmesGcmSender smesGcmSender;
+	@Resource(name="smartGcmSender")
+	private SmartGcmSender smartGcmSender;
 	
 	@Resource(name = "propertiesService")
     protected EgovPropertyService propertyService;
@@ -69,23 +69,23 @@ public class SmesEqpController {
 	@Resource(name="EgovFileMngService")
 	private EgovFileMngService fileMngService;
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpRatio.do")
-	public String SmesEqpRatio(ModelMap model) throws Exception {
+	@RequestMapping(value = "/smart/eqp/SmartEqpRatio.do")
+	public String SmartEqpRatio(ModelMap model) throws Exception {
 		
 		try {
 			
-			List<HashMap> resultBasic = SmesCommonDAO.commonDataProc("getEqpRatioPartBasic");
+			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getEqpRatioPartBasic");
 			model.addAttribute("resultBasic", resultBasic);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpRatio.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpRatio.do] Exception :: " + e.toString());
 		}
 		
-    	return "smes/eqp/SmesEqpRatio";
+    	return "smart/eqp/SmartEqpRatio";
 	}
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpRatioData.do")
-	public String SmesEqpRatioData(
+	@RequestMapping(value = "/smart/eqp/SmartEqpRatioData.do")
+	public String SmartEqpRatioData(
 			@RequestParam(value="datetype", required=false) String datetype,
 			@RequestParam(value="startMonth", required=false) String startMonth,
 			@RequestParam(value="endMonth", required=false) String endMonth,
@@ -153,7 +153,7 @@ public class SmesEqpController {
 				hp.put("gubun", datetype);
 				hp.put("eqp_part", eqp_part);
 				
-				result = SmesCommonDAO.commonDataProc("getEqpRatioData", hp);
+				result = SmartCommonDAO.commonDataProc("getEqpRatioData", hp);
 			}
 			else
 			{
@@ -163,7 +163,7 @@ public class SmesEqpController {
 				hp.put("gubun", datetype);
 				hp.put("eqp_part", eqp_part);
 				
-				result = SmesCommonDAO.commonDataProc("getEqpRatioData", hp);
+				result = SmartCommonDAO.commonDataProc("getEqpRatioData", hp);
 			}
 			
 			double tot_ratio = 0;
@@ -187,34 +187,34 @@ public class SmesEqpController {
     		model.addAttribute("result", result);
     		
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpRatioData.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpRatioData.do] Exception :: " + e.toString());
 			e.printStackTrace();
 		}
 		
-		return "smes/eqp/SmesEqpRatioData";
+		return "smart/eqp/SmartEqpRatioData";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpError.do")
-	public String SmesEqpError(ModelMap model) throws Exception {
+	@RequestMapping(value = "/smart/eqp/SmartEqpError.do")
+	public String SmartEqpError(ModelMap model) throws Exception {
 		
 		try {
 			
-			List<HashMap> resultBasic = SmesCommonDAO.commonDataProc("getEqpRatioPartBasic");
+			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getEqpRatioPartBasic");
 			model.addAttribute("resultBasic", resultBasic);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpError.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpError.do] Exception :: " + e.toString());
 		}
 		
-    	return "smes/eqp/SmesEqpError";
+    	return "smart/eqp/SmartEqpError";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpErrorData.do")
-	public String SmesEqpErrorData(
+	@RequestMapping(value = "/smart/eqp/SmartEqpErrorData.do")
+	public String SmartEqpErrorData(
 			@RequestParam(value="startDateField", required=false) String startDateField,
 			@RequestParam(value="endDateField", required=false) String endDateField,
 			@RequestParam(value="eqp_part", required=false) String eqp_part,
@@ -229,21 +229,21 @@ public class SmesEqpController {
 			hp.put("enddate", endDateField);
 			hp.put("eqppart", eqp_part);
 			
-			List<HashMap> 	result = SmesCommonDAO.commonDataProc("getEqpErrorData", hp);
+			List<HashMap> 	result = SmartCommonDAO.commonDataProc("getEqpErrorData", hp);
 				
 			model.addAttribute("result", result);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpErrorData.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpErrorData.do] Exception :: " + e.toString());
 		}
 		
-		return "smes/eqp/SmesEqpErrorData";
+		return "smart/eqp/SmartEqpErrorData";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpErrorExcel.do")
-	public String SmesEqpErrorExcel(
+	@RequestMapping(value = "/smart/eqp/SmartEqpErrorExcel.do")
+	public String SmartEqpErrorExcel(
 			@RequestParam(value="startDateField", required=false) String startDateField,
 			@RequestParam(value="endDateField", required=false) String endDateField,
 			@RequestParam(value="eqp_part", required=false) String eqp_part,
@@ -258,7 +258,7 @@ public class SmesEqpController {
 			hp.put("enddate", endDateField);
 			hp.put("eqppart", eqp_part);
 			
-			List<HashMap> 	result = SmesCommonDAO.commonDataProc("getEqpErrorData", hp);
+			List<HashMap> 	result = SmartCommonDAO.commonDataProc("getEqpErrorData", hp);
 				
 			model.addAttribute("result", result);
 			model.addAttribute("startdate", startDateField);
@@ -266,14 +266,14 @@ public class SmesEqpController {
 			model.addAttribute("eqppart", eqp_part);
     		
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpErrorExcel.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpErrorExcel.do] Exception :: " + e.toString());
 		}
 		
-		return "smes/eqp/SmesEqpErrorExcel";
+		return "smart/eqp/SmartEqpErrorExcel";
 	}
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpRatioExcel.do")
-	public void SmesEqpRatioExcel(
+	@RequestMapping(value = "/smart/eqp/SmartEqpRatioExcel.do")
+	public void SmartEqpRatioExcel(
 			@RequestParam(value="datetype", required=false) String datetype,
 			@RequestParam(value="startMonth", required=false) String startMonth,
 			@RequestParam(value="endMonth", required=false) String endMonth,
@@ -343,7 +343,7 @@ public class SmesEqpController {
 				hp.put("gubun", datetype);
 				hp.put("eqp_part", eqp_part);
 				
-				result = SmesCommonDAO.commonDataProc("getEqpRatioData", hp);
+				result = SmartCommonDAO.commonDataProc("getEqpRatioData", hp);
 			}
 			else
 			{
@@ -353,7 +353,7 @@ public class SmesEqpController {
 				hp.put("gubun", datetype);
 				hp.put("eqp_part", eqp_part);
 				
-				result = SmesCommonDAO.commonDataProc("getEqpRatioData", hp);
+				result = SmartCommonDAO.commonDataProc("getEqpRatioData", hp);
 			}
 			
 			
@@ -660,15 +660,15 @@ public class SmesEqpController {
 			}
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpRatioExcel.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpRatioExcel.do] Exception :: " + e.toString());
 			e.printStackTrace();
 		}
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpFlexStatus.do")
-	public String SmesEqpFlexStatus(ModelMap model) throws Exception {
+	@RequestMapping(value = "/smart/eqp/SmartEqpFlexStatus.do")
+	public String SmartEqpFlexStatus(ModelMap model) throws Exception {
 		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		
@@ -679,13 +679,13 @@ public class SmesEqpController {
     	
 		try{
 
-			List<HashMap> resultTime = SmesCommonDAO.commonDataProc("getEqpMonitoringTime");
+			List<HashMap> resultTime = SmartCommonDAO.commonDataProc("getEqpMonitoringTime");
 			model.addAttribute("resultTime", resultTime);
 			
 			LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 			HashMap<String,String> hp = new HashMap<String,String>();
 			hp.put("userid", loginVO.getId());
-			List<HashMap> resultRole = SmesCommonDAO.commonDataProc("selectUserRoleData",hp);
+			List<HashMap> resultRole = SmartCommonDAO.commonDataProc("selectUserRoleData",hp);
     		
     		if(resultRole != null && resultRole.size()>0)
     		{
@@ -693,15 +693,15 @@ public class SmesEqpController {
     		}
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpFlexStatus.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpFlexStatus.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpFlexStatus";
+    	return "smart/eqp/SmartEqpFlexStatus";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpFlexStatusData.do")
-	public String SmesEqpFlexStatusData(
+	@RequestMapping(value = "/smart/eqp/SmartEqpFlexStatusData.do")
+	public String SmartEqpFlexStatusData(
 			@RequestParam(value="userrole", required=false) String userrole,
 			@RequestParam(value="reload_time", required=false) String reload_time,
 			ModelMap model) throws Exception {
@@ -711,7 +711,7 @@ public class SmesEqpController {
     	
 		try{
 
-			List<HashMap> resultSpec = SmesCommonDAO.commonDataProc("getEqpFlexSpecData");
+			List<HashMap> resultSpec = SmartCommonDAO.commonDataProc("getEqpFlexSpecData");
     		
     		model.addAttribute("resultSpec", resultSpec);
     		model.addAttribute("userrole", userrole);
@@ -722,14 +722,14 @@ public class SmesEqpController {
     		HashMap<String,String> hp = new HashMap<String,String>();
 			
 			String fileLocate = "";
-			List<HashMap> resultLocate = SmesCommonDAO.commonDataProc("getEqpLogLocate");
+			List<HashMap> resultLocate = SmartCommonDAO.commonDataProc("getEqpLogLocate");
 			if(resultLocate != null && resultLocate.size() > 0)
 			{
 				fileLocate = resultLocate.get(0).get("FILE_LOCATE").toString();
 			}
 			
 			String lamplevel = "5";
-			List<HashMap> resultLamp = SmesCommonDAO.commonDataProc("getLampLevel");
+			List<HashMap> resultLamp = SmartCommonDAO.commonDataProc("getLampLevel");
 			if(resultLamp != null && resultLamp.size() > 0)
 			{
 				lamplevel = resultLamp.get(0).get("LAMP_LEVEL").toString();
@@ -737,7 +737,7 @@ public class SmesEqpController {
 			
 			model.addAttribute("lamplevel", lamplevel);
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpFlexStatus");
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpFlexStatus");
 			model.addAttribute("result", result);
 			
 			List<HashMap> resultStatus = new ArrayList();
@@ -882,7 +882,7 @@ public class SmesEqpController {
 												hp = new HashMap<String,String>();
 												hp.put("eventtime", eventTime);
 												hp.put("eqpname", eqpname);
-												List<HashMap> resultevent = SmesCommonDAO.commonDataProc("getEventHist", hp);
+												List<HashMap> resultevent = SmartCommonDAO.commonDataProc("getEventHist", hp);
 												
 												if(resultevent != null && resultevent.size()>0)
 												{
@@ -897,16 +897,16 @@ public class SmesEqpController {
 														hp.put("userid", username);
 														hp.put("gubun", "DAED");
 														hp.put("alarmmsg", PushMsg);
-														List<HashMap> resultAlarm = SmesCommonDAO.commonDataProc("setEqpStatusAlarm",hp);
+														List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("setEqpStatusAlarm",hp);
 														
 														//모바일 PUSH method
 														hp = new HashMap<String,String>();
 														hp.put("gubun", username);
-														List<HashMap> resultAppkey = SmesCommonDAO.commonDataProc("getMobileAppkey",hp);
+														List<HashMap> resultAppkey = SmartCommonDAO.commonDataProc("getMobileAppkey",hp);
 														if(resultAppkey != null && resultAppkey.size()>0)
 														{
 															Appkey = resultAppkey.get(0).get("APPKEY").toString();
-															gcmresult = smesGcmSender.gcmSender(Appkey, PushMsg, 1);
+															gcmresult = smartGcmSender.gcmSender(Appkey, PushMsg, 1);
 														}
 													}
 												}
@@ -933,7 +933,7 @@ public class SmesEqpController {
 												hp = new HashMap<String,String>();
 												hp.put("eventtime", eventTime);
 												hp.put("eqpname", eqpname);
-												List<HashMap> resultevent = SmesCommonDAO.commonDataProc("getEventHist", hp);
+												List<HashMap> resultevent = SmartCommonDAO.commonDataProc("getEventHist", hp);
 												
 												if(resultevent != null && resultevent.size()>0)
 												{
@@ -948,18 +948,18 @@ public class SmesEqpController {
 														hp.put("userid", username);
 														hp.put("gubun", "RED");
 														hp.put("alarmmsg", PushMsg);
-														List<HashMap> resultAlarm = SmesCommonDAO.commonDataProc("setEqpStatusAlarm",hp);
+														List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("setEqpStatusAlarm",hp);
 														
 														//모바일 PUSH method
 														hp = new HashMap<String,String>();
 														hp.put("gubun", username);
-														List<HashMap> resultAppkey = SmesCommonDAO.commonDataProc("getMobileAppkey",hp);
+														List<HashMap> resultAppkey = SmartCommonDAO.commonDataProc("getMobileAppkey",hp);
 														if(resultAppkey != null && resultAppkey.size()>0)
 														{
 															for(int k=0 ; k<resultAppkey.size() ; k++)
 															{
 																Appkey = resultAppkey.get(0).get("APPKEY").toString();
-																gcmresult = smesGcmSender.gcmSender(Appkey, PushMsg, 1);
+																gcmresult = smartGcmSender.gcmSender(Appkey, PushMsg, 1);
 															}
 														}
 													}
@@ -1104,15 +1104,15 @@ public class SmesEqpController {
 			model.addAttribute("resultStatus", resultStatus);
     		
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpFlexStatusData.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpFlexStatusData.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpFlexStatusData";
+    	return "smart/eqp/SmartEqpFlexStatusData";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpFlexStatusSave.do")
-	public String SmesSiteMaterialSave(
+	@RequestMapping(value = "/smart/eqp/SmartEqpFlexStatusSave.do")
+	public String SmartSiteMaterialSave(
 			@RequestParam(value="arraystr", required=false) String arraystr,
 			ModelMap model) throws Exception {
 		
@@ -1131,7 +1131,7 @@ public class SmesEqpController {
 			hp.put("userid", loginVO.getId());
 			hp.put("arraystr", arraystr);
 			
-			List<HashMap>  result =  SmesCommonDAO.commonDataProc("setEqpFlexSpecSave",hp);
+			List<HashMap>  result =  SmartCommonDAO.commonDataProc("setEqpFlexSpecSave",hp);
 			
     		if(result != null && result.size()>0)
     		{
@@ -1139,24 +1139,24 @@ public class SmesEqpController {
 			}
     	}
     	catch(Exception e){
-			logger.error("[/smes/eqp/SmesEqpFlexStatusSave.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpFlexStatusSave.do] Exception :: " + e.toString());
 		}
     	
-		return "smes/eqp/SmesEqpFlexStatusSave";
+		return "smart/eqp/SmartEqpFlexStatusSave";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpTimeLine.do")
-	public String SmesEqpTimeLine(ModelMap model) throws Exception {
+	@RequestMapping(value = "/smart/eqp/SmartEqpTimeLine.do")
+	public String SmartEqpTimeLine(ModelMap model) throws Exception {
 		
-    	return "smes/eqp/SmesEqpTimeLine";
+    	return "smart/eqp/SmartEqpTimeLine";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpTimeLineData.do")
-	public String SmesEqpTimeLineData(
+	@RequestMapping(value = "/smart/eqp/SmartEqpTimeLineData.do")
+	public String SmartEqpTimeLineData(
 			@RequestParam(value="searchdate", required=false) String searchdate,
 			ModelMap model) throws Exception {
 		
@@ -1166,7 +1166,7 @@ public class SmesEqpController {
 			hp = new HashMap<String,String>();
 			hp.put("searchdate", searchdate);
 			
-			List<HashMap> 	result = SmesCommonDAO.commonDataProc("getDailyTimeLine", hp);
+			List<HashMap> 	result = SmartCommonDAO.commonDataProc("getDailyTimeLine", hp);
 				
 			model.addAttribute("result", result);
 			
@@ -1180,16 +1180,16 @@ public class SmesEqpController {
 			model.addAttribute("SEARCH_DAY", searchdate.substring(8, 10));
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpTimeLineData.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpTimeLineData.do] Exception :: " + e.toString());
 		}
 		
-		return "smes/eqp/SmesEqpTimeLineData";
+		return "smart/eqp/SmartEqpTimeLineData";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpTimeLineDetail.do")
-	public String SmesEqpTimeLineDetail(
+	@RequestMapping(value = "/smart/eqp/SmartEqpTimeLineDetail.do")
+	public String SmartEqpTimeLineDetail(
 			@RequestParam(value="searchdate", required=false) String searchdate,
 			@RequestParam(value="eqpname", required=false) String eqpname,
 			ModelMap model) throws Exception {
@@ -1202,7 +1202,7 @@ public class SmesEqpController {
 			hp.put("searchdate", searchdate);
 			hp.put("eqpname", eqpname);
 			
-			List<HashMap> 	result = SmesCommonDAO.commonDataProc("getDailyDetailData", hp);
+			List<HashMap> 	result = SmartCommonDAO.commonDataProc("getDailyDetailData", hp);
 						
 			if(result != null && result.size()>0)
 			{
@@ -1216,32 +1216,32 @@ public class SmesEqpController {
 			model.addAttribute("eqpname", eqpname);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpTimeLineDetail.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpTimeLineDetail.do] Exception :: " + e.toString());
 		}
 		
-		return "smes/eqp/SmesEqpTimeLineDetail";
+		return "smart/eqp/SmartEqpTimeLineDetail";
 	}
 	
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpRunning.do")
-	public String SmesEqpRunning(ModelMap model) throws Exception {
+	@RequestMapping(value = "/smart/eqp/SmartEqpRunning.do")
+	public String SmartEqpRunning(ModelMap model) throws Exception {
 		
 		try {
 			
-			List<HashMap> resultBasic = SmesCommonDAO.commonDataProc("getEqpRatioPartBasic");
+			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getEqpRatioPartBasic");
 			model.addAttribute("resultBasic", resultBasic);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpRunning.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpRunning.do] Exception :: " + e.toString());
 		}
 		
-    	return "smes/eqp/SmesEqpRunning";
+    	return "smart/eqp/SmartEqpRunning";
 	}
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpRunningData.do")
-	public String SmesEqpRunningData(
+	@RequestMapping(value = "/smart/eqp/SmartEqpRunningData.do")
+	public String SmartEqpRunningData(
 			@RequestParam(value="datetype", required=false) String datetype,
 			@RequestParam(value="startMonth", required=false) String startMonth,
 			@RequestParam(value="endMonth", required=false) String endMonth,
@@ -1269,7 +1269,7 @@ public class SmesEqpController {
 				hp.put("gubun", datetype);
 				hp.put("eqp_part", eqp_part);
 				
-				result = SmesCommonDAO.commonDataProc("getEqpRunningData", hp);
+				result = SmartCommonDAO.commonDataProc("getEqpRunningData", hp);
 			}
 			else if("DAY".equals(datetype))
 			{
@@ -1279,7 +1279,7 @@ public class SmesEqpController {
 				hp.put("gubun", datetype);
 				hp.put("eqp_part", eqp_part);
 				
-				result = SmesCommonDAO.commonDataProc("getEqpRunningData", hp);
+				result = SmartCommonDAO.commonDataProc("getEqpRunningData", hp);
 			}
 			
     		model.addAttribute("datetype", datetype);
@@ -1287,16 +1287,16 @@ public class SmesEqpController {
     		
 		} catch(Exception e) {
 			e.printStackTrace();
-			logger.error("[/smes/eqp/SmesEqpRunningData.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpRunningData.do] Exception :: " + e.toString());
 		}
 		
-		return "smes/eqp/SmesEqpRunningData";
+		return "smart/eqp/SmartEqpRunningData";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpToolManage.do")
-	public String SmesEqpToolManage(ModelMap model) throws Exception {
+	@RequestMapping(value = "/smart/eqp/SmartEqpToolManage.do")
+	public String SmartEqpToolManage(ModelMap model) throws Exception {
 		
 		try {
 			
@@ -1304,19 +1304,19 @@ public class SmesEqpController {
 			hp.put("toollevel", "1");
 			hp.put("toolid", "");
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpToolBasic",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpToolBasic",hp);
 			model.addAttribute("result", result);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpToolManage.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpToolManage.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpToolManage";
+    	return "smart/eqp/SmartEqpToolManage";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpToolManageList.do")
-	public String SmesEqpToolManageList(
+	@RequestMapping(value = "/smart/eqp/SmartEqpToolManageList.do")
+	public String SmartEqpToolManageList(
 			@RequestParam(value="tool_level_1", required=false) String tool_level_1,
 			@RequestParam(value="tool_level_2", required=false) String tool_level_2,
 			@RequestParam(value="tool_pie", required=false) String tool_pie,
@@ -1336,20 +1336,20 @@ public class SmesEqpController {
 			hp.put("tool_radius", tool_radius);
 			hp.put("tool_length", tool_length);
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpToolManageList",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpToolManageList",hp);
 			
 			model.addAttribute("result", result);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpToolManageList.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpToolManageList.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpToolManageList";
+    	return "smart/eqp/SmartEqpToolManageList";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpToolManageExcel.do")
-	public String SmesEqpToolManageExcel(
+	@RequestMapping(value = "/smart/eqp/SmartEqpToolManageExcel.do")
+	public String SmartEqpToolManageExcel(
 			@RequestParam(value="tool_level_1", required=false) String tool_level_1,
 			@RequestParam(value="tool_level_2", required=false) String tool_level_2,
 			@RequestParam(value="tool_pie", required=false) String tool_pie,
@@ -1369,7 +1369,7 @@ public class SmesEqpController {
 			hp.put("tool_radius", tool_radius);
 			hp.put("tool_length", tool_length);
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpToolManageList",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpToolManageList",hp);
 			
 			model.addAttribute("result", result);
 			
@@ -1381,15 +1381,15 @@ public class SmesEqpController {
 			model.addAttribute("tool_length", tool_length);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpToolManageExcel.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpToolManageExcel.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpToolManageExcel";
+    	return "smart/eqp/SmartEqpToolManageExcel";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpToolManageSave.do")
-	public String SmesEqpToolManageSave(
+	@RequestMapping(value = "/smart/eqp/SmartEqpToolManageSave.do")
+	public String SmartEqpToolManageSave(
 			@RequestParam(value="actiontype", required=false) String actiontype,
 			@RequestParam(value="arraystr", required=false) String arraystr,
 			ModelMap model
@@ -1411,7 +1411,7 @@ public class SmesEqpController {
 			hp.put("actiontype", actiontype);
 			hp.put("arraystr", arraystr);
     			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("setEqpToolManageSave",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setEqpToolManageSave",hp);
 			
 			if(result != null && result.size()>0)
     		{
@@ -1421,17 +1421,17 @@ public class SmesEqpController {
 												
     	}
     	catch(Exception e){
-    		System.out.println("[/smes/eqp/SmesEqpToolManageSave.do] Exception :: " + e.toString());
+    		System.out.println("[/smart/eqp/SmartEqpToolManageSave.do] Exception :: " + e.toString());
     	}
     	
-    	return "smes/eqp/SmesEqpToolManageSave";
+    	return "smart/eqp/SmartEqpToolManageSave";
     	
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpToolManageStock.do")
-	public String SmesEqpToolManageStock(
+	@RequestMapping(value = "/smart/eqp/SmartEqpToolManageStock.do")
+	public String SmartEqpToolManageStock(
 			@RequestParam(value="actiontype", required=false) String actiontype,
 			@RequestParam(value="arraystr", required=false) String arraystr,
 			ModelMap model
@@ -1453,7 +1453,7 @@ public class SmesEqpController {
 			hp.put("actiontype", actiontype);
 			hp.put("arraystr", arraystr);
     			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("setEqpToolManageStock",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setEqpToolManageStock",hp);
 			
 			if(result != null && result.size()>0)
     		{
@@ -1463,17 +1463,17 @@ public class SmesEqpController {
 												
     	}
     	catch(Exception e){
-    		System.out.println("[/smes/eqp/SmesEqpToolManageStock.do] Exception :: " + e.toString());
+    		System.out.println("[/smart/eqp/SmartEqpToolManageStock.do] Exception :: " + e.toString());
     	}
     	
-    	return "smes/eqp/SmesEqpToolManageStock";
+    	return "smart/eqp/SmartEqpToolManageStock";
     	
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpToolLevelList.do")
-	public String SmesEqpToolLevelList(
+	@RequestMapping(value = "/smart/eqp/SmartEqpToolLevelList.do")
+	public String SmartEqpToolLevelList(
 			@RequestParam(value="gubun", required=false) String gubun,
 			@RequestParam(value="tool_level_1", required=false) String tool_level_1,
 			ModelMap model
@@ -1485,7 +1485,7 @@ public class SmesEqpController {
 			hp.put("toollevel", "2");
 			hp.put("toolid", tool_level_1);
     			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpToolBasic",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpToolBasic",hp);
 			
 			model.addAttribute("result", result);
 			
@@ -1493,17 +1493,17 @@ public class SmesEqpController {
 												
     	}
     	catch(Exception e){
-    		System.out.println("[/smes/eqp/SmesEqpToolLevelList.do] Exception :: " + e.toString());
+    		System.out.println("[/smart/eqp/SmartEqpToolLevelList.do] Exception :: " + e.toString());
     	}
     	
-    	return "smes/eqp/SmesEqpToolLevelList";
+    	return "smart/eqp/SmartEqpToolLevelList";
     	
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpToolInsert.do")
-	public String SmesEqpToolInsert(ModelMap model) throws Exception {
+	@RequestMapping(value = "/smart/eqp/SmartEqpToolInsert.do")
+	public String SmartEqpToolInsert(ModelMap model) throws Exception {
 		
 		try {
 			
@@ -1511,19 +1511,19 @@ public class SmesEqpController {
 			hp.put("toollevel", "1");
 			hp.put("toolid", "");
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpToolBasic",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpToolBasic",hp);
 			model.addAttribute("result", result);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpToolInsert.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpToolInsert.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpToolInsert";
+    	return "smart/eqp/SmartEqpToolInsert";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpToolInsertSave.do")
-	public String SmesEqpToolInsertSave(
+	@RequestMapping(value = "/smart/eqp/SmartEqpToolInsertSave.do")
+	public String SmartEqpToolInsertSave(
 			@RequestParam(value="tool_level_1", required=false) String tool_level_1,
 			@RequestParam(value="tool_level_2", required=false) String tool_level_2,
 			@RequestParam(value="tool_pie", required=false) String tool_pie,
@@ -1559,31 +1559,31 @@ public class SmesEqpController {
 			hp.put("tool_safe", tool_safe);
 			hp.put("tool_current", tool_current);
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("setEqpToolInsert",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setEqpToolInsert",hp);
 			
 			if(result != null && result.size()>0){
     			model.addAttribute("actionresult", result.get(0).get("ACTION_RESULT"));
 			}
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpToolInsertSave.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpToolInsertSave.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpToolInsertSave";
+    	return "smart/eqp/SmartEqpToolInsertSave";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpToolHist.do")
-    public String SmesEqpToolHist(
+	@RequestMapping(value = "/smart/eqp/SmartEqpToolHist.do")
+    public String SmartEqpToolHist(
     		ModelMap model) throws Exception {
 				
-		return "smes/eqp/SmesEqpToolHist";
+		return "smart/eqp/SmartEqpToolHist";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpToolHistData.do")
-    public String SmesEqpToolHistData(
+	@RequestMapping(value = "/smart/eqp/SmartEqpToolHistData.do")
+    public String SmartEqpToolHistData(
     		@RequestParam(value="startDate", required=false) String startDate,
     		@RequestParam(value="endDate", required=false) String endDate,
     		ModelMap model) throws Exception {
@@ -1601,7 +1601,7 @@ public class SmesEqpController {
     		hp.put("startDate", startDate);
     		hp.put("endDate", endDate);
     		
-    		List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpToolHistData", hp);
+    		List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpToolHistData", hp);
     		
     		model.addAttribute("result", result);
     		model.addAttribute("startDate", startDate);
@@ -1626,16 +1626,16 @@ public class SmesEqpController {
     		model.addAttribute("listDate", listDate);
     		
     	} catch(Exception e) {
-    		logger.error("[/smes/eqp/SmesEqpToolHistData.do] Exception :: " + e.toString());
+    		logger.error("[/smart/eqp/SmartEqpToolHistData.do] Exception :: " + e.toString());
     	}
 				
-		return "smes/eqp/SmesEqpToolHistData";
+		return "smart/eqp/SmartEqpToolHistData";
 	}
 	
 	
 	
-	@RequestMapping(value="/smes/eqp/SmesEqpToolHistExcelDown.do")
-	public String SmesEqpToolHistExcelDown(
+	@RequestMapping(value="/smart/eqp/SmartEqpToolHistExcelDown.do")
+	public String SmartEqpToolHistExcelDown(
     		@RequestParam(value="startDate", required=false) String startDate,
     		@RequestParam(value="endDate", required=false) String endDate,
     		ModelMap model) throws Exception {
@@ -1646,7 +1646,7 @@ public class SmesEqpController {
     		hp.put("startDate", startDate);
     		hp.put("endDate", endDate);
     		
-    		List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpToolHistData", hp);
+    		List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpToolHistData", hp);
     		
     		model.addAttribute("result", result);
     		model.addAttribute("startDate", startDate);
@@ -1671,16 +1671,16 @@ public class SmesEqpController {
     		model.addAttribute("listDate", listDate);
     		
     	} catch(Exception e) {
-    		logger.error("[/smes/eqp/SmesEqpToolHistExcelDown.do] Exception :: " + e.toString());
+    		logger.error("[/smart/eqp/SmartEqpToolHistExcelDown.do] Exception :: " + e.toString());
     	}
 		
-		return "smes/eqp/SmesEqpToolHistExcelDown";
+		return "smart/eqp/SmartEqpToolHistExcelDown";
 	}
     
 	
 	
-	@RequestMapping(value="/smes/eqp/SmesEqpToolHistMonthly.do")
-	public String SmesEqpToolHistMonthly(
+	@RequestMapping(value="/smart/eqp/SmartEqpToolHistMonthly.do")
+	public String SmartEqpToolHistMonthly(
 			@RequestParam(value="searchDate", required=false) String searchDate,
 			ModelMap model) throws Exception {
 		
@@ -1689,7 +1689,7 @@ public class SmesEqpController {
     		HashMap<String,String> hp = new HashMap<String,String>();
     		hp.put("searchDate", searchDate);
     		
-    		List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpToolHistMonthly", hp);
+    		List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpToolHistMonthly", hp);
     		model.addAttribute("result", result);
 	
 			List<String> listDate = new ArrayList<String>();
@@ -1704,15 +1704,15 @@ public class SmesEqpController {
     		model.addAttribute("searchDate", searchDate);
     		
     	} catch(Exception e) {
-    		logger.error("[/smes/eqp/SmesEqpToolHistMonthly.do] Exception :: " + e.toString());
+    		logger.error("[/smart/eqp/SmartEqpToolHistMonthly.do] Exception :: " + e.toString());
     	}
-    	return "smes/eqp/SmesEqpToolHistMonthly";
+    	return "smart/eqp/SmartEqpToolHistMonthly";
 	}
 	
 	
 	
-	@RequestMapping(value="/smes/eqp/SmesEqpToolHistMonthlyExcelDown.do")
-	public String SmesEqpToolHistMonthlyExcelDown(
+	@RequestMapping(value="/smart/eqp/SmartEqpToolHistMonthlyExcelDown.do")
+	public String SmartEqpToolHistMonthlyExcelDown(
 			@RequestParam(value="searchDate", required=false) String searchDate,
 			ModelMap model) throws Exception {
 		
@@ -1721,7 +1721,7 @@ public class SmesEqpController {
 			HashMap<String,String> hp = new HashMap<String,String>();
     		hp.put("searchDate", searchDate);
     		
-    		List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpToolHistMonthly", hp);
+    		List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpToolHistMonthly", hp);
     		model.addAttribute("result", result);
     		
     		List<String> listDate = new ArrayList<String>();
@@ -1736,15 +1736,15 @@ public class SmesEqpController {
     		model.addAttribute("searchDate", searchDate);
     		
 		} catch(Exception e) {
-    		logger.error("[/smes/eqp/SmesEqpToolHistMonthlyExcelDown.do] Exception :: " + e.toString());
+    		logger.error("[/smart/eqp/SmartEqpToolHistMonthlyExcelDown.do] Exception :: " + e.toString());
 		}
-		return "smes/eqp/SmesEqpToolHistMonthlyExcelDown";
+		return "smart/eqp/SmartEqpToolHistMonthlyExcelDown";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpPm.do")
-	public String SmesEqpPm(ModelMap model) throws Exception {
+	@RequestMapping(value = "/smart/eqp/SmartEqpPm.do")
+	public String SmartEqpPm(ModelMap model) throws Exception {
 		
 		try {
 			
@@ -1752,19 +1752,19 @@ public class SmesEqpController {
 			hp.put("gubun","EQP_PART");
 			hp.put("eqppart","");
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpPmBasic",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpPmBasic",hp);
 			model.addAttribute("result", result);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpPm.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpPm.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpPm";
+    	return "smart/eqp/SmartEqpPm";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpPmList.do")
-	public String SmesEqpPmList(
+	@RequestMapping(value = "/smart/eqp/SmartEqpPmList.do")
+	public String SmartEqpPmList(
 			@RequestParam(value="startDateField", required=false) String startdate,
 			@RequestParam(value="endDateField", required=false) String enddate,
 			@RequestParam(value="pm_type", required=false) String pm_type,
@@ -1782,20 +1782,20 @@ public class SmesEqpController {
 			hp.put("eqppart", eqppart);
 			hp.put("eqpname", eqpname);
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpPmList",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpPmList",hp);
 			
 			model.addAttribute("result", result);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpPmList.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpPmList.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpPmList";
+    	return "smart/eqp/SmartEqpPmList";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpPmExcel.do")
-	public String SmesEqpPmExcel(
+	@RequestMapping(value = "/smart/eqp/SmartEqpPmExcel.do")
+	public String SmartEqpPmExcel(
 			@RequestParam(value="startDateField", required=false) String startdate,
 			@RequestParam(value="endDateField", required=false) String enddate,
 			@RequestParam(value="pm_type", required=false) String pm_type,
@@ -1813,20 +1813,20 @@ public class SmesEqpController {
 			hp.put("eqppart", eqppart);
 			hp.put("eqpname", eqpname);
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpPmList",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpPmList",hp);
 			
 			model.addAttribute("result", result);
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpPmExcel.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpPmExcel.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpPmExcel";
+    	return "smart/eqp/SmartEqpPmExcel";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpPmEqpList.do")
-	public String SmesEqpPmEqpList(
+	@RequestMapping(value = "/smart/eqp/SmartEqpPmEqpList.do")
+	public String SmartEqpPmEqpList(
 			@RequestParam(value="type", required=false) String type,
 			@RequestParam(value="eqppart", required=false) String eqppart,
 			@RequestParam(value="firstflag", required=false) String firstflag,
@@ -1839,7 +1839,7 @@ public class SmesEqpController {
 			hp.put("gubun","EQP_NAME");
 			hp.put("eqppart", eqppart);
     			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpPmBasic",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpPmBasic",hp);
 			
 			model.addAttribute("result", result);
 			
@@ -1848,17 +1848,17 @@ public class SmesEqpController {
 												
     	}
     	catch(Exception e){
-    		System.out.println("[/smes/eqp/SmesEqpPmEqpList.do] Exception :: " + e.toString());
+    		System.out.println("[/smart/eqp/SmartEqpPmEqpList.do] Exception :: " + e.toString());
     	}
     	
-    	return "smes/eqp/SmesEqpPmEqpList";
+    	return "smart/eqp/SmartEqpPmEqpList";
     	
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpPmView.do")
-	public String SmesEqpPmView(
+	@RequestMapping(value = "/smart/eqp/SmartEqpPmView.do")
+	public String SmartEqpPmView(
 			@RequestParam(value="pm_id", required=false) String pm_id,
 			ModelMap model) throws Exception {
 		
@@ -1878,13 +1878,13 @@ public class SmesEqpController {
 			hp.put("gubun","EQP_PART");
 			hp.put("eqppart","");
 			
-			List<HashMap> resultBasic = SmesCommonDAO.commonDataProc("getEqpPmBasic",hp);
+			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getEqpPmBasic",hp);
 			model.addAttribute("resultBasic", resultBasic);
 	    	
 	    	hp = new HashMap<String,String>();
 			hp.put("pm_id", pm_id);
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpPmInfo",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpPmInfo",hp);
 			
 			if(result != null && result.size()>0)
 			{
@@ -1910,7 +1910,7 @@ public class SmesEqpController {
 			
 			hp = new HashMap<String,String>();
 			hp.put("userid", loginVO.getId());
-			List<HashMap> resultRole = SmesCommonDAO.commonDataProc("selectUserRoleData",hp);
+			List<HashMap> resultRole = SmartCommonDAO.commonDataProc("selectUserRoleData",hp);
     		
     		if(resultRole != null && resultRole.size()>0)
     		{
@@ -1921,16 +1921,16 @@ public class SmesEqpController {
 			model.addAttribute("userid", loginVO.getId());
 			
 		}catch(Exception e){
-			logger.error("[/smes/eqp/SmesEqpPmView.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpPmView.do] Exception :: " + e.toString());
 		}
     	
-    	return "smes/eqp/SmesEqpPmView";
+    	return "smart/eqp/SmartEqpPmView";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpPmNew.do")
-	public String SmesEqpPmNew(ModelMap model) throws Exception {
+	@RequestMapping(value = "/smart/eqp/SmartEqpPmNew.do")
+	public String SmartEqpPmNew(ModelMap model) throws Exception {
 		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		
@@ -1947,21 +1947,21 @@ public class SmesEqpController {
 			hp.put("gubun","EQP_PART");
 			hp.put("eqppart","");
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("getEqpPmBasic",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getEqpPmBasic",hp);
 			
 			model.addAttribute("result", result);
 			model.addAttribute("username", loginVO.getName());
 			
 		} catch(Exception e) {
-			logger.error("[/smes/eqp/SmesEqpPmNew.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpPmNew.do] Exception :: " + e.toString());
 		}
-    	return "smes/eqp/SmesEqpPmNew";
+    	return "smart/eqp/SmartEqpPmNew";
 	}
 	
 	
 	
-	@RequestMapping(value = "/smes/eqp/SmesEqpPmSave.do")
-	public String SmesEqpPmSave(
+	@RequestMapping(value = "/smart/eqp/SmartEqpPmSave.do")
+	public String SmartEqpPmSave(
 			HttpServletRequest request, 
 			ModelMap model) throws Exception {
 		
@@ -2109,7 +2109,7 @@ public class SmesEqpController {
 			
 			
 			
-			List<HashMap> result = SmesCommonDAO.commonDataProc("setEqpPmSave",hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setEqpPmSave",hp);
 			
 			if(result != null && result.size()>0){
     			
@@ -2119,9 +2119,9 @@ public class SmesEqpController {
 			model.addAttribute("actiontype", actiontype);
 	    	
 		}catch(Exception e){
-			logger.error("[/smes/eqp/SmesEqpPmSave.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartEqpPmSave.do] Exception :: " + e.toString());
 		}
     	
-    	return "smes/eqp/SmesEqpPmSave";
+    	return "smart/eqp/SmartEqpPmSave";
 	}
 }

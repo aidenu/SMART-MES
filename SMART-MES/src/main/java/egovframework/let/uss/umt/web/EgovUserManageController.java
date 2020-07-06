@@ -28,7 +28,7 @@ import egovframework.let.uss.umt.service.UserManageVO;
 import egovframework.let.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import smes.common.SmesCommonDAOImpl;
+import smart.common.SmartCommonDAOImpl;
 
 /**
  * 업무사용자관련 요청을  비지니스 클래스로 전달하고 처리된결과를  해당   웹 화면으로 전달하는  Controller를 정의한다
@@ -66,8 +66,8 @@ public class EgovUserManageController {
     @Autowired
 	private DefaultBeanValidator beanValidator;
     
-    @Resource(name="SmesCommonDAO")
-	private SmesCommonDAOImpl SmesCommonDAO;
+    @Resource(name="smartCommonDAO")
+	private SmartCommonDAOImpl SmartCommonDAO;
     
     /** EgovMessageSource */
     @Resource(name="egovMessageSource")
@@ -109,56 +109,6 @@ public class EgovUserManageController {
         vo.setCodeId("COM013");
         model.addAttribute("emplyrSttusCode_result",cmmUseService.selectCmmCodeDetail(vo));//사용자상태코드목록
         
-        
-        /*FileReader filereader = null;
-    	BufferedReader bufferedReaderr = null;
-    	
-      //	사용자 정보 테이블의 유효 사용자수가 계약된 사용자수 보다 많으면 등록 버튼을 안보이게 한다
-    	try
-    	{
-    		//라이센스 파일에서 사용자 제한 수를 가져온다
-			File file = new File(propertiesService.getString("Globals.fileStorePath")+"user.srt");
-			filereader = new FileReader(file);
-			bufferedReaderr = new BufferedReader(filereader);
-			
-			String userlimit = "";
-			
-			if((userlimit = bufferedReaderr.readLine()) != null)
-			{
-				userlimit = EgovFileScrty.decode(userlimit);
-			}
-			
-	    	List<HashMap> resultUser = SmesCommonDAO.nosessioncommonDataProc("selectUserCount");
-	    	
-			if (resultUser != null && resultUser.size() > 0)
-			{
-					
-				String userCnt = resultUser.get(0).get("USER_CNT").toString();
-				
-				int iuserCnt = Integer.parseInt(userCnt);
-				int iuserlimit = Integer.parseInt(userlimit);
-				
-				if(iuserCnt > iuserlimit)
-				{
-					model.addAttribute("userreg_able", "NO");
-				}
-				else
-				{
-					model.addAttribute("userreg_able", "YES");
-				}
-			}
-			
-			bufferedReaderr.close();
-			filereader.close();
-    	}
-    	catch(Exception ee)
-    	{
-    		System.out.println("user count select error : " + ee.toString());
-    	}
-    	
-    	if(bufferedReaderr != null){bufferedReaderr.close();}
-    	if(filereader != null){filereader.close();}*/
-
         return "cmm/uss/umt/EgovUserManage";
     }
 
@@ -203,7 +153,7 @@ public class EgovUserManageController {
         vo.setTableNm("LETTNORGNZTINFO");
         model.addAttribute("groupId_result", cmmUseService.selectGroupIdDetail(vo));
 
-        return "cmm/uss/umt/EgovUserInsert";
+        return "cmm/uss/umt/EgovUserInsertView";
     }
 
     /**
@@ -256,7 +206,7 @@ public class EgovUserManageController {
 	        //Exception 없이 진행시 등록성공메시지
 	        model.addAttribute("resultMsg", "success.common.insert");
 		}
-    	return "forward:/uss/umt/user/EgovUserManage.do";
+    	return "cmm/uss/umt/EgovUserInsert";
     }
 
     /**

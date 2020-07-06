@@ -1,4 +1,4 @@
-package smes.common;
+package smart.common;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-public class SmesFileDownController {
+public class SmartFileDownController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SmesFileDownController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SmartFileDownController.class);
 
     /**
      * 브라우저 구분 얻기.
@@ -97,7 +97,7 @@ public class SmesFileDownController {
      * @param response
      * @throws Exception
      */
-    @RequestMapping(value = "/smes/common/SmesFileDown.do")
+    @RequestMapping(value = "/smart/common/SmartFileDown.do")
     public void cvplFileDownload(@RequestParam Map<String, Object> commandMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     	String filelocation = (String)commandMap.get("filelocation");

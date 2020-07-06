@@ -1,4 +1,4 @@
-package smes.common;
+package smart.common;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
-import smes.common.SmesCommonDAO;
+import smart.common.SmartCommonDAO;
 
-@Repository("SmesCommonDAO")
-public class SmesCommonDAOImpl extends SmesCommonDAO {
+@Repository("smartCommonDAO")
+public class SmartCommonDAOImpl extends SmartCommonDAO {
 	
 	Logger logger = Logger.getLogger("db_procedure");
 
@@ -57,7 +57,7 @@ public class SmesCommonDAOImpl extends SmesCommonDAO {
 			}
 
 		} catch (Exception e) {
-			logger.debug("[SmesCommonDAO] commonDataProc method Execute Exception :::" + e.toString());
+			logger.debug("[SmartCommonDAO] commonDataProc method Execute Exception :::" + e.toString());
 		}
 
 		return sqlRes;
@@ -101,7 +101,7 @@ public class SmesCommonDAOImpl extends SmesCommonDAO {
 			}
 
 		} catch (Exception e) {
-			logger.debug("[SmesCommonDAO] commonDataProc method Execute Exception :::" + e.toString());
+			logger.debug("[SmartCommonDAO] commonDataProc method Execute Exception :::" + e.toString());
 		}
 
 		return sqlRes;
@@ -146,7 +146,7 @@ public class SmesCommonDAOImpl extends SmesCommonDAO {
 			}
 
 		} catch (Exception e) {
-			logger.debug("[SmesCommonDAO] nosessioncommonDataProc method Execute Exception :::" + e.toString());
+			logger.debug("[SmartCommonDAO] nosessioncommonDataProc method Execute Exception :::" + e.toString());
 		}
 
 		return sqlRes;
@@ -187,7 +187,7 @@ public class SmesCommonDAOImpl extends SmesCommonDAO {
 			}
 
 		} catch (Exception e) {
-			logger.debug("[SmesCommonDAO] nosessioncommonDataProc method Execute Exception :::" + e.toString());
+			logger.debug("[SmartCommonDAO] nosessioncommonDataProc method Execute Exception :::" + e.toString());
 		}
 
 		return sqlRes;

@@ -1,4 +1,4 @@
-package smes.mobile;
+package smart.mobile;
 
 import java.io.File;
 import java.io.RandomAccessFile;
@@ -24,14 +24,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import smes.common.SmesCommonDAOImpl;
-import smes.common.SmesGcmSender;
+import smart.common.SmartCommonDAOImpl;
+import smart.common.SmartGcmSender;
 import egovframework.com.cmm.LoginVO;
 import egovframework.let.uat.uia.service.EgovLoginService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 
 @Controller
-public class SmesMobileController {
+public class SmartMobileController {
 	
 Logger logger = Logger.getLogger("egovframework");
 	
@@ -39,19 +39,19 @@ Logger logger = Logger.getLogger("egovframework");
 	@Resource(name = "loginService")
 	private EgovLoginService loginService;
 	
-	@Resource(name="SmesCommonDAO")
-	private SmesCommonDAOImpl SmesCommonDAO;
+	@Resource(name="smartCommonDAO")
+	private SmartCommonDAOImpl SmartCommonDAO;
 	
 	@Resource(name="messageSource")
 	MessageSource messageSource ;
 	
-	@Resource(name="smesGcmSender")
-	private SmesGcmSender smesGcmSender;
+	@Resource(name="smartGcmSender")
+	private SmartGcmSender SmartGcmSender;
 	
 	
 	
 	@RequestMapping(value = "/mobile/login_check.do")
-	public String getSmesMobileLoginCheckPage(
+	public String getSmartMobileLoginCheckPage(
 			@ModelAttribute("loginVO") LoginVO loginVO, HttpServletResponse response,
             HttpServletRequest request,
             ModelMap model
@@ -71,7 +71,7 @@ Logger logger = Logger.getLogger("egovframework");
 		    	
 				hp.put("userid",resultVO.getId());
 				
-				List<HashMap> resultRole = SmesCommonDAO.nosessioncommonDataProc("getMobileUserRole",hp);
+				List<HashMap> resultRole = SmartCommonDAO.nosessioncommonDataProc("getMobileUserRole",hp);
 				
 				if(resultRole != null && resultRole.size()>0)
 				{
@@ -93,7 +93,7 @@ Logger logger = Logger.getLogger("egovframework");
 	
 	
 	@RequestMapping(value = "/mobile/appkey_regist.do")
-	public String getSmesMobileAppkeyRegistPage(
+	public String getSmartMobileAppkeyRegistPage(
 			@RequestParam(value="userid", required=false) String userid,
 			@RequestParam(value="appkey", required=false) String appkey,
 			@RequestParam(value="ostype", required=false) String ostype,
@@ -112,7 +112,7 @@ Logger logger = Logger.getLogger("egovframework");
 				hp.put("appkey",appkey);
 				hp.put("ostype",ostype);
 	
-				List<HashMap> result = SmesCommonDAO.nosessioncommonDataProc("setMobileAppkeyRegist",hp);
+				List<HashMap> result = SmartCommonDAO.nosessioncommonDataProc("setMobileAppkeyRegist",hp);
 	
 				if(result != null && result.size()>0)
 				{
@@ -151,7 +151,7 @@ Logger logger = Logger.getLogger("egovframework");
 	
 	
 	@RequestMapping(value = "/mobile/appkey_delete.do")
-	public String getSmesMobileAppkeyDeletePage(
+	public String getSmartMobileAppkeyDeletePage(
 			@RequestParam(value="userid", required=false) String userid,
 			@RequestParam(value="appkey", required=false) String appkey,
             ModelMap model
@@ -168,7 +168,7 @@ Logger logger = Logger.getLogger("egovframework");
 				hp.put("userid",userid);
 				hp.put("appkey",appkey);
 	
-				List<HashMap> result = SmesCommonDAO.nosessioncommonDataProc("setMobileAppkeyDelete",hp);
+				List<HashMap> result = SmartCommonDAO.nosessioncommonDataProc("setMobileAppkeyDelete",hp);
 	
 				if(result != null && result.size()>0)
 				{
@@ -208,7 +208,7 @@ Logger logger = Logger.getLogger("egovframework");
 	
 	
 	@RequestMapping(value = "/mobile/alarm_list.do")
-    public String getSmesMobileAlarmListPage(
+    public String getSmartMobileAlarmListPage(
     		@RequestParam(value="userid", required=false) String userid,
     		ModelMap model
     		)throws Exception {
@@ -222,7 +222,7 @@ Logger logger = Logger.getLogger("egovframework");
 			hp.put("userid", userid);
 			hp.put("pageno", "0");
 			
-			List<HashMap> result = SmesCommonDAO.nosessioncommonDataProc("getMobileAlarmList",hp);
+			List<HashMap> result = SmartCommonDAO.nosessioncommonDataProc("getMobileAlarmList",hp);
 			
 			model.addAttribute("alarmlist", result);
 			model.addAttribute("userid", userid);
@@ -236,7 +236,7 @@ Logger logger = Logger.getLogger("egovframework");
 	
 	
 	@RequestMapping(value = "/mobile/alarm_list_hidden.do")
-    public String getSmesMobileAlarmHiddenListPage(
+    public String getSmartMobileAlarmHiddenListPage(
     		@RequestParam(value="userid", required=false) String userid,
     		@RequestParam(value="pageno", required=false) String pageno,
     		ModelMap model
@@ -251,7 +251,7 @@ Logger logger = Logger.getLogger("egovframework");
 			hp.put("userid", userid);
 			hp.put("pageno", pageno);
 			
-			List<HashMap> result = SmesCommonDAO.nosessioncommonDataProc("getMobileAlarmList",hp);
+			List<HashMap> result = SmartCommonDAO.nosessioncommonDataProc("getMobileAlarmList",hp);
 			
 			model.addAttribute("alarmlist", result);
 			model.addAttribute("userid", userid);
@@ -268,7 +268,7 @@ Logger logger = Logger.getLogger("egovframework");
 	
 	
 	@RequestMapping(value = "/mobile/alarm_confirm.do")
-    public String getSmesMobileAlarmCongirmPage(
+    public String getSmartMobileAlarmCongirmPage(
     		@RequestParam(value="userid", required=false) String userid,
     		@RequestParam(value="arrayid", required=false) String arrayid,
     		ModelMap model
@@ -282,7 +282,7 @@ Logger logger = Logger.getLogger("egovframework");
 			hp.put("userid", userid);
 			hp.put("arrayid", arrayid);
 			
-			List<HashMap> result = SmesCommonDAO.nosessioncommonDataProc("setMobileAlarmData",hp);
+			List<HashMap> result = SmartCommonDAO.nosessioncommonDataProc("setMobileAlarmData",hp);
 			
 			if(result != null && result.size()>0)
 			{
@@ -311,13 +311,13 @@ Logger logger = Logger.getLogger("egovframework");
 			HashMap<String,String> hp = new HashMap<String,String>();
 			
 			String fileLocate = "";
-			List<HashMap> resultLocate = SmesCommonDAO.nosessioncommonDataProc("getEqpLogLocate");
+			List<HashMap> resultLocate = SmartCommonDAO.nosessioncommonDataProc("getEqpLogLocate");
 			if(resultLocate != null && resultLocate.size() > 0)
 			{
 				fileLocate = resultLocate.get(0).get("FILE_LOCATE").toString();
 			}
 			
-			List<HashMap> result = SmesCommonDAO.nosessioncommonDataProc("getEqpStatus");
+			List<HashMap> result = SmartCommonDAO.nosessioncommonDataProc("getEqpStatus");
 			model.addAttribute("result", result);
 			
 			List<HashMap> resultStatus = new ArrayList();

@@ -33,7 +33,7 @@ import egovframework.let.utl.sim.service.EgovClntInfo;
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
-import smes.common.SmesCommonDAOImpl;
+import smart.common.SmartCommonDAOImpl;
 
 /**
  * 일반 로그인, 인증서 로그인을 처리하는 컨트롤러 클래스
@@ -75,8 +75,8 @@ public class EgovLoginController {
     @Resource(name="leaveaTrace")
     LeaveaTrace leaveaTrace;
     
-    @Resource(name="SmesCommonDAO")
-	private SmesCommonDAOImpl SmesCommonDAO;
+    @Resource(name="smartCommonDAO")
+	private SmartCommonDAOImpl SmartCommonDAO;
     
     /** EgovMenuManageService */
 	@Resource(name = "meunManageService")
@@ -112,7 +112,6 @@ public class EgovLoginController {
     	// 접속IP
     	String userIp = EgovClntInfo.getClntIP(request);
     	
-    	System.out.println(request.getAttribute("id"));
     	// 메뉴 컨텐츠 링크로 바로 들어 올 경우 사용자 정보가 없으면 로그인 화면으로 넘긴다
     	if(loginVO.getId() == null) {
     		model.addAttribute("message", egovMessageSource.getMessage("space.common.alert.session.expire"));

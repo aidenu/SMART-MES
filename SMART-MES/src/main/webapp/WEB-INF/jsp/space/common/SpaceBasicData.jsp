@@ -273,7 +273,7 @@
 
 <div id="wrap">
 	<!-- header 시작 -->
-	<div id="header"><c:import url="/EgovPageLink.do?link=main/inc/EgovIncHeader" /></div>
+	<div id="header"><c:import url="/EgovPageLink.do?link=main/nav/SmartHeaderNav" /></div>
     <div id="topnavi"><c:import url="/sym/mms/EgovMainMenuHead.do" /></div>
     <div id="subnavi"><c:import url="/sym/mms/EgovMainMenuSub.do" /></div> 
 	<!-- //header 끝 -->	

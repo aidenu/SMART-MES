@@ -1,4 +1,4 @@
-package smes.common;
+package smart.common;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,13 +25,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import egovframework.rte.fdl.property.EgovPropertyService;
 
 
-public class SmesSchedulerWork 
+public class SmartSchedulerWork 
 {
 	
 	Logger logger = Logger.getLogger("egovframework");
 	
-	@Resource(name="SmesCommonDAO")
-	private SmesCommonDAOImpl SmesCommonDAO;
+	@Resource(name="smartCommonDAO")
+	private SmartCommonDAOImpl SmartCommonDAO;
 	
 	@Resource(name = "propertiesService")
     protected EgovPropertyService propertyService;
@@ -56,7 +56,7 @@ public class SmesSchedulerWork
 			
 			HashMap<String,String> hp = new HashMap<String,String>();
 			hp.put("searchDate", yesterday);
-			List<HashMap> resultSummary = SmesCommonDAO.nosessioncommonDataProc("setEqpDailySummary", hp);
+			List<HashMap> resultSummary = SmartCommonDAO.nosessioncommonDataProc("setEqpDailySummary", hp);
 			
 			if(resultSummary == null || resultSummary.size() <= 0) 
 			{
@@ -89,14 +89,14 @@ public class SmesSchedulerWork
 			HashMap<String,String> hp = new HashMap<String,String>();
 			
 			//기준정보관리에서 파일경로 가져오기
-			List<HashMap> resultLocate = SmesCommonDAO.nosessioncommonDataProc("getEqpLogLocate");
+			List<HashMap> resultLocate = SmartCommonDAO.nosessioncommonDataProc("getEqpLogLocate");
 			
 			if(resultLocate != null && resultLocate.size() > 0)
 			{
 				fileLocate = resultLocate.get(0).get("FILE_LOCATE").toString();
 			}
 			
-			List<HashMap> resultLog = SmesCommonDAO.nosessioncommonDataProc("getEqpLogDay");
+			List<HashMap> resultLog = SmartCommonDAO.nosessioncommonDataProc("getEqpLogDay");
 			
 			if(resultLog != null && resultLog.size() > 0)
 			{
@@ -193,7 +193,7 @@ public class SmesSchedulerWork
 			logger.debug("================   /scheduler/DailyWorkDataInsert] DailyWorkData DB Insert Start :: " + today_time + " ===============================");
 			
 			//기준정보관리에서 파일경로 가져오기
-			List<HashMap> resultLocate = SmesCommonDAO.nosessioncommonDataProc("getEqpLogLocate");
+			List<HashMap> resultLocate = SmartCommonDAO.nosessioncommonDataProc("getEqpLogLocate");
 			
 			if(resultLocate != null && resultLocate.size() > 0) 
 			{
@@ -211,7 +211,7 @@ public class SmesSchedulerWork
 				//오늘 날짜 파일이 있으면 DB에서 오늘 날짜 데이터가 있는지 확인하여 데이터가 있으면 10분전 데이터부터 현재시간(10분단위)까지 넣고
 				//데이터가 없으면 첫줄 부터 현재시간(10분단위)까지 넣는다
 				
-				List<HashMap> resultLast = SmesCommonDAO.nosessioncommonDataProc("getLastData");
+				List<HashMap> resultLast = SmartCommonDAO.nosessioncommonDataProc("getLastData");
 				
 				if(resultLast != null && resultLast.size() > 0) 
 				{
@@ -267,7 +267,7 @@ public class SmesSchedulerWork
 								hp.put("buzzer_flag", buzzerFlag);
 								hp.put("wdt_flag", wdtFlag);
 								
-								List<HashMap> resultInsert = SmesCommonDAO.nosessioncommonDataProc("setEqpDailyData", hp);
+								List<HashMap> resultInsert = SmartCommonDAO.nosessioncommonDataProc("setEqpDailyData", hp);
 								
 								if(resultInsert == null || resultInsert.size() <= 0) 
 								{

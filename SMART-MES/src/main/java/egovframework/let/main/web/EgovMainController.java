@@ -150,6 +150,38 @@ public class EgovMainController {
         return "main/inc/EgovIncTopnav"; // 내부업무의 상단메뉴 화면
     }
     
+    /**
+     * Head메뉴를 조회한다.
+     * @param menuManageVO MenuManageVO
+     * @return 출력페이지정보 "main_headG", "main_head"
+     * @exception Exception
+     */
+    @RequestMapping(value="/sym/mms/EgovMainSideNav.do")
+    public String EgovMainSideNav(
+    		@ModelAttribute("menuManageVO") MenuManageVO menuManageVO,
+    		ModelMap model)
+            throws Exception {
+
+    	LoginVO user =
+    		EgovUserDetailsHelper.isAuthenticated()? (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser():null;
+
+    	if(EgovUserDetailsHelper.isAuthenticated() && user!=null){
+    		menuManageVO.setTmp_Id(user.getId());
+        	menuManageVO.setTmp_Password(user.getPassword());
+        	menuManageVO.setTmp_UserSe(user.getUserSe());
+        	menuManageVO.setTmp_Name(user.getName());
+        	menuManageVO.setTmp_Email(user.getEmail());
+        	menuManageVO.setTmp_OrgnztId(user.getOrgnztId());
+        	menuManageVO.setTmp_UniqId(user.getUniqId());
+    		model.addAttribute("list_headmenu", menuManageService.selectMainMenuHead(menuManageVO));
+    		model.addAttribute("list_menulist", menuManageService.selectMainMenuLeft(menuManageVO));
+    	}else{
+    		//model.addAttribute("list_headmenu", menuManageService.selectMainMenuHeadAnonymous(menuManageVO));
+    		//model.addAttribute("list_menulist", menuManageService.selectMainMenuLeftAnonymous(menuManageVO));
+    	}
+        return "main/nav/SmartSideNav";
+    }
+    
     
     /**
      * Sub메뉴를 조회한다.

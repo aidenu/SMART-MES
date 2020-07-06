@@ -1,6 +1,6 @@
-package smes.common;
+package smart.common;
 
-public class SmesPagingMgr {
+public class SmartPagingMgr {
 	
 	private int totalRows = 0;
 	private int currentPage = 1;
@@ -36,7 +36,7 @@ public class SmesPagingMgr {
 	// result temp object
 	public StringBuffer pageString = new StringBuffer();
 	
-	public SmesPagingMgr(int currentPage , int pageSize , int blockSize , int totalRows)
+	public SmartPagingMgr(int currentPage , int pageSize , int blockSize , int totalRows)
 	{
 		this.currentPage = currentPage;
 		this.pageSize = pageSize;

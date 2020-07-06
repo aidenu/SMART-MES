@@ -1,4 +1,4 @@
-package smes.common;
+package smart.common;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -21,13 +21,13 @@ import com.notnoop.apns.ApnsServiceBuilder;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 
-@Repository("smesGcmSender")
-public class SmesGcmSender {
+@Repository("smartGcmSender")
+public class SmartGcmSender {
 	
 	Logger logger = Logger.getLogger("egovframework");
 
-	@Resource(name="SmesCommonDAO")
-	private SmesCommonDAOImpl SmesCommonDAO;
+	@Resource(name="smartCommonDAO")
+	private SmartCommonDAOImpl SmartCommonDAO;
 
 	@Resource(name = "propertiesService")
     protected EgovPropertyService propertyService;
@@ -41,7 +41,7 @@ public class SmesGcmSender {
 		{
 			HashMap<String,String> hp = new HashMap<String,String>();
 			hp.put("appkey", Appkey);
-			List<HashMap> resultMsg = SmesCommonDAO.commonDataProc("getAppKeyInfo",hp);
+			List<HashMap> resultMsg = SmartCommonDAO.commonDataProc("getAppKeyInfo",hp);
 			
 			if(resultMsg != null && resultMsg.size()>0)
 			{
@@ -65,7 +65,7 @@ public class SmesGcmSender {
 				
 				ApnsNotification notification = service.push(Appkey, payload);
 				result = notification.toString();
-				logger.debug("[/smes/common/SmesGcmSender.do] Push Message result :: "+result+"");
+				logger.debug("[/smart/common/SmartGcmSender.do] Push Message result :: "+result+"");
 				
 			}
 			else//ANDROID
@@ -115,7 +115,7 @@ public class SmesGcmSender {
 		}
 		catch(Exception e)
 		{
-			logger.debug("[/smes/common/SmesGcmSender.do] Push Message Error :: "+e.toString()+"");
+			logger.debug("[/smart/common/SmartGcmSender.do] Push Message Error :: "+e.toString()+"");
 		}
 		
 		return result;

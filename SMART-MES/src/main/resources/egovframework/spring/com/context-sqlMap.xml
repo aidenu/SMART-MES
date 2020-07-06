@@ -28,13 +28,13 @@
     </bean>
     
     <!-- SqlMap setup for iBATIS Database Layer -->
-    <bean id="smes.sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+    <bean id="smart.sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
         <property name="configLocations">
             <list>
-                <value>classpath:/egovframework/sqlmap/config/smes/*.xml</value>
+                <value>classpath:/egovframework/sqlmap/config/smart/*.xml</value>
             </list>
         </property>
-        <property name="dataSource" ref="dataSource-smes"/>
+        <property name="dataSource" ref="dataSource-smart"/>
         <property name="lobHandler" ref="lobHandler"/>
     </bean>
     

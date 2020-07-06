@@ -9,14 +9,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 <meta http-equiv="content-language" content="ko">
-<title><spring:message code="space.manage.user.popup.title" /></title>
-<link rel="shortcut icon" href="<c:url value='/'/>images/bl_circle.gif">
-<link href="<c:url value='/css/common.css'/>" rel="stylesheet" type="text/css" >
-<link href="<c:url value='/css/space/table.css'/>" rel="stylesheet" type="text/css" >
-<link href="<c:url value='/css/space/AXButton.css'/>" rel="stylesheet" type="text/css" >
-<base target="_self">
-<script type="text/javascript" src="<c:url value='/js/showModalDialogCallee.js'/>" ></script>
+<title>ID 중복확인</title>
+<link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
+<link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
+<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+<script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
+
 <script type="text/javaScript">
+	
+	window.onload= function() {
+		document.checkForm.checkId.focus();
+	}
 	
 	function fnCheckId()
 	{
@@ -93,62 +97,56 @@
 </script>
 
 </head>
-<body leftmargin="5px" style="background-color: #2c3338;">
+<body leftmargin="5px">
     <form name="checkForm" action ="<c:url value='/uss/umt/cmm/EgovIdDplctCnfirm.do'/>">
     <input type="submit" id="invisible" class="invisible"/>
 
-	<div id="spacecontainer">
-		<table width="100%">
-			<tr><td height="3"></td></tr>
-			<tr>
-				<td valign="top">
-					<table>
-						<tr>
-							<td width="*">
-								<div style="width:400px;border: 1px solid #D5D1B0;">
-									<table width="100%">
-										<tr>
-											<td id="captionTitle" align="center"><spring:message code="space.manage.user.item.useid" /></td>
-											<td id="captionSubTitle" align="left" style="padding-left:10px">
-												<input type="hidden" name="resultId" value="<c:out value="${checkId}"/>" />
-									            <input type="hidden" name="usedCnt" value="<c:out value="${usedCnt}"/>" />
-									            <input type="text" name="checkId" value="<c:out value="${checkId}"/>" size="25" maxlength="20"  />
-											</td>
-										</tr>
-										<tr>
-											<td id="captionTitle" align="center"><spring:message code="space.manage.user.item.result" /></td>
-											<td id="captionSubTitle" align="left" style="padding-left:10px">
-												<c:choose>
-								                <c:when test="${usedCnt eq -1}"><spring:message code="space.manage.user.alert.confirm.duplicate" /></c:when>
-								                <c:when test="${usedCnt eq 0}">${checkId} <spring:message code="space.manage.user.alert.canuse.id" /></c:when>
-								                <c:otherwise>${checkId} <spring:message code="space.manage.user.alert.cannot.id" /></c:otherwise>
-								                </c:choose>
-											</td>
-										</tr>
-									</table>
-									</form>
-								</div>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
+	<div class="card card-header-actions">
+	    <div class="card-body">
+	    	<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+	    		<tbody>
+	    			<tr>
+						<td class="card-header"><spring:message code="space.manage.user.item.useid" /></td>
+						<td>
+							<input type="hidden" name="resultId" value="<c:out value="${checkId}"/>" />
+				            <input type="hidden" name="usedCnt" value="<c:out value="${usedCnt}"/>" />
+				            <input class="form-control" name="checkId" value="<c:out value="${checkId}"/>" size="25" maxlength="20"  />
+						</td>
+					</tr>
+					<tr>
+						<td class="card-header"><spring:message code="space.manage.user.item.result" /></td>
+						<td>
+							<c:choose>
+			                <c:when test="${usedCnt eq -1}"><spring:message code="space.manage.user.alert.confirm.duplicate" /></c:when>
+			                <c:when test="${usedCnt eq 0}">${checkId} <spring:message code="space.manage.user.alert.canuse.id" /></c:when>
+			                <c:otherwise>${checkId} <spring:message code="space.manage.user.alert.cannot.id" /></c:otherwise>
+			                </c:choose>
+						</td>
+					</tr>
+	    		</tbody>
+	    	</table>
+	    </div>
+	    <!-- 버튼 시작(상세지정 style로 div에 지정) -->
+	    <div align="center">
+			<table>
+				<tr>
+					<td>
+			            <a class='btn btn-success btn-sm' href="#LINK" onclick="javascript:fnCheckId(); return false;"><spring:message code="button.inquire" /></a>
+					    <a class='btn btn-success btn-sm' href="#LINK" onclick="javascript:fnReturnId(); return false;"><spring:message code="button.use" /></a>
+					    <a class='btn btn-success btn-sm' href="#LINK" onclick="javascript:fnClose(); return false;"><spring:message code="button.close" /></a>
+					</td>
+				</tr>
+			</table>
+	    </div>
 	</div>
 	
-    <!-- 버튼 시작(상세지정 style로 div에 지정) -->
-    <div style="width:400px" align="center">
-		<table>
-			<tr>
-				<td>
-		            <a class='AXButton Gray' href="#LINK" onclick="javascript:fnCheckId(); return false;"><spring:message code="button.inquire" /></a>
-				    <a class='AXButton Gray' href="#LINK" onclick="javascript:fnReturnId(); return false;"><spring:message code="button.use" /></a>
-				    <a class='AXButton Gray' href="#LINK" onclick="javascript:fnClose(); return false;"><spring:message code="button.close" /></a>
-				</td>
-			</tr>
-		</table>
-    </div>
+    
     </form>
     
+<script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="<c:url value='/js/smartscripts.js'/>"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
