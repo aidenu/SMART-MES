@@ -22,14 +22,17 @@
 		window.open("<c:url value='/uss/umt/user/EgovUserInsertView.do'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1000,height=425");
 	}
 	
-	function fnDeleteUser(uniqId)
-	{
+	function fnDeleteUser(uniqId) {
 		if(confirm("<spring:message code="common.delete.msg" />"))
 		{
 		    document.listForm.checkedIdForDel.value=uniqId;
 		    document.listForm.action = "<c:url value='/uss/umt/user/EgovUserDelete.do'/>";
 		    document.listForm.submit();
 		}
+	}
+	
+	function fnUpdateUser(uniqId) {
+		window.open("<c:url value='/uss/umt/user/EgovUserSelectUpdtView.do?selectedId="+uniqId+"'/>", "updatePop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1000,height=425");
 	}
 	
 	<c:if test="${!empty resultMsg}">alert("<spring:message code="${resultMsg}" />");</c:if>
@@ -95,7 +98,7 @@
 	                                    			<td><c:out value="${result.moblphonNo}"/></td>
 	                                    			<td><c:out value="${result.sbscrbDe}"/></td>
 	                                    			<td>
-	                                    				<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2">
+	                                    				<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" onclick="fnUpdateUser('${result.uniqId}')">
 	                                    					<i data-feather="more-vertical"></i>
 	                                    				</div>
 	                                    				<div class="btn btn-datatable btn-icon btn-transparent-dark" onclick="fnDeleteUser('${result.userTy}:${result.uniqId}')">

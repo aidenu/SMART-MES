@@ -93,6 +93,7 @@ function fnInsert()
     	var emailValid = fnIsEmail(document.userManageVO.emailAdres.value);
     	if(!emailValid) {
     		alert("<spring:message code="fail.user.emailValid" />");
+    		document.userManageVO.emailAdres.focus();
     		return;
     	}
     }
@@ -101,6 +102,7 @@ function fnInsert()
     	var phoneValid = fnIsPhoneNm(document.userManageVO.moblphonNo.value);
     	if(!phoneValid) {
     		alert("<spring:message code="fail.user.phoneValid" />");
+    		document.userManageVO.moblphonNo.focus();
     		return;
     	}
     }

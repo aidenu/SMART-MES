@@ -270,6 +270,7 @@ public class EgovUserManageController {
      */
     @RequestMapping("/uss/umt/user/EgovUserSelectUpdt.do")
     public String updateUser(
+			@RequestParam Map<String, Object> commandMap,
             @ModelAttribute("userManageVO") UserManageVO userManageVO,
             BindingResult bindingResult,
             Model model
@@ -304,13 +305,30 @@ public class EgovUserManageController {
             model.addAttribute("groupId_result", cmmUseService.selectGroupIdDetail(vo));
             
             return "cmm/uss/umt/EgovUserSelectUpdt";
+            
 		}else{
-			//업무사용자 수정시 히스토리 정보를 등록한다.
+			
+			String oldPassword = (String)commandMap.get("oldpassword");
+	        String newPassword = (String)commandMap.get("newpassword");
+	        String newPassword2 = (String)commandMap.get("newpassword2");
+	        String emplyrId = (String)commandMap.get("emplyrId");
+	        String uniqId = (String)commandMap.get("uniqId");
+
+	        //패스워드 업데이트
+	        userManageVO.setPassword(EgovFileScrty.encryptPassword(newPassword, userManageVO.getEmplyrId()));
+    		userManageService.updatePassword(userManageVO);
+    		//그 외 정보 업데이트
+    		//업무사용자 수정시 히스토리 정보를 등록한다.
 	        userManageService.insertUserHistory(userManageVO);
 	        userManageService.updateUser(userManageVO);
-	        //Exception 없이 진행시 수정성공메시지
-	        model.addAttribute("resultMsg", "success.common.update");
-	        return "forward:/uss/umt/user/EgovUserManage.do";
+	        
+            model.addAttribute("userManageVO", userManageVO);
+            
+            String resultMsg = "success.common.update";
+	    	model.addAttribute("resultMsg", resultMsg);
+	    	
+//	        return "forward:/uss/umt/user/EgovUserManage.do";
+	    	return "cmm/uss/umt/EgovUserUpdate";
 		}
     }
 
