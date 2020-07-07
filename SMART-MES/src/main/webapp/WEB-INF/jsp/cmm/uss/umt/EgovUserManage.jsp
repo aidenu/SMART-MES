@@ -19,10 +19,21 @@
 <script>
 
 	function addUser() {
-		console.log("Insert User");
 		window.open("<c:url value='/uss/umt/user/EgovUserInsertView.do'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1000,height=425");
 	}
-
+	
+	function fnDeleteUser(uniqId)
+	{
+		if(confirm("<spring:message code="common.delete.msg" />"))
+		{
+		    document.listForm.checkedIdForDel.value=uniqId;
+		    document.listForm.action = "<c:url value='/uss/umt/user/EgovUserDelete.do'/>";
+		    document.listForm.submit();
+		}
+	}
+	
+	<c:if test="${!empty resultMsg}">alert("<spring:message code="${resultMsg}" />");</c:if>
+	
 </script>
 </head>
 <body class="nav-fixed">
@@ -46,56 +57,59 @@
 					</div>
 				</div>
 				<div class="container-fluid mt-n10">
-					<div class="card mb-4">
-						<div class="card-header">
-							<div class="btn btn-outline-primary" onclick="addUser()">Add User</div>
-						</div>
-						<div class="card-body">
-							<div class="datatable table-responsive">
-								<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-									<thead>
-										<tr>
-											<th><spring:message code="space.manage.user.item.id" /></th>
-											<th><spring:message code="space.manage.user.item.name" /></th>
-											<th><spring:message code="space.manage.user.item.email" /></th>
-											<th><spring:message code="space.manage.user.item.phone" /></th>
-											<th><spring:message code="space.manage.user.item.regdate" /></th>
-											<th>Actions</th>
-										</tr>
-									</thead>
-									<tfoot>
-										<tr>
-											<th><spring:message code="space.manage.user.item.id" /></th>
-											<th><spring:message code="space.manage.user.item.name" /></th>
-											<th><spring:message code="space.manage.user.item.email" /></th>
-											<th><spring:message code="space.manage.user.item.phone" /></th>
-											<th><spring:message code="space.manage.user.item.regdate" /></th>
-											<th>Actions</th>
-										</tr>
-                                    </tfoot>
-                                    <tbody>
-                                    	<c:forEach var="result" items="${resultList}" varStatus="status">
-                                    		<tr>
-                                    			<td><c:out value="${result.userId}"/></td>
-                                    			<td><c:out value="${result.userNm}"/></td>
-                                    			<td><c:out value="${result.emailAdres}"/></td>
-                                    			<td><c:out value="${result.moblphonNo}"/></td>
-                                    			<td><c:out value="${result.sbscrbDe}"/></td>
-                                    			<td>
-                                    				<button class="btn btn-datatable btn-icon btn-transparent-dark mr-2">
-                                    					<i data-feather="more-vertical"></i>
-                                    				</button>
-                                    				<button class="btn btn-datatable btn-icon btn-transparent-dark">
-                                    					<i data-feather="trash-2"></i>
-                                    				</button>
-                                    			</td>
-                                    		</tr>
-                                    	</c:forEach>
-                                    </tbody>
-								</table>
+					<form name="listForm" method="post">
+						<input type="hidden" name="checkedIdForDel">
+						<div class="card mb-4">
+							<div class="card-header">
+								<div class="btn btn-outline-primary" onclick="addUser()">Add User</div>
+							</div>
+							<div class="card-body">
+								<div class="datatable table-responsive">
+									<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+										<thead>
+											<tr>
+												<th><spring:message code="space.manage.user.item.id" /></th>
+												<th><spring:message code="space.manage.user.item.name" /></th>
+												<th><spring:message code="space.manage.user.item.email" /></th>
+												<th><spring:message code="space.manage.user.item.phone" /></th>
+												<th><spring:message code="space.manage.user.item.regdate" /></th>
+												<th>Actions</th>
+											</tr>
+										</thead>
+										<tfoot>
+											<tr>
+												<th><spring:message code="space.manage.user.item.id" /></th>
+												<th><spring:message code="space.manage.user.item.name" /></th>
+												<th><spring:message code="space.manage.user.item.email" /></th>
+												<th><spring:message code="space.manage.user.item.phone" /></th>
+												<th><spring:message code="space.manage.user.item.regdate" /></th>
+												<th>Actions</th>
+											</tr>
+	                                    </tfoot>
+	                                    <tbody>
+	                                    	<c:forEach var="result" items="${resultList}" varStatus="status">
+	                                    		<tr>
+	                                    			<td><c:out value="${result.userId}"/></td>
+	                                    			<td><c:out value="${result.userNm}"/></td>
+	                                    			<td><c:out value="${result.emailAdres}"/></td>
+	                                    			<td><c:out value="${result.moblphonNo}"/></td>
+	                                    			<td><c:out value="${result.sbscrbDe}"/></td>
+	                                    			<td>
+	                                    				<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2">
+	                                    					<i data-feather="more-vertical"></i>
+	                                    				</div>
+	                                    				<div class="btn btn-datatable btn-icon btn-transparent-dark" onclick="fnDeleteUser('${result.userTy}:${result.uniqId}')">
+	                                    					<i data-feather="trash-2"></i>
+	                                    				</div>
+	                                    			</td>
+	                                    		</tr>
+	                                    	</c:forEach>
+	                                    </tbody>
+									</table>
+								</div>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</main>
 			<footer class="footer mt-auto footer-light">

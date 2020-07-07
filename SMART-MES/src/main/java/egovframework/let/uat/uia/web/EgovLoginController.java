@@ -217,8 +217,10 @@ public class EgovLoginController {
     	
     	if(munuList != null && munuList.size()>0)
     	{
-    			//System.out.println(munuList.get(0).toString().replace("{", "").replace("}", "").replace("returnurl=", ""));
-    			returnUrl = munuList.get(0).toString().replace("{", "").replace("}", "").replace("returnurl=", "");
+//    			System.out.println(munuList.get(0).toString().replace("{", "").replace("}", "").replace("returnurl=", ""));
+//    			returnUrl = munuList.get(0).toString().replace("{", "").replace("}", "").replace("returnurl=", "");
+    		//무조건 첫페이지는 DashBoard
+    		returnUrl = "/smart/common/SmartDashBoard.do?baseMenuNo=20000000&currentMenuNo=20000001";
     	}
     	
     	

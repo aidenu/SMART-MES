@@ -35,6 +35,24 @@ function fnIdCheck()
     window.open(url,'','toolbar=no,location=no,status=yes,menubar=no,scrollbars=no,resizable=no,width=580,height=250,top=100,left=100');
 }
 
+function fnIsEmail(asValue) {
+
+	var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+	return regExp.test(asValue); // 형식에 맞는 경우 true 리턴	
+
+}
+
+//핸드폰 번호 체크 정규식
+
+function fnIsPhoneNm(asValue) {
+
+	var regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+
+	return regExp.test(asValue); // 형식에 맞는 경우 true 리턴
+
+}
+
 
 function fnInsert()
 {
@@ -69,6 +87,22 @@ function fnInsert()
     {
         alert("<spring:message code="fail.user.passwordUpdate2" />");
         return;
+    }
+    
+    if(document.userManageVO.emailAdres.value != "") {
+    	var emailValid = fnIsEmail(document.userManageVO.emailAdres.value);
+    	if(!emailValid) {
+    		alert("<spring:message code="fail.user.emailValid" />");
+    		return;
+    	}
+    }
+    
+    if(document.userManageVO.moblphonNo.value != "") {
+    	var phoneValid = fnIsPhoneNm(document.userManageVO.moblphonNo.value);
+    	if(!phoneValid) {
+    		alert("<spring:message code="fail.user.phoneValid" />");
+    		return;
+    	}
     }
     
     document.userManageVO.submit();
