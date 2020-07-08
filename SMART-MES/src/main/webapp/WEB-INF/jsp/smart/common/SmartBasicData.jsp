@@ -10,19 +10,21 @@
 <head>
 <meta http-equiv="Content-Language" content="ko" >
 <title>기준정보관리</title>
-<link rel="shortcut icon" href="<c:url value='/'/>images/bl_circle.gif">
-<link href="<c:url value='/css/common.css'/>" rel="stylesheet" type="text/css" >
-<link href="<c:url value='/css/space/spacecommon.css'/>" rel="stylesheet" type="text/css" >
-<link href="<c:url value='/css/space/AXButton.css'/>" rel="stylesheet" type="text/css" >
-<script type="text/javascript" src="<c:url value="/js/jquery/prototype.js"/>"/></script>
-<script type="text/javascript" src="<c:url value="/js/spacevalidate.js"/>"/></script>
-<script type="text/javascript" src="<c:url value="/js/spaceutil.js"/>"/></script>
+<link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
+<link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
+<link rel="stylesheet" href="<c:url value='/css/smart/common.css'/>">
+<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+<script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
+<script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
 </head>
 
 <script>
 
 	function getBasicData(level)
 	{
+		console.log("STEP1 || level : " + level);
+		console.log("level"+level+"_value");
 		if(level == 0)
 		{
 			document.dataForm.actionlevel.value = 1;
@@ -30,15 +32,17 @@
 		}
 		else
 		{
-			if($("level"+level+"_value").length > 1)
+			if(document.getElementById("level"+level+"_value").length > 1)
 			{
-				$("level"+level+"_name").value = $("level"+level+"_value").options[$("level"+level+"_value").selectedIndex].text;
-				document.dataForm.parentid.value = $("level"+level+"_value").options[$("level"+level+"_value").selectedIndex].value;
+				var selTarget = document.getElementById("level"+level+"_value");
+				$("level"+level+"_name").value = selTarget.options[selTarget.selectedIndex].text;
+				document.dataForm.parentid.value = selTarget.options[selTarget.selectedIndex].value;
 			}
 			else
 			{
-				$("level"+level+"_name").value = $("level"+level+"_value").options[0].text;
-				document.dataForm.parentid.value = $("level"+level+"_value").options[0].value;
+				var selTarget = document.getElementById("level"+level+"_value");
+				$("level"+level+"_name").value = selTarget.options[0].text;
+				document.dataForm.parentid.value = selTarget.options[0].value;
 			}
 			
 			document.dataForm.actionlevel.value = level+1;
@@ -47,35 +51,25 @@
 		//선택한 항목의 하위 항목 화면을 표시한다
 		if(level == 1)
 		{
-			$("td_img_2").style.visibility = "visible";
-			$("td_box_2").style.visibility = "visible";
-			$("td_img_3").style.visibility = "hidden";
-			$("td_box_3").style.visibility = "hidden";
-			$("td_img_4").style.visibility = "hidden";
-			$("td_box_4").style.visibility = "hidden";
-			$("td_img_5").style.visibility = "hidden";
-			$("td_box_5").style.visibility = "hidden";
+			$("#td_box_2").css('visibility', 'visible');
+			$("#td_box_3").css('visibility', 'hidden');
+			$("#td_box_4").css('visibility', 'hidden');
+			$("#td_box_5").css('visibility', 'hidden');
 		}
 		else if(level == 2)
 		{
-			$("td_img_3").style.visibility = "visible";
-			$("td_box_3").style.visibility = "visible";
-			$("td_img_4").style.visibility = "hidden";
-			$("td_box_4").style.visibility = "hidden";
-			$("td_img_5").style.visibility = "hidden";
-			$("td_box_5").style.visibility = "hidden";
+			$("#td_box_3").css('visibility', 'visible');
+			$("#td_box_4").css('visibility', 'hidden');
+			$("#td_box_5").css('visibility', 'hidden');
 		}
 		else if(level == 3)
 		{
-			$("td_img_4").style.visibility = "visible";
-			$("td_box_4").style.visibility = "visible";
-			$("td_img_5").style.visibility = "hidden";
-			$("td_box_5").style.visibility = "hidden";
+			$("#td_box_4").css('visibility', 'visible');
+			$("#td_box_5").css('visibility', 'hidden');
 		}
 		else if(level == 4)
 		{
-			$("td_img_5").style.visibility = "visible";
-			$("td_box_5").style.visibility = "visible";
+			$("#td_box_5").css('visibility', 'visible');
 		}
 		
 		document.dataForm.action="${pageContext.request.contextPath}/smart/common/SmartBasicDataList.do";
@@ -269,345 +263,267 @@
 	
 </script>
 
-<body style="background-color: #2c3338;" onload="getBasicData(0)">
-
-<div id="wrap">
-	<!-- header 시작 -->
-	<div id="header"><c:import url="/EgovPageLink.do?link=main/nav/SmartHeaderNav" /></div>
-    <div id="topnavi"><c:import url="/sym/mms/EgovMainMenuHead.do" /></div>
-    <div id="subnavi"><c:import url="/sym/mms/EgovMainMenuSub.do" /></div> 
-	<!-- //header 끝 -->	
-	
-	<!-- container 시작 -->
-	<form name="dataForm" method="post">
-	<input type="hidden" name="actiontype">
-	<input type="hidden" name="actionlevel">
-	<input type="hidden" name="parentid">
-	<input type="hidden" name="childid">
-	<input type="hidden" name="childvalue">
-	
-	<div id="spacecontainer">
-		<table>
-			<tr><td colspan="3"></td></tr>
-			<tr>
-				<td  valign="top" align="center">
-					<table>
-						<tr>
-							<td>
-								<div style="width:300px;border: 1px solid #D5D1B0;">
-									<table width="100%">
-										<tr>
-											<td width="100%" id="captionTitle">LEVEL 1</td>
-										</tr>
-									</table>
-								</div>
-								<div class="tableContainer" style="width:300px;height:370px">
-									<table width="100%" border="0" cellpadding="0" cellspacing="0" class="scrollTable">
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<select name="level1_value" id="level1_value" onchange="getBasicData(1)" size="20" class="multi-select" style="width:250px;height:290px;background-color: #2c3338;color: #FFF;">
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<input type="text" name="level1_name" id="level1_name" style="width:250px;height:17px;" onkeyup="checkStrLength(255,this);checkQuota(this)">
-												<input type="hidden" name="level1_id" id="level1_id">
-											</td>
-										</tr>
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<c:if test="${result == 'ROLE_ADMIN'}">
-													<a href='#' class='AXButton Gray' onclick="setBasicData(1,'INSERT')">추가</a>
-													&nbsp;
-													<a href='#' class='AXButton Gray' onclick="setBasicData(1,'UPDATE')">수정</a>
-													&nbsp;
-													<a href='#' class='AXButton Gray'  onclick="setBasicData(1,'DELETE')">삭제</a>
-												</c:if>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-							<td id="td_img_2" style="visibility:hidden" width="100" align="center"><img	src="<c:url value='/'/>images/png/Arrow_Left.png" width="20" height="20"/></td>
-							<td id="td_box_2" style="visibility:hidden">
-								<div style="width:300px;border: 1px solid #D5D1B0;">
-									<table width="100%">
-										<tr>
-											<td width="100%" id="captionTitle">LEVEL 2</td>
-										</tr>
-									</table>
-								</div>
-								<div class="tableContainer" style="width:300px;height:370px">
-									<table width="100%" border="0" cellpadding="0" cellspacing="0" class="scrollTable">
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<select name="level2_value" id="level2_value" onchange="getBasicData(2)" size="20" class="multi-select" style="width:250px;height:290px;background-color: #2c3338;color: #FFF;">
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<input type="text" name="level2_name" id="level2_name" style="width:250px;height:17px;"  onkeyup="checkStrLength(255,this);checkQuota(this)">
-												<input type="hidden" name="level2_id" id="level2_id">
-											</td>
-										</tr>
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<a href='#' class='AXButton Gray' onclick="setBasicData(2,'INSERT')">추가</a>
-												&nbsp;
-												<a href='#' class='AXButton Gray' onclick="setBasicData(2,'UPDATE')">수정</a>
-												&nbsp;
-												<a href='#' class='AXButton Gray'  onclick="setBasicData(2,'DELETE')">삭제</a>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-							<td id="td_img_3" style="visibility:hidden" width="100" align="center"><img	src="<c:url value='/'/>images/png/Arrow_Left.png" width="20" height="20"/></td>
-							<td id="td_box_3" style="visibility:hidden">
-								<div style="width:300px;border: 1px solid #D5D1B0;">
-									<table width="100%">
-										<tr>
-											<td width="100%" id="captionTitle">LEVEL 3</td>
-										</tr>
-									</table>
-								</div>
-								<div class="tableContainer" style="width:300px;height:370px">
-									<table width="100%" border="0" cellpadding="0" cellspacing="0" class="scrollTable">
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<select name="level3_value" id="level3_value" onchange="getBasicData(3)" size="20" class="multi-select" style="width:250px;height:290px;background-color: #2c3338;color: #FFF;">
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<input type="text" name="level3_name" id="level3_name" style="width:250px;height:17px;" onkeyup="checkStrLength(255,this);checkQuota(this)">
-												<input type="hidden" name="level3_id" id="level3_id">
-											</td>
-										</tr>
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<a href='#' class='AXButton Gray' onclick="setBasicData(3,'INSERT')">추가</a>
-												&nbsp;
-												<a href='#' class='AXButton Gray' onclick="setBasicData(3,'UPDATE')">수정</a>
-												&nbsp;
-												<a href='#' class='AXButton Gray'  onclick="setBasicData(3,'DELETE')">삭제</a>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-							<td id="td_img_4" style="visibility:hidden" width="100" align="center"><img	src="<c:url value='/'/>images/png/Arrow_Left.png" width="20" height="20"/></td>
-							<td id="td_box_4" style="visibility:hidden">
-								<div style="width:300px;border: 1px solid #D5D1B0;">
-									<table width="100%">
-										<tr>
-											<td width="100%" id="captionTitle">LEVEL 4</td>
-										</tr>
-									</table>
-								</div>
-								<div class="tableContainer" style="width:300px;height:370px">
-									<table width="100%" border="0" cellpadding="0" cellspacing="0" class="scrollTable">
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<select name="level4_value" id="level4_value" onchange="getBasicData(4)" size="20" class="multi-select" style="width:250px;height:290px;background-color: #2c3338;color: #FFF;">
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<input type="text" name="level4_name" id="level4_name" style="width:250px;height:17px;" onkeyup="checkStrLength(255,this);checkQuota(this)">
-												<input type="hidden" name="level4_id" id="level4_id">
-											</td>
-										</tr>
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<a href='#' class='AXButton Gray' onclick="setBasicData(4,'INSERT')">추가</a>
-												&nbsp;
-												<a href='#' class='AXButton Gray' onclick="setBasicData(4,'UPDATE')">수정</a>
-												&nbsp;
-												<a href='#' class='AXButton Gray'  onclick="setBasicData(4,'DELETE')">삭제</a>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-							
-							<td id="td_img_5" style="visibility:hidden" width="100" align="center"><img	src="<c:url value='/'/>images/png/Arrow_Left.png" width="20" height="20"/></td>
-							<td id="td_box_5" style="visibility:hidden">
-								<div style="width:300px;border: 1px solid #D5D1B0;">
-									<table width="100%">
-										<tr>
-											<td width="100%" id="captionTitle">LEVEL 5</td>
-										</tr>
-									</table>
-								</div>
-								<div class="tableContainer" style="width:300px;height:370px">
-									<table width="100%" border="0" cellpadding="0" cellspacing="0" class="scrollTable">
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<select name="level5_value" id="level5_value" onchange="getBasicData(5)" size="20" class="multi-select" style="width:250px;height:290px;background-color: #2c3338;color: #FFF;">
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<input type="text" name="level5_name" id="level5_name" style="width:250px;height:17px;" onkeyup="checkStrLength(255,this);checkQuota(this)">
-												<input type="hidden" name="level5_id" id="level5_id">
-											</td>
-										</tr>
-										<tr>
-											<td height="10"></td>
-										</tr>
-										<tr>
-											<td align="center">
-												<a href='#' class='AXButton Gray' onclick="setBasicData(5,'INSERT')">추가</a>
-												&nbsp;
-												<a href='#' class='AXButton Gray' onclick="setBasicData(5,'UPDATE')">수정</a>
-												&nbsp;
-												<a href='#' class='AXButton Gray'  onclick="setBasicData(5,'DELETE')">삭제</a>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-							
-						</tr>
-						<tr><td colspan="7" height="50"></td></tr>
-						<tr><td colspan="7" height="50"></td></tr>
-						<tr>
-							<td colspan="7">
-								<table>
-									<tr>
-										<td id="captionSubTitle" align="center" width="250">범례</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="7">
-								<table>
-									<tr>
-										<td width="200" id="captionTitle">ACTIVE_FLAG</td>
-										<td width="600" align="left" style="padding-left:10px;border: 1px solid #D5D1B0;color: #FFF;">
-											. 경광등 색상별 가동,에러,재품카운트 FLAG를 설정<br>
-											. LEVEL2 : 색상<br>
-											. LEVEL3 : RUNNING - 가동상태, ERROR - 에러상태, PRODUCT - 제품생산 카운트
-										</td>
-									</tr>
-									<tr>
-										<td id="captionTitle">EQP_PART</td>
-										<td align="left" style="padding-left:10px;border: 1px solid #D5D1B0;color: #FFF;">
-											. 설비 그룹별 지정 정보<br>
-											. LEVEL2 : 설비 그룹명 <br>
-											. LEVEL3 : 그룹별 설비명<br>
-											. LEVEL4 : 설비별 MacAddress, UserName 구분(LEVEL3에서 설비 추가시 자동 생성 됨)<br>
-											. LEVEL5 : MacAddress 또는 설비 담당자 ID
-										</td>
-									</tr>
-									<tr>
-										<td id="captionTitle">FILE_LOCATE</td>
-										<td align="left" style="padding-left:10px;border: 1px solid #D5D1B0;color: #FFF;">
-											. 설비상태 LOG파일 경로(예: "D:\eqpmanager")
-										</td>
-									</tr>
-									<tr>
-										<td id="captionTitle">LAMP_LEVEL</td>
-										<td align="left" style="padding-left:10px;border: 1px solid #D5D1B0;color: #FFF;">
-											. 설비상태 화면의 경광등 단수 설정(3,4,5 중에 한 숫자만 등록 해야 함)<br>
-											. 3 : RED, AMBER, GREEN<br>
-											. 4 : RED, AMBER, GREEN, BLUE<br>
-											. 5 : RED, AMBER, GREEN, BLUE, WHITE
-										</td>
-									</tr>
-									<tr>
-										<td id="captionTitle">LOG_FILE_SAVE_DAY</td>
-										<td align="left" style="padding-left:10px;border: 1px solid #D5D1B0;color: #FFF;">
-											. 로그 파일 저장 기간 설정(일수, 정수로만 입력 해야 함)
-										</td>
-									</tr>
-									<tr>
-										<td id="captionTitle">MONITORING_TIME</td>
-										<td align="left" style="padding-left:10px;border: 1px solid #D5D1B0;color: #FFF;">
-											. 설비상태 모니터링 Reload Time(단위:초)<br>
-											. LEVEL2 : 재조회 시간 선택 리스트(정수로만 입력 해야 함) <br>
-											. LEVEL3 : "default" 입력시 해당 시간으로 기본 셋팅
-										</td>
-									</tr>
-									<tr>
-										<td id="captionTitle">STANDARD_HOUR</td>
-										<td align="left" style="padding-left:10px;border: 1px solid #D5D1B0;color: #FFF;">
-											. 설비가동율 계산시 기준이 되는 일 최대 가동시간 기준(정수로만 입력 해야 함)
-										</td>
-									</tr>
-									<tr>
-										<td id="captionTitle">TOOL_FILTER</td>
-										<td align="left" style="padding-left:10px;border: 1px solid #D5D1B0;color: #FFF;">
-											. 공구관리 화면에서 사용하는 필터 정보
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-		</td>
-			</tr>
+<body class="nav-fixed" onload="getBasicData(0)">
+	<div>
+		<div id="header"><c:import url="/EgovPageLink.do?link=main/nav/SmartHeaderNav" /></div>
 	</div>
-	</form>
-	<!-- footer 시작 -->
-	<%-- <div id="footer"><c:import url="/EgovPageLink.do?link=main/inc/EgovIncFooter" /></div> --%>
-	<!-- //footer 끝 -->
-</div>
-<!-- //전체 레이어 끝 -->
+	<div id="layoutSidenav">
+		<div>
+			<div id="sidenav"><c:import url="/sym/mms/EgovMainSideNav.do" /></div>
+		</div>
+            <div id="layoutSidenav_content">
+            
+				<div class="page-header pb-10 page-header-dark bg-gradient-primary-to-secondary">
+					<div class="container-fluid">
+						<div class="page-header-content">
+							<h1 class="page-header-title">
+								<div class="page-header-icon"><i data-feather="activity"></i></div>
+								<span><spring:message code="smart.basic.title" /></span>
+							</h1>
+						</div>
+					</div>
+				</div>
+				 <div class="container-fluid mt-n10">
+	                <!-- container 시작 -->
+					<form name="dataForm" method="post">
+						<input type="hidden" name="actiontype">
+						<input type="hidden" name="actionlevel">
+						<input type="hidden" name="parentid">
+						<input type="hidden" name="childid">
+						<input type="hidden" name="childvalue">
+						
+						 <div class="row" style="width: max-content;">
+							<div class="basic-cont">
+								<div class="card mb-4">
+									<div class="card-header">LEVEL1</div>
+									<div class="card-body">
+										<div class="tableContainer" style="width:300px;height:370px">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0" class="scrollTable">
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<select name="level1_value" id="level1_value" onchange="getBasicData(1)" size="20" class="multi-select" style="width:250px;height:290px;background-color: #131b27;color: #FFF;">
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<input type="text" name="level1_name" id="level1_name" style="width:200px;height:17px;" onkeyup="checkStrLength(255,this);checkQuota(this)">
+														<input type="hidden" name="level1_id" id="level1_id">
+													</td>
+												</tr>
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<c:if test="${result == 'ROLE_ADMIN'}">
+															<div class="btn btn-dark btn-sm" onclick="setBasicData(1,'INSERT')">추가</div>
+															&nbsp;
+															<div class="btn btn-dark btn-sm" onclick="setBasicData(1,'UPDATE')">수정</div>
+															&nbsp;
+															<div class="btn btn-dark btn-sm" onclick="setBasicData(1,'DELETE')">삭제</div>
+														</c:if>
+													</td>
+												</tr>
+											</table>
+										</div>
+									
+									</div>
+								</div>
+							</div>
+							&nbsp;&nbsp;
+							<div class="basic-cont" id="td_box_2" style="visibility:hidden">
+								<div class="card mb-4">
+									<div class="card-header">LEVEL2</div>
+									<div class="card-body">
+										<div class="tableContainer" style="width:300px;height:370px">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0" class="scrollTable">
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<select name="level2_value" id="level2_value" onchange="getBasicData(2)" size="20" class="multi-select" style="width:250px;height:290px;background-color: #2c3338;color: #FFF;">
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<input type="text" name="level2_name" id="level2_name" style="width:250px;height:17px;"  onkeyup="checkStrLength(255,this);checkQuota(this)">
+														<input type="hidden" name="level2_id" id="level2_id">
+													</td>
+												</tr>
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(2,'INSERT')">추가</div>
+														&nbsp;
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(2,'UPDATE')">수정</div>
+														&nbsp;
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(2,'DELETE')">삭제</div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							&nbsp;&nbsp;
+							<div class="basic-cont" id="td_box_3" style="visibility:hidden">
+								<div class="card mb-4">
+									<div class="card-header">LEVEL3</div>
+									<div class="card-body">
+										<div class="tableContainer" style="width:300px;height:370px">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0" class="scrollTable">
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<select name="level3_value" id="level3_value" onchange="getBasicData(3)" size="20" class="multi-select" style="width:250px;height:290px;background-color: #2c3338;color: #FFF;">
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<input type="text" name="level3_name" id="level3_name" style="width:250px;height:17px;" onkeyup="checkStrLength(255,this);checkQuota(this)">
+														<input type="hidden" name="level3_id" id="level3_id">
+													</td>
+												</tr>
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(3,'INSERT')">추가</div>
+														&nbsp;
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(3,'UPDATE')">수정</div>
+														&nbsp;
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(3,'DELETE')">삭제</div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							&nbsp;&nbsp;
+							<div class="basic-cont" id="td_box_4" style="visibility:hidden">
+								<div class="card mb-4">
+									<div class="card-header">LEVEL4</div>
+									<div class="card-body">
+										<div class="tableContainer" style="width:300px;height:370px">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0" class="scrollTable">
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<select name="level4_value" id="level4_value" onchange="getBasicData(4)" size="20" class="multi-select" style="width:250px;height:290px;background-color: #2c3338;color: #FFF;">
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<input type="text" name="level4_name" id="level4_name" style="width:250px;height:17px;" onkeyup="checkStrLength(255,this);checkQuota(this)">
+														<input type="hidden" name="level4_id" id="level4_id">
+													</td>
+												</tr>
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(4,'INSERT')">추가</div>
+														&nbsp;
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(4,'UPDATE')">수정</div>
+														&nbsp;
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(4,'DELETE')">삭제</div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							&nbsp;&nbsp;
+							<div class="basic-cont" id="td_box_5" style="visibility:hidden">
+								<div class="card mb-4">
+									<div class="card-header">LEVEL5</div>
+									<div class="card-body">
+										<div class="tableContainer" style="width:300px;height:370px">
+											<table width="100%" border="0" cellpadding="0" cellspacing="0" class="scrollTable">
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<select name="level5_value" id="level5_value" onchange="getBasicData(5)" size="20" class="multi-select" style="width:250px;height:290px;background-color: #2c3338;color: #FFF;">
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<input type="text" name="level5_name" id="level5_name" style="width:250px;height:17px;" onkeyup="checkStrLength(255,this);checkQuota(this)">
+														<input type="hidden" name="level5_id" id="level5_id">
+													</td>
+												</tr>
+												<tr>
+													<td height="10"></td>
+												</tr>
+												<tr>
+													<td align="center">
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(5,'INSERT')">추가</div>
+														&nbsp;
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(5,'UPDATE')">수정</div>
+														&nbsp;
+														<div class="btn btn-dark btn-sm" onclick="setBasicData(5,'DELETE')">삭제</div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>	<!-- <div class=row> End -->
+						
+							<div class="card mb-4">
+	                            <div class="card-header"><spring:message code="smart.basic.legend" /></div>
+	                            <div class="card-body">
+	                            	
+	                            </div>
+							</div>
+							
+					</form>
+				</div>
+            </div>
+        </div>
 
-<iframe name="hiddenFrame" width="0" hieght="0" style="visibility:hidden"></iframe>
+<iframe name="hiddenFrame" width="0" height="0" style="visibility:hidden"></iframe>
 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="<c:url value='/js/smartscripts.js'/>"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
