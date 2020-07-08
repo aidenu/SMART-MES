@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 <meta http-equiv="content-language" content="ko">
-<title><spring:message code="space.manage.auth.title" /></title>
+<title><spring:message code="smart.manage.auth.title" /></title>
 <link rel="shortcut icon" href="<c:url value='/'/>images/bl_circle.gif">
 <link href="<c:url value='/css/common.css'/>" rel="stylesheet" type="text/css" >
 <link href="<c:url value='/css/space/table.css'/>" rel="stylesheet" type="text/css" >
@@ -103,7 +103,7 @@
 	            }
 				else
 	            {
-	                alert("<spring:message code="space.manage.auth.alert.noselect" />");
+	                alert("<spring:message code="smart.manage.auth.alert.noselect" />");
 	                returnBoolean = false;
 	            }
 	        }
@@ -111,7 +111,7 @@
 	        {
 	            if(document.listForm.delYn.checked == false)
 	            {
-	                alert("<spring:message code="space.manage.auth.alert.noselect" />");
+	                alert("<spring:message code="smart.manage.auth.alert.noselect" />");
 	                returnBoolean = false;
 	            }
 	            else
@@ -123,7 +123,7 @@
 	    }
 	    else
 	    {
-	        alert("<spring:message code="space.manage.auth.alert.noresult" />");
+	        alert("<spring:message code="smart.manage.auth.alert.noresult" />");
 	    }
 	
 	    document.listForm.authorCodes.value = returnValue;
@@ -232,7 +232,7 @@
 									<table width="100%">
 										<tr>
 											<td id="captionSubTitle" align="center" style="background-color: #2c3338;">
-												 <font color="#FFF"><spring:message code="space.manage.auth.item.name" /> :</font> 
+												 <font color="#FFF"><spring:message code="smart.manage.auth.item.name" /> :</font> 
 								                <input name="searchKeyword" type="text" value="<c:out value='${authorManageVO.searchKeyword}'/>" size="25" onkeypress="press();" /> 
 								                <a class='AXButton Gray' href="#LINK" onclick="javascript:fncSelectAuthorList('1')" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="button.search" /></a>
 		                                        <a class='AXButton Gray' href="#LINK" onclick="javascript:fncAddAuthorInsert()" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="button.create" /></a>
@@ -250,11 +250,11 @@
 										<thead>
 											<tr>
 												<th><input name="checkAll" id="checkAll" type="checkbox" title="Check All" onclick="javascript:fnCheckAll();"/></th>
-												<th><spring:message code="space.manage.auth.item.code" /></th>
-												<th><spring:message code="space.manage.auth.item.name" /></th>
-												<th><spring:message code="space.manage.auth.item.desc" /></th>
-												<th><spring:message code="space.manage.auth.item.regdate" /></th>
-												<th><spring:message code="space.manage.auth.item.role" /></th>
+												<th><spring:message code="smart.manage.auth.item.code" /></th>
+												<th><spring:message code="smart.manage.auth.item.name" /></th>
+												<th><spring:message code="smart.manage.auth.item.desc" /></th>
+												<th><spring:message code="smart.manage.auth.item.regdate" /></th>
+												<th><spring:message code="smart.manage.auth.item.role" /></th>
 											</tr>
 										</thead>
 										<tbody>

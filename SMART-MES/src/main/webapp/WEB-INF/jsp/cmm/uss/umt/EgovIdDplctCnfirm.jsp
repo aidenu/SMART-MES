@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 <meta http-equiv="content-language" content="ko">
-<title>ID 중복확인</title>
+<title><spring:message code="smart.manage.user.popup.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -26,7 +26,7 @@
 	{
 		if(document.checkForm.checkId.value=="")
 		{
-			alert("<spring:message code="space.manage.user.alert.duplicate" />");
+			alert("<spring:message code="smart.manage.user.alert.duplicate" />");
 			document.checkForm.focus();
 	        return;
 		}
@@ -37,7 +37,7 @@
 	    }
 		else
 		{
-	    	alert("<spring:message code="space.manage.user.alert.hangul" />");
+	    	alert("<spring:message code="smart.manage.user.alert.hangul" />");
 	        return;
 	    }
 	}
@@ -56,12 +56,12 @@
 	    }
 	    else if (document.checkForm.usedCnt.value == 1)
 	    {
-	        alert("<spring:message code="space.manage.user.alert.exist" />");
+	        alert("<spring:message code="smart.manage.user.alert.exist" />");
 	        return;
 	    }
 	    else
 	    {
-	    	alert("<spring:message code="space.manage.user.alert.confirm.duplicate" />");
+	    	alert("<spring:message code="smart.manage.user.alert.confirm.duplicate" />");
 	        return;
 	    }
 	}
@@ -106,7 +106,7 @@
 	    	<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 	    		<tbody>
 	    			<tr>
-						<td class="card-header"><spring:message code="space.manage.user.item.useid" /></td>
+						<td class="card-header"><spring:message code="smart.manage.user.item.useid" /></td>
 						<td>
 							<input type="hidden" name="resultId" value="<c:out value="${checkId}"/>" />
 				            <input type="hidden" name="usedCnt" value="<c:out value="${usedCnt}"/>" />
@@ -114,12 +114,12 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="card-header"><spring:message code="space.manage.user.item.result" /></td>
+						<td class="card-header"><spring:message code="smart.manage.user.item.result" /></td>
 						<td>
 							<c:choose>
-			                <c:when test="${usedCnt eq -1}"><spring:message code="space.manage.user.alert.confirm.duplicate" /></c:when>
-			                <c:when test="${usedCnt eq 0}">${checkId} <spring:message code="space.manage.user.alert.canuse.id" /></c:when>
-			                <c:otherwise>${checkId} <spring:message code="space.manage.user.alert.cannot.id" /></c:otherwise>
+			                <c:when test="${usedCnt eq -1}"><spring:message code="smart.manage.user.alert.confirm.duplicate" /></c:when>
+			                <c:when test="${usedCnt eq 0}">${checkId} <spring:message code="smart.manage.user.alert.canuse.id" /></c:when>
+			                <c:otherwise>${checkId} <spring:message code="smart.manage.user.alert.cannot.id" /></c:otherwise>
 			                </c:choose>
 						</td>
 					</tr>

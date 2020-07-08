@@ -8,7 +8,7 @@
 
 
 	<nav class="topnav navbar navbar-expand shadow navbar-light bg-white" id="sidenavAccordion">
-		<a href="#" class="navbar-brand d-none d-sm-block" onclick="<c:url value='/'/>smart/common/SmartDashBoard.do">SMART MES</a>
+		<a class="navbar-brand d-none d-sm-block" href="<c:url value='/'/>uat/uia/actionMain.do">SMART MES</a>
 			<button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle" href="#">
 				<i data-feather="menu"></i>
             </button>

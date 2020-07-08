@@ -11,7 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 <meta http-equiv="content-language" content="ko">
-<title><spring:message code="space.manage.user.title" /></title>
+<title><spring:message code="smart.manage.user.updateuser.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -42,13 +42,13 @@
 	{
 		if(document.userManageVO.emplyrId.value == "")
 		{
-			alert("<spring:message code="space.manage.user.alert.id" />");
+			alert("<spring:message code="smart.manage.user.alert.id" />");
 			return;
 		}
 		
 		if(document.userManageVO.emplyrNm.value == "")
 		{
-			alert("<spring:message code="space.manage.user.alert.name" />");
+			alert("<spring:message code="smart.manage.user.alert.name" />");
 			document.userManageVO.emplyrNm.focus();
 			return;
 		}

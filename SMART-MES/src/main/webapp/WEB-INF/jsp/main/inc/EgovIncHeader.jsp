@@ -37,7 +37,7 @@
 	<tr>
 		<td  width="400" height="30">
 			<div id="project_title">
-				<a href="<c:url value='/'/>uat/uia/actionMain.do"><span class="maintitle"><font size=4><spring:message code="space.header.title" /></font></span></a>
+				<a href="<c:url value='/'/>uat/uia/actionMain.do"><span class="maintitle"><font size=4><spring:message code="smart.header.title" /></font></span></a>
 			</div>
 		</td>
 		<td  width="*" align="right">

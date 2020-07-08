@@ -16,7 +16,7 @@
 
 <meta http-equiv="Content-Language" content="ko" >
 
-<title><spring:message code="space.manage.auth.title" /></title>
+<title><spring:message code="smart.manage.auth.title" /></title>
 <link rel="shortcut icon" href="<c:url value='/'/>images/bl_circle.gif">
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <validator:javascript formName="authorManage" staticJavascript="false" xhtml="true" cdata="false"/>
@@ -108,21 +108,21 @@
 								<div style="width:1000px;border: 1px solid #D5D1B0;">
 									<table width="100%">
 										<tr>
-											<td id="captionTitle" align="center"><spring:message code="space.manage.auth.item.code" /></td>
+											<td id="captionTitle" align="center"><spring:message code="smart.manage.auth.item.code" /></td>
 											<td id="captionSubTitle" align="left" style="padding-left:10px">
 												<input name="authorCode" id="authorCode" type="text" value="<c:out value='${authorManage.authorCode}'/>" size="40"/>
 												<form:errors path="authorCode" />
 											</td>
 										</tr>
 										<tr>
-											<td id="captionTitle" align="center"><spring:message code="space.manage.auth.item.name" /></td>
+											<td id="captionTitle" align="center"><spring:message code="smart.manage.auth.item.name" /></td>
 											<td id="captionSubTitle" align="left" style="padding-left:10px">
 												<input name="authorNm" id="authorNm" type="text" value="<c:out value='${authorManage.authorNm}'/>" maxLength="50" size="40" />
 												<form:errors path="authorNm" />
 											</td>
 										</tr>
 										<tr>
-											<td id="captionTitle" align="center"><spring:message code="space.manage.auth.item.desc" /></td>
+											<td id="captionTitle" align="center"><spring:message code="smart.manage.auth.item.desc" /></td>
 											<td id="captionSubTitle" align="left" style="padding-left:10px">
 												<input name="authorDc" id="authorDc" type="text" value="<c:out value='${authorManage.authorDc}'/>" maxLength="50" size="50" />
 											</td>

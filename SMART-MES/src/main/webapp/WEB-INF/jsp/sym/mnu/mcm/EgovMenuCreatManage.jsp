@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Language" content="ko" >
 
-<title><spring:message code="space.manage.auth.title" /></title>
+<title><spring:message code="smart.manage.auth.title" /></title>
 <link rel="shortcut icon" href="<c:url value='/'/>images/bl_circle.gif">
 <link href="<c:url value='/css/common.css'/>" rel="stylesheet" type="text/css" >
 <link href="<c:url value='/css/space/table.css'/>" rel="stylesheet" type="text/css" >

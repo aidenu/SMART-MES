@@ -57,7 +57,7 @@ public class SmartCommonController {
 	}
 	
 	@RequestMapping(value = "/smart/common/SmartBasicData.do")
-	public String getSmartBasicDataPage(ModelMap model) throws Exception {
+	public String SmartBasicData(ModelMap model) throws Exception {
 		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		
@@ -65,23 +65,26 @@ public class SmartCommonController {
     		model.addAttribute("sessionmessage", "session expire");
     		return "uat/uia/EgovLoginUsr";
     	}
-    	
-    	
-    	LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	
-    	HashMap<String,String> hp = new HashMap<String,String>();
-		hp.put("userid", loginVO.getId());
-		
-		List<HashMap> result = SmartCommonDAO.commonDataProc("selectUserRoleData",hp);
-    	model.addAttribute("result", result.get(0).get("AUTHOR_CODE"));
-    	
+    	try {
+    		
+        	LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        	
+        	HashMap<String,String> hp = new HashMap<String,String>();
+    		hp.put("userid", loginVO.getId());
+    		
+    		List<HashMap> result = SmartCommonDAO.commonDataProc("selectUserRoleData",hp);
+        	model.addAttribute("result", result.get(0).get("AUTHOR_CODE"));
+        	
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
     	return "smart/common/SmartBasicData";
 	}
 	
 	
 	
 	@RequestMapping(value = "/smart/common/SmartBasicDataList.do")
-	public String getSmartBasicDataListPage(
+	public String SmartBasicDataList(
 			@RequestParam(value="actionlevel", required=false) String actionlevel,
     		@RequestParam(value="parentid", required=false) String parentid,
     		ModelMap model) throws Exception {

@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title>사용자 등록</title>
+<title><spring:message code="smart.manage.user.adduser.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -58,27 +58,27 @@ function fnInsert()
 {
 	if(document.userManageVO.emplyrId.value == "")
 	{
-		alert("<spring:message code="space.manage.user.alert.id" />");
+		alert("<spring:message code="smart.manage.user.alert.id" />");
 		return;
 	}
 	
 	if(document.userManageVO.emplyrNm.value == "")
 	{
-		alert("<spring:message code="space.manage.user.alert.name" />");
+		alert("<spring:message code="smart.manage.user.alert.name" />");
 		document.userManageVO.emplyrNm.focus();
 		return;
 	}
 	
 	if(document.userManageVO.password.value == "")
 	{
-		alert("<spring:message code="space.manage.user.alert.passwd" />");
+		alert("<spring:message code="smart.manage.user.alert.passwd" />");
 		document.userManageVO.password.focus();
 		return;
 	}
 	
 	if(document.userManageVO.password2.value == "")
 	{
-		alert("<spring:message code="space.manage.user.alert.repasswd" />");
+		alert("<spring:message code="smart.manage.user.alert.repasswd" />");
 		document.userManageVO.password2.focus();
 		return;
 	}
@@ -125,23 +125,23 @@ function fnInsert()
 		    	<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 		    		<tbody>
 		    			<tr>
-			    			<td class="card-header">아이디</td>
+			    			<td class="card-header"><spring:message code="smart.manage.user.item.id" /></td>
 			    			<td>
 			    				<input class="form-control" id="id_view" name="id_view" style="width:60%;display: inherit;" disabled="disabled" placeholder="중복확인으로 등록" readonly>
 			    				<form:input path="emplyrId" id="emplyrId" size="20" maxlength="20" cssStyle="display:none" />
 			    				&nbsp;
-			    				<a href="#" class="btn btn-outline-orange btn-sm" onclick="fnIdCheck()">중복확인</a></td>
-			    			<td class="card-header">이름</td>
+			    				<a href="#" class="btn btn-outline-orange btn-sm" onclick="fnIdCheck()"><spring:message code="smart.manage.user.button.id.duplicate" /></a></td>
+			    			<td class="card-header"><spring:message code="smart.manage.user.item.name" /></td>
 			    			<td><input class="form-control" id="emplyrNm" name="emplyrNm" placeholder="Name"></td>
 			    		</tr>
 			    		<tr>
-			    			<td class="card-header">비밀번호</td>
+			    			<td class="card-header"><spring:message code="smart.manage.user.item.passwd" /></td>
 			    			<td><input class="form-control" type="password" id="password" name="password" placeholder="Password"></td>
-			    			<td class="card-header">비밀번호확인</td>
+			    			<td class="card-header"><spring:message code="smart.manage.user.item.repasswd" /></td>
 			    			<td><input class="form-control" type="password" id="password2" name="password2" placeholder="Password"></td>
 			    		</tr>
 			    		<tr>
-			    			<td class="card-header">비밀번호힌트</td>
+			    			<td class="card-header"><spring:message code="smart.manage.user.item.hint" /></td>
 			    			<td>
 								<div class="dropdown">
 								    <div class="form-group" style="margin-bottom: 0px;">
@@ -156,13 +156,13 @@ function fnInsert()
 								    </div>
 								</div>
 							</td>
-			    			<td class="card-header">비밀번호힌트 정답</td>
+			    			<td class="card-header"><spring:message code="smart.manage.user.item.answer" /></td>
 			    			<td><input class="form-control" id="passwordCnsr" name="passwordCnsr" placeholder="Hint Answer"></td>
 			    		</tr>
 			    		<tr>
-			    			<td class="card-header">이메일</td>
+			    			<td class="card-header"><spring:message code="smart.manage.user.item.email" /></td>
 			    			<td><input class="form-control" id="emailAdres" name="emailAdres" placeholder="Email Address"></td>
-			    			<td class="card-header">전화번호</td>
+			    			<td class="card-header"><spring:message code="smart.manage.user.item.phone" /></td>
 			    			<td><input class="form-control" id="moblphonNo" name="moblphonNo" placeholder="Phone Number"></td>
 			    		</tr>
 		    		</tbody>

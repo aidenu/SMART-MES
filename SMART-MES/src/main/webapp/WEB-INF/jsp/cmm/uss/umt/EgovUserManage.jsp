@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title>DashBoard</title>
+<title><spring:message code="smart.manage.user.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -54,7 +54,7 @@
 						<div class="page-header-content">
 							<h1 class="page-header-title">
 								<div class="page-header-icon"><i data-feather="tool"></i></div>
-									<span>사용자관리</span>
+									<span><spring:message code="smart.manage.user.title" /></span>
 							</h1>
 						</div>
 					</div>
@@ -71,21 +71,21 @@
 									<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 										<thead>
 											<tr>
-												<th><spring:message code="space.manage.user.item.id" /></th>
-												<th><spring:message code="space.manage.user.item.name" /></th>
-												<th><spring:message code="space.manage.user.item.email" /></th>
-												<th><spring:message code="space.manage.user.item.phone" /></th>
-												<th><spring:message code="space.manage.user.item.regdate" /></th>
+												<th><spring:message code="smart.manage.user.item.id" /></th>
+												<th><spring:message code="smart.manage.user.item.name" /></th>
+												<th><spring:message code="smart.manage.user.item.email" /></th>
+												<th><spring:message code="smart.manage.user.item.phone" /></th>
+												<th><spring:message code="smart.manage.user.item.regdate" /></th>
 												<th>Actions</th>
 											</tr>
 										</thead>
 										<tfoot>
 											<tr>
-												<th><spring:message code="space.manage.user.item.id" /></th>
-												<th><spring:message code="space.manage.user.item.name" /></th>
-												<th><spring:message code="space.manage.user.item.email" /></th>
-												<th><spring:message code="space.manage.user.item.phone" /></th>
-												<th><spring:message code="space.manage.user.item.regdate" /></th>
+												<th><spring:message code="smart.manage.user.item.id" /></th>
+												<th><spring:message code="smart.manage.user.item.name" /></th>
+												<th><spring:message code="smart.manage.user.item.email" /></th>
+												<th><spring:message code="smart.manage.user.item.phone" /></th>
+												<th><spring:message code="smart.manage.user.item.regdate" /></th>
 												<th>Actions</th>
 											</tr>
 	                                    </tfoot>
@@ -118,17 +118,12 @@
 			<footer class="footer mt-auto footer-light">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-6 small">Copyright &copy; Your Website 2020</div>
-							<div class="col-md-6 text-md-right small">
-								<a href="#!">Privacy Policy</a>
-								&middot;
-								<a href="#!">Terms &amp; Conditions</a>
-							</div>
-						</div>
+						<div class="col-md-6 small">Copyright &copy; <spring:message code="smart.header.title" /></div>
 					</div>
-				</footer>
-			</div>
+				</div>
+			</footer>
 		</div>
+	</div>
 <script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smartscripts.js'/>"></script>

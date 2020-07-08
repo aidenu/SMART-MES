@@ -10,14 +10,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 <meta http-equiv="content-language" content="ko">
 <title><spring:message code="space.manage.user.auth.title" /></title>
-<link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
-<link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
-<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-<script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
+<link rel="shortcut icon" href="<c:url value='/'/>images/bl_circle.gif">
+<link href="<c:url value='/css/common.css'/>" rel="stylesheet" type="text/css" >
+<link href="<c:url value='/css/space/table.css'/>" rel="stylesheet" type="text/css" >
+<link href="<c:url value='/css/space/AXButton.css'/>" rel="stylesheet" type="text/css" >
+
+<link href="<c:url value='/css/titlefix/defaultTheme.css'/>" rel="stylesheet" type="text/css" >
+<link href="<c:url value='/css/titlefix/myTheme.css'/>" rel="stylesheet" type="text/css" >
+<script type="text/javascript" src="<c:url value="/js/jquery/jquery.min.js"/>"/></script>
+<script type="text/javascript" src="<c:url value="/js/titlefix/jquery.fixedheadertable.js"/>"/></script>
 
 <script type="text/javaScript" language="javascript" defer="defer">
 	
+	$(function(){
+		$('#data_table').fixedHeaderTable({ fixedColumn: true,height:336,autoShow:true});
+	});
+
 	
 	function fncCheckAll()
 	{
@@ -228,110 +236,6 @@
 
 </head>
 
-<body class="nav-fixed">
-	<div>
-		<div id="header"><c:import url="/EgovPageLink.do?link=main/nav/SmartHeaderNav" /></div>
-	</div>
-	<div id="layoutSidenav">
-		<div>
-			<div id="sidenav"><c:import url="/sym/mms/EgovMainSideNav.do" /></div>
-		</div>
-		<div id="layoutSidenav_content">
-			<main>
-				<div class="page-header pb-10 page-header-dark bg-gradient-primary-to-secondary">
-					<div class="container-fluid">
-						<div class="page-header-content">
-							<h1 class="page-header-title">
-								<div class="page-header-icon"><i data-feather="tool"></i></div>
-									<span><spring:message code="smart.manage.auth.title" /></span>
-							</h1>
-						</div>
-					</div>
-				</div>
-				<div class="container-fluid mt-n10">
-					<form:form name="listForm" action="<c:url value='/sec/rgm/EgovAuthorGroupList.do'/>" method="post">
-						<input type="hidden" name="userId"/>
-						<input type="hidden" name="userIds"/>
-						<input type="hidden" name="authorCodes"/>
-						<input type="hidden" name="regYns"/>
-						<input type="hidden" name="mberTyCodes"/>
-						<input type="hidden" name="pageIndex" value="<c:out value='${authorGroupVO.pageIndex}'/>"/>
-						<input type="hidden" name="checkedIdForDel">
-						
-						<div class="card mb-4">
-							<div class="card-header">
-                                <div class='btn btn-outline-primary' onclick="javascript:fncAddAuthorGroupInsert()"><spring:message code="space.manage.user.auth.button.regist" /></div>
-                                &nbsp;&nbsp;
-                                <div class='btn btn-outline-primary' onclick="javascript:fncAuthorGroupDeleteList()"><spring:message code="space.manage.user.auth.button.cancel" /></div>
-							</div>
-							<div class="card-body">
-								<div class="datatable table-responsive">
-									<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-										<thead>
-											<tr>
-												<th><input name="checkAll" id="checkAll" type="checkbox" title="Check All" onclick="javascript:fncCheckAll();"/></th>
-												<th><spring:message code="space.manage.user.auth.item.id" /></th>
-												<th><spring:message code="space.manage.user.auth.item.name" /></th>
-												<th><spring:message code="space.manage.user.auth.item.auth" /></th>
-												<th><spring:message code="space.manage.user.auth.item.regflag" /></th>
-											</tr>
-										</thead>
-										<tfoot>
-											<tr>
-												<th></th>
-												<th><spring:message code="space.manage.user.auth.item.id" /></th>
-												<th><spring:message code="space.manage.user.auth.item.name" /></th>
-												<th><spring:message code="space.manage.user.auth.item.auth" /></th>
-												<th><spring:message code="space.manage.user.auth.item.regflag" /></th>
-											</tr>
-	                                    </tfoot>
-	                                    <tbody>
-	                                    	<c:forEach var="authorGroup" items="${authorGroupList}" varStatus="status">
-												<tr>
-													<td><input type="checkbox" name="delYn" class="check2"><input type="hidden" name="checkId" value="<c:out value="${authorGroup.uniqId}"/>"/></td>
-													<td><c:out value="${authorGroup.userId}"/><input type="hidden" name="mberTyCode" value="${authorGroup.mberTyCode}"/></td>
-													<td><c:out value="${authorGroup.userNm}"/></td>
-													<td>
-														<div class="dropdown">
-														    <div class="form-group" style="margin-bottom: 0px;">
-														        <select class="form-control form-control-solid" name="authorManageCombo">
-														        	<option value=""> -- Select -- </option>
-														        	<c:forEach var="authorManage" items="${authorManageList}" varStatus="status">
-														                <option value="<c:out value="${authorManage.authorCode}"/>" <c:if test="${authorManage.authorCode == authorGroup.authorCode}">selected</c:if> ><c:out value="${authorManage.authorNm}"/></option>
-														            </c:forEach>
-														        </select>
-														    </div>
-														</div>
-													</td>
-													<td><c:out value="${authorGroup.regYn}"/><input type="hidden" name="regYn" value="<c:out value="${authorGroup.regYn}"/>"></td>
-												</tr>
-											</c:forEach>
-	                                    </tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</form:form>
-				</div>
-			</main>
-			<footer class="footer mt-auto footer-light">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-md-6 small">Copyright &copy; <spring:message code="smart.header.title" /></div>
-					</div>
-				</div>
-			</footer>
-		</div>
-	</div>
-<script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="<c:url value='/js/smartscripts.js'/>"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-<script src="<c:url value='/assets/demo/datatables-demo.js'/>"></script>
-</body>
-
-<%--
 <body style="background-color: #2c3338;">
     
 <!-- 전체 레이어 시작 -->
@@ -432,7 +336,5 @@
 
 </div>
 <!-- //전체 레이어 끝 -->
-
  </body>
- --%>
 </html>

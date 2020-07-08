@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 <meta http-equiv="content-language" content="ko">
-<title><spring:message code="space.manage.auth.title" /></title>
+<title><spring:message code="smart.manage.auth.title" /></title>
 <link rel="shortcut icon" href="<c:url value='/'/>images/bl_circle.gif">
 <link href="<c:url value='/css/common.css'/>" rel="stylesheet" type="text/css" >
 <link href="<c:url value='/css/space/table.css'/>" rel="stylesheet" type="text/css" >
@@ -115,7 +115,7 @@
 	                returnBoolean = true;
 	            else 
 	            {
-	                alert("<spring:message code="space.manage.auth.alert.norole" />");
+	                alert("<spring:message code="smart.manage.auth.alert.norole" />");
 	                returnBoolean = false;
 	            }
 	        } 
@@ -123,7 +123,7 @@
 	        {
 	             if(document.listForm.delYn.checked == false) 
 	             {
-	                alert("<spring:message code="space.manage.auth.alert.norole" />");
+	                alert("<spring:message code="smart.manage.auth.alert.norole" />");
 	                returnBoolean = false;
 	            }
 	            else 
@@ -144,7 +144,7 @@
 	    } 
 	    else 
 	    {
-	        alert("<spring:message code="space.manage.auth.alert.noresult" />");
+	        alert("<spring:message code="smart.manage.auth.alert.noresult" />");
 	    }
 	
 	    document.listForm.roleCodes.value = returnValue;
@@ -213,7 +213,7 @@
 	
 	function showHelp()
 	{
-		alert("<spring:message code="space.manage.auth.alert.help" />");
+		alert("<spring:message code="smart.manage.auth.alert.help" />");
 	}
 
 </script>
@@ -250,11 +250,11 @@
 									<table width="100%">
 										<tr>
 											<td id="captionSubTitle" align="center">
-												 <spring:message code="space.manage.auth.item.code" /> : 
+												 <spring:message code="smart.manage.auth.item.code" /> : 
 								                <input name="searchKeyword" type="text" size="30" value="<c:out value='${authorRoleManageVO.searchKeyword}'/>" onkeypress="press();" readonly="readonly" /> 
-								                <a class='AXButton Green' href="#LINK" onclick="javascript:fncSelectAuthorList()" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="space.manage.auth.button.authlist" /></a>
-		                                        <a class='AXButton Green' href="#LLINK" onclick="javascript:fncSelectAuthorRoleList()" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="space.manage.auth.button.authresearch" /></a> 
-		                                        <a class='AXButton Green' href="#LINK" onclick="javascript:fncAddAuthorRoleInsert()" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="space.manage.auth.button.regist" /></a>
+								                <a class='AXButton Green' href="#LINK" onclick="javascript:fncSelectAuthorList()" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="smart.manage.auth.button.authlist" /></a>
+		                                        <a class='AXButton Green' href="#LLINK" onclick="javascript:fncSelectAuthorRoleList()" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="smart.manage.auth.button.authresearch" /></a> 
+		                                        <a class='AXButton Green' href="#LINK" onclick="javascript:fncAddAuthorRoleInsert()" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="smart.manage.auth.button.regist" /></a>
 		                                        <a href="#" onclick="javascript:showHelp()"><img src="<c:url value='/'/>images/png/help.png" width="20" height="20" style="cursor:hand"></a>
 											</td>
 										</tr>
@@ -269,11 +269,11 @@
 										<thead>
 											<tr>
 												<th><input type="checkbox" name="checkAll" id="checkAll" class="check2" onclick="javascript:fncCheckAll()"></th>
-												<th><spring:message code="space.manage.auth.item.roleid" /></th>
-												<th><spring:message code="space.manage.auth.item.rolename" /></th>
-												<th><spring:message code="space.manage.auth.item.roledesc" /></th>
-												<th><spring:message code="space.manage.auth.item.regdate" /></th>
-												<th><spring:message code="space.manage.auth.item.regflag" /></th>
+												<th><spring:message code="smart.manage.auth.item.roleid" /></th>
+												<th><spring:message code="smart.manage.auth.item.rolename" /></th>
+												<th><spring:message code="smart.manage.auth.item.roledesc" /></th>
+												<th><spring:message code="smart.manage.auth.item.regdate" /></th>
+												<th><spring:message code="smart.manage.auth.item.regflag" /></th>
 											</tr>
 										</thead>
 										<tbody>
