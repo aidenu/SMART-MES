@@ -269,7 +269,12 @@
 									<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 										<thead>
 											<tr>
-												<th><input name="checkAll" id="checkAll" type="checkbox" title="Check All" onclick="javascript:fncCheckAll();"/></th>
+												<th style="width: 50px;text-align: center;">
+													<div class="custom-control custom-checkbox">
+														    <input class="custom-control-input" name="checkAll" id="checkAll" title="Check All" type="checkbox" onclick="javascript:fncCheckAll();">
+														    <label class="custom-control-label" for="checkAll"></label>
+														</div>
+												</th>
 												<th><spring:message code="space.manage.user.auth.item.id" /></th>
 												<th><spring:message code="space.manage.user.auth.item.name" /></th>
 												<th><spring:message code="space.manage.user.auth.item.auth" /></th>
@@ -288,7 +293,13 @@
 	                                    <tbody>
 	                                    	<c:forEach var="authorGroup" items="${authorGroupList}" varStatus="status">
 												<tr>
-													<td><input type="checkbox" name="delYn" class="check2"><input type="hidden" name="checkId" value="<c:out value="${authorGroup.uniqId}"/>"/></td>
+													<td style="text-align: center;">
+														<div class="custom-control custom-checkbox">
+														    <input class="custom-control-input" name="delYn" id="delYn" type="checkbox">
+														    <input type="hidden" name="checkId" value="<c:out value="${authorGroup.uniqId}"/>"/>
+														    <label class="custom-control-label" for="delYn"></label>
+														</div>
+													</td>
 													<td><c:out value="${authorGroup.userId}"/><input type="hidden" name="mberTyCode" value="${authorGroup.mberTyCode}"/></td>
 													<td><c:out value="${authorGroup.userNm}"/></td>
 													<td>
