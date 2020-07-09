@@ -22,6 +22,20 @@
 							<i class="mr-2" data-feather="bell"></i>
 							Alerts Center
 						</h6>
+						<c:forEach var="resultAlarm" items="${resultAlarm }" varStatus="status">
+							<c:if test="${status.index < 3 }">
+								<a class="dropdown-item dropdown-notifications-item" href="#!">
+									<div class="dropdown-notifications-item-icon bg-warning">
+										<i data-feather="activity"></i>
+									</div>
+									<div class="dropdown-notifications-item-content">
+										<div class="dropdown-notifications-item-content-details">${resultAlarm.ALARM_SEND_TIME }</div>
+										<div class="dropdown-notifications-item-content-text">${resultAlarm.ALARM_DESC }</div>
+									</div>
+								</a>
+							</c:if>
+						</c:forEach>
+						
 						<a class="dropdown-item dropdown-notifications-item" href="#!">
 							<div class="dropdown-notifications-item-icon bg-warning">
 								<i data-feather="activity"></i>

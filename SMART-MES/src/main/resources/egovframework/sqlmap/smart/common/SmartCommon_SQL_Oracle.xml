@@ -5,15 +5,12 @@
 
 	<parameterMap id="paramMapAlarmList" class="java.util.HashMap">
 		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
-		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
-		<parameter property="startDateField" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
-		<parameter property="endDateField" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>
 	
 	<procedure id="getAlarmList" parameterMap="paramMapAlarmList" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
-        	{call SPC_Q_COMMON.getAlarmList_Pro(?, ?, ?, ?, ?)}
+        	{call PKG_Q_COMMON.getAlarmList_Pro(?, ?)}
         ]]>
 	</procedure>
 	

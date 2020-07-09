@@ -284,7 +284,7 @@
 							</div>
 						</div>
 					</div>
-					 <div class="container-fluid mt-n10">
+					 <div class="container-fluid mt-n10" style="overflow-x: auto;">
 		                <!-- container 시작 -->
 						<form name="dataForm" method="post">
 							<input type="hidden" name="actiontype">
@@ -517,16 +517,16 @@
 		                                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 		                                        <tbody>
 		                                            <tr>
-														<td class="card-header">ACTIVE_FLAG</td>
-														<td align="left" style="padding-left:10px;">
+														<td class="card-header" style="height:85px;">ACTIVE_FLAG</td>
+														<td align="left" style="padding-left:10px;height:85px;">
 															. 경광등 색상별 가동,에러,재품카운트 FLAG를 설정<br>
 															. LEVEL2 : 색상<br>
 															. LEVEL3 : RUNNING - 가동상태, ERROR - 에러상태, PRODUCT - 제품생산 카운트
 														</td>
 													</tr>
 													<tr>
-														<td class="card-header">EQP_PART</td>
-														<td align="left" style="padding-left:10px;">
+														<td class="card-header" style="height:125px;">EQP_PART</td>
+														<td align="left" style="padding-left:10px;height:125px;">
 															. 설비 그룹별 지정 정보<br>
 															. LEVEL2 : 설비 그룹명 <br>
 															. LEVEL3 : 그룹별 설비명<br>
@@ -535,14 +535,14 @@
 														</td>
 													</tr>
 													<tr>
-														<td class="card-header">FILE_LOCATE</td>
-														<td align="left" style="padding-left:10px;">
+														<td class="card-header" style="height:45px;">FILE_LOCATE</td>
+														<td align="left" style="padding-left:10px;height:45px;">
 															. 설비상태 LOG파일 경로(예: "D:\eqpmanager")
 														</td>
 													</tr>
 													<tr>
-														<td class="card-header">LAMP_LEVEL</td>
-														<td align="left" style="padding-left:10px;">
+														<td class="card-header" style="height:105px;">LAMP_LEVEL</td>
+														<td align="left" style="padding-left:10px;height:105px;">
 															. 설비상태 화면의 경광등 단수 설정(3,4,5 중에 한 숫자만 등록 해야 함)<br>
 															. 3 : RED, AMBER, GREEN<br>
 															. 4 : RED, AMBER, GREEN, BLUE<br>
@@ -550,22 +550,22 @@
 														</td>
 													</tr>
 													<tr>
-														<td class="card-header">LOG_FILE_SAVE_DAY</td>
-														<td align="left" style="padding-left:10px;">
+														<td class="card-header" style="height:45px;">LOG_FILE_SAVE_DAY</td>
+														<td align="left" style="padding-left:10px;height:45px;">
 															. 로그 파일 저장 기간 설정(일수, 정수로만 입력 해야 함)
 														</td>
 													</tr>
 													<tr>
-														<td class="card-header">MONITORING_TIME</td>
-														<td align="left" style="padding-left:10px;">
+														<td class="card-header" style="height:85px;">MONITORING_TIME</td>
+														<td align="left" style="padding-left:10px;height:85px;">
 															. 설비상태 모니터링 Reload Time(단위:초)<br>
 															. LEVEL2 : 재조회 시간 선택 리스트(정수로만 입력 해야 함) <br>
 															. LEVEL3 : "default" 입력시 해당 시간으로 기본 셋팅
 														</td>
 													</tr>
 													<tr>
-														<td class="card-header">STANDARD_HOUR</td>
-														<td align="left" style="padding-left:10px;">
+														<td class="card-header" style="height:45px;">STANDARD_HOUR</td>
+														<td align="left" style="padding-left:10px;height:45px;">
 															. 설비가동율 계산시 기준이 되는 일 최대 가동시간 기준(정수로만 입력 해야 함)
 														</td>
 													</tr>

@@ -50,6 +50,12 @@ public class SmartCommonController {
 			model.addAttribute("username", loginVO.getName());
 			model.addAttribute("useremail", loginVO.getEmail());
 			
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);			
+			
 		} catch(Exception e) {
 			logger.error("[/smart/common/SmartDashBoard.do] Exception :: " + e.toString());
 		}
@@ -158,55 +164,6 @@ public class SmartCommonController {
     	
 		return "smart/common/SmartBasicDataResult";
 	}
-	
-	
-	//화면 우측 상단의 알림 리스트 가져오기
-	@RequestMapping("/smart/common/SmartAlarm.do")
-    public String SmartAlarm(
-    		ModelMap model
-    		)throws Exception {
-
-		return "smart/common/SmartAlarm";
-    }
-		
-	
-	//화면 우측 상단의 알림 리스트 가져오기
-	@RequestMapping("/smart/common/SmartAlarmList.do")
-    public String SmartAlarmList(
-    		@RequestParam(value="gubun", required=false) String gubun,
-    		@RequestParam(value="startDateField", required=false) String startDateField,
-    		@RequestParam(value="endDateField", required=false) String endDateField,
-    		ModelMap model
-    		)throws Exception {
-
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		
-    	if(!isAuthenticated) {
-    		model.addAttribute("sessionmessage", "session expire");
-    		return "uat/uia/EgovLoginUsr";
-    	}
-    	
-		try{
-			
-			LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-			
-			HashMap<String,String> hp = new HashMap<String,String>();
-			hp.put("userid", loginVO.getId());
-			hp.put("gubun", gubun);
-			hp.put("startDateField", startDateField);
-			hp.put("endDateField", endDateField);
-			
-			List<HashMap> result = SmartCommonDAO.commonDataProc("getAlarmList",hp);
-			
-			model.addAttribute("result", result);
-		}
-		catch(Exception e){
-			logger.error("[/smart/common/SmartAlarmList.do] Exception :: " + e.toString());
-		}
-		
-		return "smart/common/SmartAlarmList";
-    }
-	
 	
 	
 	//알림 확인 처리
