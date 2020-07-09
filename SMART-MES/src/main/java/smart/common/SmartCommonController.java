@@ -47,6 +47,7 @@ public class SmartCommonController {
 			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 			
 			model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
 			model.addAttribute("useremail", loginVO.getEmail());
 			
 		} catch(Exception e) {
@@ -68,15 +69,18 @@ public class SmartCommonController {
     	try {
     		
         	LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-        	
+			
         	HashMap<String,String> hp = new HashMap<String,String>();
     		hp.put("userid", loginVO.getId());
     		
     		List<HashMap> result = SmartCommonDAO.commonDataProc("selectUserRoleData",hp);
         	model.addAttribute("result", result.get(0).get("AUTHOR_CODE"));
         	
+        	model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
+			model.addAttribute("useremail", loginVO.getEmail());
     	} catch(Exception e) {
-    		e.printStackTrace();
+    		logger.error("[/smart/common/SmartBasicData.do] Exception :: " + e.toString());
     	}
     	return "smart/common/SmartBasicData";
 	}

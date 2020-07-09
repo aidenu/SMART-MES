@@ -1,6 +1,7 @@
 package egovframework.let.sec.rgm.web;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.let.sec.ram.service.AuthorManageVO;
 import egovframework.let.sec.ram.service.EgovAuthorManageService;
 import egovframework.let.sec.rgm.service.AuthorGroup;
@@ -8,6 +9,7 @@ import egovframework.let.sec.rgm.service.AuthorGroupVO;
 import egovframework.let.sec.rgm.service.EgovAuthorGroupService;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 import javax.annotation.Resource;
@@ -84,6 +86,12 @@ public class EgovAuthorGroupController {
         model.addAttribute("authorManageList", authorManageVO.getAuthorManageList());
 
         model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        
+        LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        model.addAttribute("userid", loginVO.getId());
+		model.addAttribute("username", loginVO.getName());
+		model.addAttribute("useremail", loginVO.getEmail());
+		
         return "/sec/rgm/EgovAuthorGroupManage";
     }    
 

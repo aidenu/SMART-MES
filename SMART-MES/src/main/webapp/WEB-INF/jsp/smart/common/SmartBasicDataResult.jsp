@@ -49,35 +49,25 @@
 		//선택한 항목의 하위 항목 화면을 표시한다
 		if(actionlevel == 1)
 		{
-			parent.$("td_img_2").style.visibility = "hidden";
-			parent.$("td_box_2").style.visibility = "hidden";
-			parent.$("td_img_3").style.visibility = "hidden";
-			parent.$("td_box_3").style.visibility = "hidden";
-			parent.$("td_img_4").style.visibility = "hidden";
-			parent.$("td_box_4").style.visibility = "hidden";
-			parent.$("td_img_5").style.visibility = "hidden";
-			parent.$("td_box_5").style.visibility = "hidden";
+			$("#td_box_2").css('visibility', 'hidden');
+			$("#td_box_3").css('visibility', 'hidden');
+			$("#td_box_4").css('visibility', 'hidden');
+			$("#td_box_5").css('visibility', 'hidden');
 		}
 		else if(actionlevel == 2)
 		{
-			parent.$("td_img_3").style.visibility = "hidden";
-			parent.$("td_box_3").style.visibility = "hidden";
-			parent.$("td_img_4").style.visibility = "hidden";
-			parent.$("td_box_4").style.visibility = "hidden";
-			parent.$("td_img_5").style.visibility = "hidden";
-			parent.$("td_box_5").style.visibility = "hidden";
+			$("#td_box_3").css('visibility', 'hidden');
+			$("#td_box_4").css('visibility', 'hidden');
+			$("#td_box_5").css('visibility', 'hidden');
 		}
 		else if(actionlevel == 3)
 		{
-			parent.$("td_img_4").style.visibility = "hidden";
-			parent.$("td_box_4").style.visibility = "hidden";
-			parent.$("td_img_5").style.visibility = "hidden";
-			parent.$("td_box_5").style.visibility = "hidden";
+			$("#td_box_4").css('visibility', 'hidden');
+			$("#td_box_5").css('visibility', 'hidden');
 		}
 		else if(actionlevel == 4)
 		{
-			parent.$("td_img_5").style.visibility = "hidden";
-			parent.$("td_box_5").style.visibility = "hidden";
+			$("#td_box_5").css('visibility', 'hidden');
 		}
 
 </script>

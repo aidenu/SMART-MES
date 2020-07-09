@@ -69,7 +69,7 @@
 						<h6 class="dropdown-header d-flex align-items-center">
 							<img class="dropdown-user-img" src="<c:url value='/'/>images/smart/loginImg.png" />
 							<div class="dropdown-user-details">
-								<div class="dropdown-user-details-name">${userid }</div>
+								<div class="dropdown-user-details-name">${userid }(${username })</div>
 								<div class="dropdown-user-details-email">${useremail }</div>
 							</div>
 						</h6>

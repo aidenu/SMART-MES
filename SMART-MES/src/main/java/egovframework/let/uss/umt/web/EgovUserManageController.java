@@ -21,12 +21,14 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.let.uss.umt.service.EgovUserManageService;
 import egovframework.let.uss.umt.service.UserDefaultVO;
 import egovframework.let.uss.umt.service.UserManageVO;
 import egovframework.let.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import smart.common.SmartCommonDAOImpl;
 
@@ -109,6 +111,11 @@ public class EgovUserManageController {
         vo.setCodeId("COM013");
         model.addAttribute("emplyrSttusCode_result",cmmUseService.selectCmmCodeDetail(vo));//사용자상태코드목록
         
+        LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        model.addAttribute("userid", loginVO.getId());
+		model.addAttribute("username", loginVO.getName());
+		model.addAttribute("useremail", loginVO.getEmail());
+		
         return "cmm/uss/umt/EgovUserManage";
     }
 

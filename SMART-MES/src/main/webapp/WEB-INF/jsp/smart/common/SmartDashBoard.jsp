@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title>DashBoard</title>
+<title><spring:message code="smart.dashboard.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -34,7 +34,7 @@
                             <div class="page-header-content">
                                 <h1 class="page-header-title">
                                     <div class="page-header-icon"><i data-feather="activity"></i></div>
-                                    <span>Dashboard</span>
+                                    <span><spring:message code="smart.dashboard.title" /></span>
                                 </h1>
                                 <div class="page-header-subtitle">Example dashboard overview and content summary</div>
                             </div>
