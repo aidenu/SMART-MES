@@ -74,17 +74,26 @@ public class SmartCommonController {
     	}
     	try {
     		
-        	LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-			
+    		LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
         	HashMap<String,String> hp = new HashMap<String,String>();
+        	//Alarm List, userid/username/email
+        	hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);	
+        	model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
+			model.addAttribute("useremail", loginVO.getEmail());
+			
+			hp = new HashMap<String,String>();
     		hp.put("userid", loginVO.getId());
     		
     		List<HashMap> result = SmartCommonDAO.commonDataProc("selectUserRoleData",hp);
         	model.addAttribute("result", result.get(0).get("AUTHOR_CODE"));
         	
-        	model.addAttribute("userid", loginVO.getId());
-			model.addAttribute("username", loginVO.getName());
-			model.addAttribute("useremail", loginVO.getEmail());
+			
+			
+			
     	} catch(Exception e) {
     		logger.error("[/smart/common/SmartBasicData.do] Exception :: " + e.toString());
     	}
@@ -127,7 +136,7 @@ public class SmartCommonController {
 	
 	
 	@RequestMapping(value = "/smart/common/SmartBasicDataAction.do")
-	public String getSmartBasicDataActionPage(
+	public String SmartBasicDataAction(
 			@RequestParam(value="actiontype", required=false) String actiontype,
     		@RequestParam(value="actionlevel", required=false) String actionlevel,
     		@RequestParam(value="parentid", required=false) String parentid,
@@ -165,6 +174,26 @@ public class SmartCommonController {
 		return "smart/common/SmartBasicDataResult";
 	}
 	
+	
+	@RequestMapping(value="/smart/common/SmartAlarmList.do")
+	public String SmartAlarmList(
+			ModelMap model) throws Exception {
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+        	HashMap<String,String> hp = new HashMap<String,String>();
+        	//Alarm List
+        	hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);	
+			
+		} catch(Exception e) {
+			logger.error("[/smart/common/SmartAlarmList.do] Exception :: " + e.toString());
+		}
+		return "smart/common/SmartAlarmList";
+	}
 	
 	//알림 확인 처리
 	@RequestMapping(value = "/smart/common/SmartAlarmSave.do")

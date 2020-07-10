@@ -6,6 +6,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
+
+<script>
+
+$(document).ready(function() {
+	
+	//Alarm List View
+	$("#btnViewAlarm").click(function() {
+		
+		window.open("<c:url value='/smart/common/SmartAlarmList.do'/>", "alarmListPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1000,height=738");
+		
+	});
+});
+	
+</script>
 
 	<nav class="topnav navbar navbar-expand shadow navbar-light bg-white" id="sidenavAccordion">
 		<a class="navbar-brand d-none d-sm-block" href="<c:url value='/'/>uat/uia/actionMain.do">SMART MES</a>
@@ -17,14 +32,15 @@
 					<a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownAlerts" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<i data-feather="bell"></i>
 					</a>
-					<div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts">
+					<div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" id="alarmdropdown" aria-labelledby="navbarDropdownAlerts">
 						<h6 class="dropdown-header dropdown-notifications-header">
 							<i class="mr-2" data-feather="bell"></i>
 							Alerts Center
 						</h6>
 						<c:forEach var="resultAlarm" items="${resultAlarm }" varStatus="status">
 							<c:if test="${status.index < 3 }">
-								<a class="dropdown-item dropdown-notifications-item" href="#!">
+								<div class="dropdown-item dropdown-notifications-item" href="#!" 
+									data-toggle="tooltip" data-placement="bottom" title="" data-original-title="${resultAlarm.ALARM_DESC }">
 									<div class="dropdown-notifications-item-icon bg-warning">
 										<i data-feather="activity"></i>
 									</div>
@@ -32,47 +48,10 @@
 										<div class="dropdown-notifications-item-content-details">${resultAlarm.ALARM_SEND_TIME }</div>
 										<div class="dropdown-notifications-item-content-text">${resultAlarm.ALARM_DESC }</div>
 									</div>
-								</a>
+								</div>
 							</c:if>
 						</c:forEach>
-						
-						<a class="dropdown-item dropdown-notifications-item" href="#!">
-							<div class="dropdown-notifications-item-icon bg-warning">
-								<i data-feather="activity"></i>
-							</div>
-							<div class="dropdown-notifications-item-content">
-								<div class="dropdown-notifications-item-content-details">December 29, 2019</div>
-								<div class="dropdown-notifications-item-content-text">This is an alert message. It's nothing serious, but it requires your attention.</div>
-							</div>
-						</a>
-						<a class="dropdown-item dropdown-notifications-item" href="#!">
-							<div class="dropdown-notifications-item-icon bg-info">
-								<i data-feather="bar-chart"></i>
-							</div>
-							<div class="dropdown-notifications-item-content">
-								<div class="dropdown-notifications-item-content-details">December 22, 2019</div>
-								<div class="dropdown-notifications-item-content-text">A new monthly report is ready. Click here to view!</div>
-							</div>
-						</a>
-						<a class="dropdown-item dropdown-notifications-item" href="#!">
-							<div class="dropdown-notifications-item-icon bg-danger">
-								<i class="fas fa-exclamation-triangle"></i>
-							</div>
-							<div class="dropdown-notifications-item-content">
-								<div class="dropdown-notifications-item-content-details">December 8, 2019</div>
-								<div class="dropdown-notifications-item-content-text">Critical system failure, systems shutting down.</div>
-							</div>
-						</a>
-						<a class="dropdown-item dropdown-notifications-item" href="#!">
-							<div class="dropdown-notifications-item-icon bg-success">
-								<i data-feather="user-plus"></i>
-							</div>
-							<div class="dropdown-notifications-item-content">
-								<div class="dropdown-notifications-item-content-details">December 2, 2019</div>
-								<div class="dropdown-notifications-item-content-text">New user request. Woody has requested access to the organization.</div>
-							</div>
-						</a>
-						<a class="dropdown-item dropdown-notifications-footer" href="#!">View All Alerts</a>
+						<div class="dropdown-item dropdown-notifications-footer" id="btnViewAlarm">View All Alerts</div>
 					</div>
 				</li>
 				<li class="nav-item dropdown no-caret mr-3 dropdown-user">

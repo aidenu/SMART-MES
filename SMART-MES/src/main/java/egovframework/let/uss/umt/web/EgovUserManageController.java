@@ -83,7 +83,7 @@ public class EgovUserManageController {
      * @throws Exception
      */
     @RequestMapping(value="/uss/umt/user/EgovUserManage.do")
-    public String selectUserList(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO,
+    public String EgovUserManage(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO,
             ModelMap model)
             throws Exception {
         /** EgovPropertyService.sample */
@@ -112,7 +112,13 @@ public class EgovUserManageController {
         model.addAttribute("emplyrSttusCode_result",cmmUseService.selectCmmCodeDetail(vo));//사용자상태코드목록
         
         LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-        model.addAttribute("userid", loginVO.getId());
+    	HashMap<String,String> hp = new HashMap<String,String>();
+    	//Alarm List, userid/username/email
+    	hp = new HashMap<String,String>();
+		hp.put("userid", loginVO.getId());
+		List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+		model.addAttribute("resultAlarm", resultAlarm);	
+    	model.addAttribute("userid", loginVO.getId());
 		model.addAttribute("username", loginVO.getName());
 		model.addAttribute("useremail", loginVO.getEmail());
 		
@@ -128,7 +134,7 @@ public class EgovUserManageController {
      * @throws Exception
      */
     @RequestMapping("/uss/umt/user/EgovUserInsertView.do")
-    public String insertUserView(
+    public String EgovUserInsertView(
             @ModelAttribute("userSearchVO") UserDefaultVO userSearchVO,
             @ModelAttribute("userManageVO") UserManageVO userManageVO,
             Model model
@@ -172,7 +178,7 @@ public class EgovUserManageController {
      * @throws Exception
      */
     @RequestMapping("/uss/umt/user/EgovUserInsert.do")
-    public String insertUser(
+    public String EgovUserInsert(
             @ModelAttribute("userManageVO") UserManageVO userManageVO,
             BindingResult bindingResult,
             Model model

@@ -11,6 +11,11 @@ import egovframework.let.sec.rgm.service.EgovAuthorGroupService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import smart.common.SmartCommonDAO;
+import smart.common.SmartCommonDAOImpl;
+
+import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -55,6 +60,12 @@ public class EgovAuthorGroupController {
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
 
+    LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+	HashMap<String,String> hp = new HashMap<String,String>();;
+    
+    @Resource(name="smartCommonDAO")
+	private SmartCommonDAOImpl SmartCommonDAO;
+    
     /**
 	 * 권한 목록화면 이동
 	 * @return String
@@ -88,7 +99,13 @@ public class EgovAuthorGroupController {
         model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
         
         LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-        model.addAttribute("userid", loginVO.getId());
+    	HashMap<String,String> hp = new HashMap<String,String>();
+    	//Alarm List, userid/username/email
+    	hp = new HashMap<String,String>();
+		hp.put("userid", loginVO.getId());
+		List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+		model.addAttribute("resultAlarm", resultAlarm);	
+    	model.addAttribute("userid", loginVO.getId());
 		model.addAttribute("username", loginVO.getName());
 		model.addAttribute("useremail", loginVO.getEmail());
 		
