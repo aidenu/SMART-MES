@@ -18,21 +18,14 @@
 <script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
+
 <script>
 	
 
 	$(document).ready(function() {
+		
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
-		
-		$.ajax({
-			url : "${pageContext.request.contextPath}/smart/business/SmartBusinessData.do",
-			data : {"startDate" : startDate, "endDate" : endDate},
-			method : "POST",
-			success : function(data) {
-				console.log("STEP2 Success");
-			}
-		});
 		
 		$("#btn_search").click(function() {
 			var startDate = $("#startDate").val();
@@ -53,6 +46,7 @@
 	
 	
 </script>
+
 </head>
 <body class="nav-fixed">
 	<div>
@@ -155,5 +149,23 @@
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smart/date-range-picker.js'/>"></script>
 <script src="<c:url value='/js/smart/datatables.js'/>"></script>
+
+<script>
+	$(document).ready(function() {
+		var startDate = $("#startDate").val();
+		var endDate = $("#endDate").val();
+
+		$.ajax({
+			url : "${pageContext.request.contextPath}/smart/business/SmartBusinessData.do",
+			data : {"startDate" : startDate, "endDate" : endDate},
+			method : "POST",
+			success : function(data) {
+				console.log("STEP2 Success");
+			}
+		});
+		
+	});
+</script>
+
 </body>
 </html>
