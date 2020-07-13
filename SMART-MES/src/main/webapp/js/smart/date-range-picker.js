@@ -3,12 +3,14 @@ $(function () {
     var end = moment();
 
     function cb(start, end) {
-        $("#searchdate span").html(
-            start.format("YYYY-MM-DD") + " - " + end.format("YYYY-MM-DD")
+        $("#dateRange span").html(
+            start.format("YYYY-MM-DD") + " ~ " + end.format("YYYY-MM-DD")
         );
+        $("#startDate").val(start.format("YYYY-MM-DD"));
+        $("#endDate").val(end.format("YYYY-MM-DD"));
     }
 
-    $("#searchdate").daterangepicker(
+    $("#dateRange").daterangepicker(
         {
             startDate: start,
             endDate: end,

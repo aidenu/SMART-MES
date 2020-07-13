@@ -182,6 +182,5 @@ function fnInsert()
 <script src="<c:url value='/js/smartscripts.js'/>"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-<%-- <script src="<c:url value='/assets/demo/datatables-demo.js'/>"></script> --%>
 </body>
 </html>

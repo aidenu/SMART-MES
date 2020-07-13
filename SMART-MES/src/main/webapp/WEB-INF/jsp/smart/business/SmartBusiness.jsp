@@ -13,11 +13,46 @@
 <title><spring:message code="smart.business.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
+<link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
 <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+<script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
+<script>
+	
 
-
+	$(document).ready(function() {
+		var startDate = $("#startDate").val();
+		var endDate = $("#endDate").val();
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/smart/business/SmartBusinessData.do",
+			data : {"startDate" : startDate, "endDate" : endDate},
+			method : "POST",
+			success : function(data) {
+				console.log("STEP2 Success");
+			}
+		});
+		
+		$("#btn_search").click(function() {
+			var startDate = $("#startDate").val();
+			var endDate = $("#endDate").val();
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessData.do",
+				data : {"startDate" : startDate, "endDate" : endDate},
+				method : "POST",
+				success : function(data) {
+					console.log("STEP2 Success");
+				}
+			});
+			
+		});
+		
+	});
+	
+	
+</script>
 </head>
 <body class="nav-fixed">
 	<div>
@@ -43,12 +78,17 @@
 					<form name="listForm" method="post">
 						<div class="card mb-4">
 							<div class="card-header">
-								<div class="btn btn-light btn-sm line-height-normal p-3" id="reportrange">
+								<div class="btn btn-light btn-sm line-height-normal p-3" id="dateRange">
 								    <i class="mr-2 text-primary" data-feather="calendar"></i>
 								    <span></span>
+								    <input type="hidden" name="startDate" id="startDate">
+								    <input type="hidden" name="endDate" id="endDate">
 								    <i class="ml-1" data-feather="chevron-down"></i>
 								</div>
-								<div class="btn btn-outline-primary" onclick="addUser()">Add</div>
+								&nbsp;
+								<div class="btn btn-outline-primary" id="btn_search">조회</div>
+								&nbsp;
+								<div class="btn btn-outline-primary" onclick="btn_add">Add</div>
 							</div>
 							<div class="card-body">
 								<div class="datatable table-responsive">
@@ -105,13 +145,15 @@
 			</footer>
 		</div>
 	</div>
-<script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smartscripts.js'/>"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" crossorigin="anonymous"></script>
-<script src="<c:url value='/assets/demo/date-range-picker-demo.js'/>"></script>
+<script src="<c:url value='/js/smart/date-range-picker.js'/>"></script>
+<script src="<c:url value='/js/smart/datatables.js'/>"></script>
 </body>
 </html>
