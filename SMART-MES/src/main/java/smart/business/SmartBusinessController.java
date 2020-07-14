@@ -64,7 +64,18 @@ public class SmartBusinessController {
 			@RequestParam(value="endDate", required=false) String endDate,
 			ModelMap model) throws Exception {
 		
-		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("startDate", startDate);
+			hp.put("endDate", endDate);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getBusinessData", hp);
+			model.addAttribute("result", result);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/business/SmartBusinessData.do] Exception :: " + e.toString());
+		}
 		
 		return "smart/business/SmartBusiness";
 	}
