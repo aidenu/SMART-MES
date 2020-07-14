@@ -73,11 +73,12 @@ public class SmartBusinessController {
 			List<HashMap> result = SmartCommonDAO.commonDataProc("getBusinessData", hp);
 			model.addAttribute("result", result);
 			
+			System.out.println(result);
 		} catch(Exception e) {
 			logger.error("[/smart/business/SmartBusinessData.do] Exception :: " + e.toString());
 		}
 		
-		return "smart/business/SmartBusiness";
+		return "smart/business/SmartBusinessData";
 	}
 	
 }

@@ -31,14 +31,9 @@
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
 			
-			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessData.do",
-				data : {"startDate" : startDate, "endDate" : endDate},
-				method : "POST",
-				success : function(data) {
-					console.log("STEP2 Success");
-				}
-			});
+			document.dataForm.action="${pageContext.request.contextPath}/smart/business/SmartBusinessData.do";
+			document.dataForm.target = "dataFrame";
+			document.dataForm.submit();
 			
 		});
 		
@@ -69,7 +64,7 @@
 					</div>
 				</div>
 				<div class="container-fluid mt-n10">
-					<form name="listForm" method="post">
+					<form name="dataForm" method="post">
 						<div class="card mb-4">
 							<div class="card-header">
 								<div class="btn btn-light btn-sm line-height-normal p-3" id="dateRange">
@@ -107,21 +102,15 @@
 												<th>Detail</th>
 											</tr>
 	                                    </tfoot>
-	                                    <tbody>
-	                                    	<c:forEach var="result" items="${resultList}" varStatus="status">
-	                                    		<tr>
-	                                    			<td><c:out value="${result.MODEL_NO}"/></td>
-	                                    			<td><c:out value="${result.PRODUCT_NO}"/></td>
-	                                    			<td><c:out value="${result.PRODUCT_NAME}"/></td>
-	                                    			<td><c:out value="${result.ORDER_DATE}"/></td>
-	                                    			<td><c:out value="${result.DUE_DATE}"/></td>
-	                                    			<td>
-	                                    				<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="${result.MODEL_ID }_detail">
-	                                    					<i data-feather="edit"></i>
-	                                    				</div>
-	                                    			</td>
-	                                    		</tr>
-	                                    	</c:forEach>
+	                                    <tbody id="data_table_tbody">
+                                    		<tr>
+                                    			<td></td>
+                                    			<td></td>
+                                    			<td></td>
+                                    			<td></td>
+                                    			<td></td>
+                                    			<td>	</td>
+                                    		</tr>
 	                                    </tbody>
 									</table>
 								</div>
@@ -139,6 +128,9 @@
 			</footer>
 		</div>
 	</div>
+	
+<iframe name="dataFrame" width="0" height="0" style="visibility:hidden"></iframe>
+	
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smartscripts.js'/>"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
@@ -155,16 +147,11 @@
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
 
-		$.ajax({
-			url : "${pageContext.request.contextPath}/smart/business/SmartBusinessData.do",
-			data : {"startDate" : startDate, "endDate" : endDate},
-			method : "POST",
-			success : function(data) {
-				console.log("STEP2 Success");
-			}
-		});
-		
+		document.dataForm.action="${pageContext.request.contextPath}/smart/business/SmartBusinessData.do";
+		document.dataForm.target = "dataFrame";
+		document.dataForm.submit();
 	});
+		
 </script>
 
 </body>
