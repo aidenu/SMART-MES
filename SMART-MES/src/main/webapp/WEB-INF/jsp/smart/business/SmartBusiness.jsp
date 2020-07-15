@@ -27,19 +27,64 @@
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
 		
+		/**
+			. 조회 버튼 클릭
+			. parameter
+			   - startDate
+			   - endDate
+		*/
 		$("#btn_search").click(function() {
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
 			
-			document.dataForm.action="${pageContext.request.contextPath}/smart/business/SmartBusinessData.do";
-			document.dataForm.target = "dataFrame";
-			document.dataForm.submit();
+			$.ajax({
+				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessData.do",
+				data : {"startDate":startDate, "endDate":endDate},
+				type : "POST",
+				datatype : "json",
+				success : function(data) {
+					$('#dataTable').dataTable().fnClearTable();
+					$('#dataTable').dataTable().fnDestroy();
+					
+// 					$("#data_table_tbody").empty();
+					
+					$.each(data, function(index, value){
+						var strHtml = "";
+						
+						strHtml += "<tr>";
+						strHtml += "	<td>"+value.MODEL_NO+"</td>";
+						strHtml += "	<td>"+value.PRODUCT_NO+"</td>";
+						strHtml += "	<td>"+value.PRODUCT_NAME+"</td>";
+						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
+						strHtml += "	<td>"+value.DUE_DATE+"</td>";
+						strHtml += "	<td>";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail' onclick='viewDetail(\""+value.MODEL_ID+"\")'>";
+						strHtml += "			<i data-feather='edit'></i>";
+						strHtml += "		</div>";
+						strHtml += "	</td>";
+						strHtml += "</tr>";
+						$("#data_table_tbody").append(strHtml);
+					});	//$.each
+					
+					$('#dataTable').DataTable();	//jquery dataTable Plugin reload
+					feather.replace();	//data-feather reload
+				}	//success
+			});	//$.ajax
 			
-		});
+		});	//$("#btn_search").click
+		
 		
 	});
 	
-	
+
+	/**
+		. Detail 버튼 클릭
+		. parameter
+		  - modelid
+	*/
+	function viewDetail(modelid) {
+		console.log(modelid);
+	}
 </script>
 
 </head>
@@ -103,14 +148,14 @@
 											</tr>
 	                                    </tfoot>
 	                                    <tbody id="data_table_tbody">
-                                    		<tr>
-                                    			<td></td>
-                                    			<td></td>
-                                    			<td></td>
-                                    			<td></td>
-                                    			<td></td>
-                                    			<td>	</td>
-                                    		</tr>
+	                                    	<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
 	                                    </tbody>
 									</table>
 								</div>
@@ -140,18 +185,11 @@
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smart/date-range-picker.js'/>"></script>
-<script src="<c:url value='/js/smart/datatables.js'/>"></script>
 
 <script>
 	$(document).ready(function() {
-		var startDate = $("#startDate").val();
-		var endDate = $("#endDate").val();
-
-		document.dataForm.action="${pageContext.request.contextPath}/smart/business/SmartBusinessData.do";
-		document.dataForm.target = "dataFrame";
-		document.dataForm.submit();
-	});
-		
+		$("#btn_search").trigger("click");
+	})
 </script>
 
 </body>
