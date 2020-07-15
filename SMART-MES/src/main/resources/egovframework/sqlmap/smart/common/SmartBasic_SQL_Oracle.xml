@@ -4,6 +4,16 @@
 <sqlMap namespace="SmartBasicData">
 
 	
+	<parameterMap id="paramMapUserList" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="getUserList" parameterMap="paramMapUserList" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_BASIC.getUserList_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
 	<resultMap id="roleDataList" class="java.util.HashMap">
 		<result property="AUTHOR_CODE" column="AUTHOR_CODE" />
 	</resultMap>
@@ -15,7 +25,7 @@
 	
 	<procedure id="selectUserRoleData" parameterMap="paramMapRoleData" resultMap="roleDataList">
 		<![CDATA[
-        	{call SPC_Q_BASIC_DATA.getUserRoleData_Pro(?, ?)}
+        	{call PKG_Q_BASIC.getUserRoleData_Pro(?, ?)}
         ]]>
 	</procedure>
 	
@@ -36,7 +46,7 @@
 	
 	<procedure id="selectBasicDataList" parameterMap="paramMapBasicData" resultMap="basicDataList">
 		<![CDATA[
-        	{call SPC_Q_BASIC_DATA.getBasicDataList_Pro(?, ?, ?)}
+        	{call PKG_Q_BASIC.getBasicDataList_Pro(?, ?, ?)}
         ]]>
 	</procedure>
 	
@@ -58,7 +68,7 @@
 	
 	<procedure id="updateBasicDataList" parameterMap="paramMapBasicDataAction" resultMap="basicDataResult">
 		<![CDATA[
-        	{call SPC_Q_BASIC_DATA.setBasicData_Pro(?, ?, ?, ?, ?, ?, ?)}
+        	{call PKG_Q_BASIC.setBasicData_Pro(?, ?, ?, ?, ?, ?, ?)}
         ]]>
 	</procedure>
 	
@@ -76,7 +86,7 @@
 	
 	<procedure id="getProcessName" parameterMap="paramMapProcessName" resultMap="basicProcessName">
 		<![CDATA[
-        	{call SPC_Q_BASIC_DATA.getProcessName_Pro(?, ?)}
+        	{call PKG_Q_BASIC.getProcessName_Pro(?, ?)}
         ]]>
 	</procedure>
 	
@@ -93,7 +103,7 @@
 	
 	<procedure id="setInsertUser" parameterMap="paramMapInsertUser" resultMap="insertUserResult">
 		<![CDATA[
-        	{call SPC_Q_BASIC_DATA.setInsertUser_Pro(?, ?)}
+        	{call PKG_Q_BASIC.setInsertUser_Pro(?, ?)}
         ]]>
 	</procedure>
 	
@@ -107,7 +117,7 @@
 	
 	<procedure id="getBasicAttachLocation" parameterMap="paramBasicAttachLocation" resultMap="basicAttachLocation">
 		<![CDATA[
-        	{call SPC_Q_BASIC_DATA.getBasicAttachLocation_Pro(?)}
+        	{call PKG_Q_BASIC.getBasicAttachLocation_Pro(?)}
         ]]>
 	</procedure>
 	

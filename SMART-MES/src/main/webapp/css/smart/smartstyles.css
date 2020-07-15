@@ -1938,8 +1938,8 @@ pre code {
 }
 .table th,
 .table td {
-  padding: 0.75rem;
-  vertical-align: top;
+  padding: 0.5rem;
+  vertical-align: middle;
   border-top: 1px solid #e3e6ec;
 }
 .table thead th {

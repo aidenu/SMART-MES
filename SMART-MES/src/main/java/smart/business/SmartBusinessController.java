@@ -85,4 +85,25 @@ public class SmartBusinessController {
 		return result;
 	}
 	
+	
+	@RequestMapping("/smart/business/SmartBusinessInsertView.do")
+	public String SmartBusinessInsertView(
+			ModelMap model) throws Exception {
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			List<HashMap> resultUser = SmartCommonDAO.commonDataProc("getUserList");
+			model.addAttribute("resultUser", resultUser);
+			
+			model.addAttribute("userid", loginVO.getId());
+			
+		} catch(Exception e) {
+			logger.error("[/smart/business/SmartBusinessInsertView.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/business/SmartBusinessInsertView";
+	}
+	
 }

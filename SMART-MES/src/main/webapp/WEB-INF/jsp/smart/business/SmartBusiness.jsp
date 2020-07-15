@@ -46,8 +46,6 @@
 					$('#dataTable').dataTable().fnClearTable();
 					$('#dataTable').dataTable().fnDestroy();
 					
-// 					$("#data_table_tbody").empty();
-					
 					$.each(data, function(index, value){
 						var strHtml = "";
 						
@@ -72,6 +70,16 @@
 			});	//$.ajax
 			
 		});	//$("#btn_search").click
+		
+		
+		/**
+			. 추가 버튼 클릭
+			. parameter : none
+		*/
+		$("#btn_add").click(function() {
+			window.open("<c:url value='/smart/business/SmartBusinessInsertView.do'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1100,height=400");
+		});
+		
 		
 		
 	});
@@ -122,7 +130,7 @@
 								&nbsp;
 								<div class="btn btn-outline-primary" id="btn_search">조회</div>
 								&nbsp;
-								<div class="btn btn-outline-primary" onclick="btn_add">Add</div>
+								<div class="btn btn-outline-primary" id="btn_add">Add</div>
 							</div>
 							<div class="card-body">
 								<div class="datatable table-responsive">
