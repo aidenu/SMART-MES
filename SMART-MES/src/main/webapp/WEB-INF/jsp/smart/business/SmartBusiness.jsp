@@ -77,10 +77,8 @@
 			. parameter : none
 		*/
 		$("#btn_add").click(function() {
-			window.open("<c:url value='/smart/business/SmartBusinessInsertView.do'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1100,height=400");
+			window.open("<c:url value='/smart/business/SmartBusinessView.do?gubun=add'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1100,height=400");
 		});
-		
-		
 		
 	});
 	
@@ -91,7 +89,7 @@
 		  - modelid
 	*/
 	function viewDetail(modelid) {
-		console.log(modelid);
+		window.open("<c:url value='/smart/business/SmartBusinessView.do?gubun=update&modelid="+modelid+"'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1100,height=400");
 	}
 </script>
 

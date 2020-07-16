@@ -119,7 +119,11 @@ function fnInsert()
 		<div class="card card-header-actions">
 		    <div class="card-header">
 		    	Add User
-		    	<div class="btn btn-primary btn-sm" onclick="fnInsert()">Add</div>
+		    	<div>
+		    		<div class="btn btn-primary btn-sm" onclick="fnInsert()">Add</div>
+		    		&nbsp;
+		    		<div class="btn btn-primary btn-sm" onclick="self.close()">Close</div>
+		    	</div>
 		    </div>
 		    <div class="card-body">
 		    	<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">

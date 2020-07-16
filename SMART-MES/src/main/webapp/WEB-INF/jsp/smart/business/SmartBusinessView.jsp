@@ -35,7 +35,16 @@
 		
 		//Add Button
 		$("#btn_add").click(function() {
-			
+			document.dataForm.action="${pageContext.request.contextPath}/smart/business/SmartBusinessSave.do?gubun=add";
+			document.dataForm.target = "hiddenFrame";
+			document.dataForm.submit();
+		});
+		
+		//Update Button
+		$("#btn_update").click(function() {
+			document.dataForm.action="${pageContext.request.contextPath}/smart/business/SmartBusinessSave.do?gubun=update";
+			document.dataForm.target = "hiddenFrame";
+			document.dataForm.submit();
 		});
 		
 	});
@@ -45,11 +54,19 @@
 <body class="nav-fixed">
 
 	<form name="dataForm" method="post" >
+		<input type="hidden" name="modelid" id="modelid">
 		<div class="card card-header-actions">
 		    <div class="card-header">
 		    	Add Model
 		    	<div>
-			    	<div class="btn btn-primary btn-sm" id="btn_add">Add</div>
+		    		<c:choose>
+		    			<c:when test="${gubun == 'add' }">
+		    				<div class="btn btn-primary btn-sm" id="btn_add">Add</div>
+		    			</c:when>
+		    			<c:otherwise>
+		    				<div class="btn btn-primary btn-sm" id="btn_update">Update</div>
+		    			</c:otherwise>
+		    		</c:choose>
 			    	&nbsp;
 			    	<div class="btn btn-primary btn-sm" id="btn_close">Close</div>
 		    	</div>
@@ -100,7 +117,7 @@
 		    				<td>
 		    					<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivorderdate">
 								    <i class="mr-2 text-primary" data-feather="calendar"></i>
-								    <span></span>
+								    <span>${ORDER_DATE }</span>
 								    <input type="hidden" name="orderdate" id="orderdate">
 								    <i class="ml-1" data-feather="chevron-down"></i>
 								</div>
@@ -109,7 +126,7 @@
 		    				<td>
 		    					<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivduedate">
 								    <i class="mr-2 text-primary" data-feather="calendar"></i>
-								    <span></span>
+								    <span>${DUE_DATE }</span>
 								    <input type="hidden" name="duedate" id="duedate">
 								    <i class="ml-1" data-feather="chevron-down"></i>
 								</div>
@@ -123,7 +140,7 @@
 			    						<option value=""> -- Select -- </option>
 		    							<c:forEach var="resultUser" items="${resultUser }" varStatus="status">
 		    								<c:if test="${resultUser.AUTHOR_CODE == 'ROLE_USER_CAD'}">
-		    									<option value="${resultUser.USER_ID }" <c:if test="${resultUser.USER_ID == userid }">selected</c:if>>${resultUser.USER_NM }</option>
+		    									<option value="${resultUser.USER_ID }">${resultUser.USER_NM }</option>
 		    								</c:if>
 		    							</c:forEach>
 		    						</select>
@@ -136,7 +153,7 @@
 			    						<option value=""> -- Select -- </option>
 		    							<c:forEach var="resultUser" items="${resultUser }" varStatus="status">
 		    								<c:if test="${resultUser.AUTHOR_CODE == 'ROLE_USER_CAD'}">
-		    									<option value="${resultUser.USER_ID }" <c:if test="${resultUser.USER_ID == userid }">selected</c:if>>${resultUser.USER_NM }</option>
+		    									<option value="${resultUser.USER_ID }">${resultUser.USER_NM }</option>
 		    								</c:if>
 		    							</c:forEach>
 		    						</select>
@@ -155,5 +172,34 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="<c:url value='/js/smart/date-range-picker.js'/>"></script>
+
+<script>
+
+	$(document).ready(function() {
+		
+		if("${gubun}" == "update") {
+			$("#modelid").val("${MODEL_ID}");
+			$("#modelno").val("${MODEL_NO}");
+			$("#productno").val("${PRODUCT_NO}");
+			$("#productname").val("${PRODUCT_NAME}");
+			
+			$("#productgroup").val("${PRODUCT_GROUP}");
+			$("#vendor").val("${VENDOR}");
+			$("#businessworker").val("${BUSINESS_WORKER}");
+
+			$("#singleDateDivorderdate span").html("${ORDER_DATE}");
+			$("#orderdate").val("${ORDER_DATE}");
+			$("#singleDateDivduedate span").html("${DUE_DATE}");
+			$("#duedate").val("${DUE_DATE}");
+
+			$("#cadworker").val("${CAD_WORKER}");
+			$("#assemblyworker").val("${ASSEMBLY_WORKER}");
+			
+		}
+		
+	});
+	
+</script>
+<iframe name="hiddenFrame" width="0" height="0" style="visibility:hidden"></iframe>
 </body>
 </html>

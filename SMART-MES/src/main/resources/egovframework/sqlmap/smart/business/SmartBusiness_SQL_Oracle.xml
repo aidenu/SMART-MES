@@ -3,17 +3,52 @@
 
 <sqlMap namespace="SmartBusiness">
 
-	<parameterMap id="paramMapAlarmList" class="java.util.HashMap">
+	<parameterMap id="paramMapBusinessData" class="java.util.HashMap">
 		<parameter property="startDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="endDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>
 	
-	<procedure id="getBusinessData" parameterMap="paramMapAlarmList" resultClass="java.util.HashMap" remapResults="true">
+	<procedure id="getBusinessData" parameterMap="paramMapBusinessData" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
         	{call PKG_Q_BUSINESS.getBusinessData_Pro(?, ?, ?)}
         ]]>
 	</procedure>
 	
+	
+	
+	<parameterMap id="paramMapBusinessViewData" class="java.util.HashMap">
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getBusinessViewData" parameterMap="paramMapBusinessViewData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_BUSINESS.getBusinessViewData_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapBusinessDataSave" class="java.util.HashMap">
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelno" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="productno" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="productname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="productgroup" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="vendor" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="businessworker" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="orderdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="duedate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="cadworker" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="assemblyworker" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setBusinessDataSave" parameterMap="paramMapBusinessDataSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_BUSINESS.setBusinessDataSave_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
 	
 </sqlMap>
