@@ -4,16 +4,6 @@
 <sqlMap namespace="SmartBasicData">
 
 	
-	<parameterMap id="paramMapUserList" class="java.util.HashMap">
-		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
-	</parameterMap>
-	<procedure id="getUserList" parameterMap="paramMapUserList" resultClass="java.util.HashMap" remapResults="true">
-		<![CDATA[
-        	{call PKG_Q_BASIC.getUserList_Pro(?)}
-        ]]>
-	</procedure>
-	
-	
 	<resultMap id="roleDataList" class="java.util.HashMap">
 		<result property="AUTHOR_CODE" column="AUTHOR_CODE" />
 	</resultMap>

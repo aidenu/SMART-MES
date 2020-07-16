@@ -14,17 +14,24 @@
         ]]>
 	</procedure>
 	
-	<parameterMap id="paramMapAlarmSave" class="java.util.HashMap">
-		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
-		<parameter property="arrayid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+	<parameterMap id="paramMapUserList" class="java.util.HashMap">
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>
-	
-	<procedure id="setAlarmSave" parameterMap="paramMapAlarmSave" resultClass="java.util.HashMap" remapResults="true">
+	<procedure id="getUserList" parameterMap="paramMapUserList" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
-        	{call SPC_Q_COMMON.setAlarmSave_Pro(?, ?, ?)}
+        	{call PKG_Q_COMMON.getUserList_Pro(?)}
         ]]>
 	</procedure>
+	
+	<parameterMap id="paramMapBasicData" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="getBasicData" parameterMap="paramMapBasicData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_COMMON.getBasicData_Pro(?)}
+        ]]>
+	</procedure>
+	
 	
 	
 	<parameterMap id="paramMapLogInfoListTotalCnt" class="java.util.HashMap">

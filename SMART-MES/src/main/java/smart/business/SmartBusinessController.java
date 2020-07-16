@@ -97,6 +97,9 @@ public class SmartBusinessController {
 			List<HashMap> resultUser = SmartCommonDAO.commonDataProc("getUserList");
 			model.addAttribute("resultUser", resultUser);
 			
+			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getBasicData");
+			model.addAttribute("resultBasic", resultBasic);
+			
 			model.addAttribute("userid", loginVO.getId());
 			
 		} catch(Exception e) {

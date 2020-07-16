@@ -20,11 +20,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
 <style>
-	input {
-		height:70% !important;
-	}
-	select {
-		height:70% !important;
+	#dataTable > td {
+		height: 60px !important;
 	}
 </style>
 <script>
@@ -34,6 +31,11 @@
 		//Close Button
 		$("#btn_close").click(function() {
 			self.close();
+		});
+		
+		//Add Button
+		$("#btn_add").click(function() {
+			
 		});
 		
 	});
@@ -67,7 +69,18 @@
 			    			<td class="card-header"><spring:message code="smart.business.productgroup" /></td>
 			    			<td><input class="form-control" id="productgroup" name="productgroup" placeholder="<spring:message code="smart.business.productgroup" />"></td>
 			    			<td class="card-header"><spring:message code="smart.business.vendor" /></td>
-			    			<td><input class="form-control" id="vendor" name="vendor" placeholder="<spring:message code="smart.business.vendor" />"></td>
+			    			<td>
+			    				<div class="form-group" style="margin-bottom: 0px;">
+			    					<select class="form-control form-control-solid" id="vendor" name="vendor">
+			    						<option value=""> -- Select -- </option>
+		    							<c:forEach var="resultBasic" items="${resultBasic }" varStatus="status">
+		    								<c:if test="${resultBasic.KEY == 'VENDOR'}">
+		    									<option value="${resultBasic.VALUE }">${resultBasic.VALUE }</option>
+		    								</c:if>
+		    							</c:forEach>
+		    						</select>
+		    					</div>	
+			    			</td>
 			    			<td class="card-header"><spring:message code="smart.business.businessworker" /></td>
 			    			<td>
 			    				<div class="form-group" style="margin-bottom: 0px;">
@@ -85,7 +98,7 @@
 			    		<tr>
 							<td class="card-header"><spring:message code="smart.business.orderdate" /></td>
 		    				<td>
-		    					<div class="btn btn-light btn-sm line-height-normal p-3" id="singleDate_orderdate">
+		    					<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivorderdate">
 								    <i class="mr-2 text-primary" data-feather="calendar"></i>
 								    <span></span>
 								    <input type="hidden" name="orderdate" id="orderdate">
@@ -94,7 +107,7 @@
 		    				</td>
 		    				<td class="card-header"><spring:message code="smart.business.duedate" /></td>
 		    				<td>
-		    					<div class="btn btn-light btn-sm line-height-normal p-3" id="singleDate_duedate">
+		    					<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivduedate">
 								    <i class="mr-2 text-primary" data-feather="calendar"></i>
 								    <span></span>
 								    <input type="hidden" name="duedate" id="duedate">
