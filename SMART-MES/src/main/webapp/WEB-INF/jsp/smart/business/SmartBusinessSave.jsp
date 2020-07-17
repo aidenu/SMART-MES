@@ -14,7 +14,7 @@
 			parent.self.close();
 			parent.opener.$("#btn_search").trigger("click");
 		} else if("${actionresult}".indexOf("ERROR")){
-			alert("<spring:message code="smart.common.save.error" /> :: [${actionresult}]");
+			alert("<spring:message code="smart.common.save.error" /> \n [${actionresult}]");
 		}
 
 </script>

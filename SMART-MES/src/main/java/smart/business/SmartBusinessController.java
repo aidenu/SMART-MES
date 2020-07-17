@@ -174,4 +174,30 @@ public class SmartBusinessController {
 		return "smart/business/SmartBusinessSave";
 	}
 	
+	
+	@RequestMapping("/smart/business/SmartBusinessDelete.do")
+	@ResponseBody
+	public String SmartBusinessDelete(
+			@RequestParam(value="modelid", required=false) String modelid,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("modelid", modelid);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setBusinessDelete", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+			
+			
+		} catch(Exception e) {
+			logger.error("[/smart/business/SmartBusinessDelete.do] Exception :: " + e.toString());
+		}
+		return actionresult;
+	}
+	
 }

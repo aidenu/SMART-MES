@@ -59,6 +59,9 @@
 						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail' onclick='viewDetail(\""+value.MODEL_ID+"\")'>";
 						strHtml += "			<i data-feather='edit'></i>";
 						strHtml += "		</div>";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_delete' onclick='delData(\""+value.MODEL_ID+"\")'>";
+						strHtml += "			<i data-feather='trash-2'></i>";
+						strHtml += "		</div>";
 						strHtml += "	</td>";
 						strHtml += "</tr>";
 						$("#data_table_tbody").append(strHtml);
@@ -90,6 +93,34 @@
 	*/
 	function viewDetail(modelid) {
 		window.open("<c:url value='/smart/business/SmartBusinessView.do?gubun=update&modelid="+modelid+"'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1100,height=400");
+	}
+	
+	/**
+		. Delete 버튼 클릭
+		. parameter
+		  - modelid
+	*/
+	function delData(modelid) {
+		
+		if(confirm("<spring:message code="smart.common.delete.is" />")) {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessDelete.do",
+				data : {"modelid":modelid},
+				type : "POST",
+				datatype : "text",
+				success : function(data) {
+					
+					if(data == "OK") {
+						alert("<spring:message code="smart.common.delete.ok" />");
+						$("#btn_search").trigger("click");
+					} else if(data.indexOf("ERROR") > -1) {
+						alert("<spring:message code="smart.common.delete.error" /> \n ["+data+"]");
+					}
+					
+				}	//success
+			});	//$.ajax
+		}	//if(confirm(msg));
+		
 	}
 </script>
 
