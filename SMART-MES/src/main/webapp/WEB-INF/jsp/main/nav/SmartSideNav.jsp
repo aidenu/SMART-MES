@@ -67,13 +67,13 @@
 					<div class="nav-link-icon">
 						<i data-feather="activity"></i>
 					</div>
-					DashBoard
+					대시보드
 				</a>
 				
 				<div class="sidenav-menu-heading">Interface</div>
 				<%-- Header Menu --%>
 				<c:forEach var="result" items="${list_headmenu}" varStatus="status">
-					<c:if test="${result.menuNm != 'DashBoard' }">
+					<c:if test="${result.menuNm != '대시보드' }">
 						<a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#sub_${result.menuNo}" aria-expanded="false" aria-controls="sub_${result.menuNo}">
 							<div class="nav-link-icon">
 								<i data-feather="layout"></i>

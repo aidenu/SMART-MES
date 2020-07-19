@@ -238,17 +238,21 @@
 		</div>
 		<div id="layoutSidenav_content">
 			<main>
-				<div class="page-header pb-10 page-header-dark bg-gradient-primary-to-secondary">
+				<header class="page-header page-header-dark bg-gradient-primary-to-secondary mb-4">
 					<div class="container-fluid">
-						<div class="page-header-content">
-							<h1 class="page-header-title">
-								<div class="page-header-icon"><i data-feather="tool"></i></div>
-									<span><spring:message code="smart.manage.auth.title" /></span>
-							</h1>
+						<div class="page-header-content pt-4">
+							<div class="row align-items-center justify-content-between">
+								<div class="col-auto mt-4">
+									<h1 class="page-header-title">
+										<div class="page-header-icon"><i data-feather="tool"></i></div>
+										<span><spring:message code="smart.manage.auth.title" /></span>
+									</h1>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="container-fluid mt-n10">
+				</header>
+				<div class="container-fluid">
 					<form:form name="listForm" action="<c:url value='/sec/rgm/EgovAuthorGroupList.do'/>" method="post">
 						<input type="hidden" name="userId"/>
 						<input type="hidden" name="userIds"/>
@@ -295,9 +299,9 @@
 												<tr>
 													<td style="text-align: center;">
 														<div class="custom-control custom-checkbox">
-														    <input class="custom-control-input" name="delYn" id="delYn" type="checkbox">
+														    <input class="custom-control-input" name="delYn" id="${authorGroup.uniqId}" type="checkbox">
 														    <input type="hidden" name="checkId" value="<c:out value="${authorGroup.uniqId}"/>"/>
-														    <label class="custom-control-label" for="delYn"></label>
+														    <label class="custom-control-label" for="${authorGroup.uniqId}"></label>
 														</div>
 													</td>
 													<td><c:out value="${authorGroup.userId}"/><input type="hidden" name="mberTyCode" value="${authorGroup.mberTyCode}"/></td>

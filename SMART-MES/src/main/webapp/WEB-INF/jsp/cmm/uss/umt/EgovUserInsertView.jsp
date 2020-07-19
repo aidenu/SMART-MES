@@ -118,11 +118,11 @@ function fnInsert()
 	<form:form commandName="userManageVO" action="${pageContext.request.contextPath}/uss/umt/user/EgovUserInsert.do" name="userManageVO" method="post" >
 		<div class="card card-header-actions">
 		    <div class="card-header">
-		    	Add User
+		    	<spring:message code="smart.manage.user.adduser.title" />
 		    	<div>
-		    		<div class="btn btn-primary btn-sm" onclick="fnInsert()">Add</div>
+		    		<div class="btn btn-primary btn-sm" onclick="fnInsert()"><spring:message code="smart.common.button.add" /></div>
 		    		&nbsp;
-		    		<div class="btn btn-primary btn-sm" onclick="self.close()">Close</div>
+		    		<div class="btn btn-primary btn-sm" onclick="self.close()"><spring:message code="smart.common.button.close" /></div>
 		    	</div>
 		    </div>
 		    <div class="card-body">
@@ -131,18 +131,18 @@ function fnInsert()
 		    			<tr>
 			    			<td class="card-header"><spring:message code="smart.manage.user.item.id" /></td>
 			    			<td>
-			    				<input class="form-control" id="id_view" name="id_view" style="width:60%;display: inherit;" disabled="disabled" placeholder="중복확인으로 등록" readonly>
+			    				<input class="form-control" id="id_view" name="id_view" style="width:60%;display: inherit;" disabled="disabled" placeholder="<spring:message code="smart.manage.user.check.duplicate" />" readonly>
 			    				<form:input path="emplyrId" id="emplyrId" size="20" maxlength="20" cssStyle="display:none" />
 			    				&nbsp;
 			    				<a href="#" class="btn btn-outline-orange btn-sm" onclick="fnIdCheck()"><spring:message code="smart.manage.user.button.id.duplicate" /></a></td>
 			    			<td class="card-header"><spring:message code="smart.manage.user.item.name" /></td>
-			    			<td><input class="form-control" id="emplyrNm" name="emplyrNm" placeholder="Name"></td>
+			    			<td><input class="form-control" id="emplyrNm" name="emplyrNm"></td>
 			    		</tr>
 			    		<tr>
 			    			<td class="card-header"><spring:message code="smart.manage.user.item.passwd" /></td>
-			    			<td><input class="form-control" type="password" id="password" name="password" placeholder="Password"></td>
+			    			<td><input class="form-control" type="password" id="password" name="password"></td>
 			    			<td class="card-header"><spring:message code="smart.manage.user.item.repasswd" /></td>
-			    			<td><input class="form-control" type="password" id="password2" name="password2" placeholder="Password"></td>
+			    			<td><input class="form-control" type="password" id="password2" name="password2"></td>
 			    		</tr>
 			    		<tr>
 			    			<td class="card-header"><spring:message code="smart.manage.user.item.hint" /></td>
@@ -161,13 +161,13 @@ function fnInsert()
 								</div>
 							</td>
 			    			<td class="card-header"><spring:message code="smart.manage.user.item.answer" /></td>
-			    			<td><input class="form-control" id="passwordCnsr" name="passwordCnsr" placeholder="Hint Answer"></td>
+			    			<td><input class="form-control" id="passwordCnsr" name="passwordCnsr"></td>
 			    		</tr>
 			    		<tr>
 			    			<td class="card-header"><spring:message code="smart.manage.user.item.email" /></td>
-			    			<td><input class="form-control" id="emailAdres" name="emailAdres" placeholder="Email Address"></td>
+			    			<td><input class="form-control" id="emailAdres" name="emailAdres"></td>
 			    			<td class="card-header"><spring:message code="smart.manage.user.item.phone" /></td>
-			    			<td><input class="form-control" id="moblphonNo" name="moblphonNo" placeholder="Phone Number"></td>
+			    			<td><input class="form-control" id="moblphonNo" name="moblphonNo"></td>
 			    		</tr>
 		    		</tbody>
 		    	</table>

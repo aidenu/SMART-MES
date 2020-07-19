@@ -274,17 +274,21 @@
 		</div>
             <div id="layoutSidenav_content">
             	<main>
-					<div class="page-header pb-10 page-header-dark bg-gradient-primary-to-secondary">
+            		<header class="page-header page-header-dark bg-gradient-primary-to-secondary mb-4">
 						<div class="container-fluid">
-							<div class="page-header-content">
-								<h1 class="page-header-title">
-									<div class="page-header-icon"><i data-feather="tool"></i></div>
-									<span><spring:message code="smart.basic.title" /></span>
-								</h1>
+							<div class="page-header-content pt-4">
+								<div class="row align-items-center justify-content-between">
+									<div class="col-auto mt-4">
+										<h1 class="page-header-title">
+											<div class="page-header-icon"><i data-feather="tool"></i></div>
+											<span><spring:message code="smart.basic.title" /></span>
+										</h1>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-					 <div class="container-fluid mt-n10" style="overflow-x: auto;">
+					</header>
+					 <div class="container-fluid" style="overflow-x: auto;">
 		                <!-- container 시작 -->
 						<form name="dataForm" method="post">
 							<input type="hidden" name="actiontype">

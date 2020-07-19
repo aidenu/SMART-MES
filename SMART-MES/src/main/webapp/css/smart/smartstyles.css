@@ -568,6 +568,7 @@ pre code {
   overflow-y: scroll;
 }
 
+/*
 .container {
   width: 100%;
   padding-right: 0.75rem;
@@ -600,8 +601,9 @@ pre code {
     max-width: 1440px;
   }
 }
+*/
 
-.container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
+.container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
   width: 100%;
   padding-right: 0.75rem;
   padding-left: 0.75rem;
@@ -634,6 +636,7 @@ pre code {
     max-width: 1440px;
   }
 }
+
 .row {
   display: flex;
   flex-wrap: wrap;

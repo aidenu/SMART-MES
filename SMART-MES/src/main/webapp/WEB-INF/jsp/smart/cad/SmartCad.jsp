@@ -38,7 +38,7 @@
 			var endDate = $("#endDate").val();
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessData.do",
+				url : "${pageContext.request.contextPath}/smart/cad/SmartCadData.do",
 				data : {"startDate":startDate, "endDate":endDate},
 				type : "POST",
 				datatype : "json",
@@ -56,11 +56,12 @@
 						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
 						strHtml += "	<td>"+value.DUE_DATE+"</td>";
 						strHtml += "	<td>";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail' onclick='viewDetail(\""+value.MODEL_ID+"\")'>";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail' onclick='viewDetail(\""+value.MODEL_ID+"\")' title='<spring:message code="smart.cad.partlist.view" />'>";
 						strHtml += "			<i data-feather='edit'></i>";
 						strHtml += "		</div>";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_delete' onclick='delData(\""+value.MODEL_ID+"\")'>";
-						strHtml += "			<i data-feather='trash-2'></i>";
+						strHtml += "		&nbsp;";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_upload' title='<spring:message code="smart.cad.partlist.upload" />'>";
+						strHtml += "			<i data-feather='share'></i>";
 						strHtml += "		</div>";
 						strHtml += "	</td>";
 						strHtml += "</tr>";
@@ -74,54 +75,8 @@
 			
 		});	//$("#btn_search").click
 		
-		
-		/**
-			. 추가 버튼 클릭
-			. parameter : none
-		*/
-		$("#btn_add").click(function() {
-			window.open("<c:url value='/smart/business/SmartBusinessView.do?gubun=add'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1100,height=400");
-		});
-		
 	});
 	
-
-	/**
-		. Detail 버튼 클릭
-		. parameter
-		  - modelid
-	*/
-	function viewDetail(modelid) {
-		window.open("<c:url value='/smart/business/SmartBusinessView.do?gubun=update&modelid="+modelid+"'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1100,height=400");
-	}
-	
-	/**
-		. Delete 버튼 클릭
-		. parameter
-		  - modelid
-	*/
-	function delData(modelid) {
-		
-		if(confirm("<spring:message code="smart.common.delete.is" />")) {
-			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessDelete.do",
-				data : {"modelid":modelid},
-				type : "POST",
-				datatype : "text",
-				success : function(data) {
-					
-					if(data == "OK") {
-						alert("<spring:message code="smart.common.delete.ok" />");
-						$("#btn_search").trigger("click");
-					} else if(data.indexOf("ERROR") > -1) {
-						alert("<spring:message code="smart.common.delete.error" /> \n ["+data+"]");
-					}
-					
-				}	//success
-			});	//$.ajax
-		}	//if(confirm(msg));
-		
-	}
 </script>
 
 </head>
@@ -142,7 +97,7 @@
 								<div class="col-auto mt-4">
 									<h1 class="page-header-title">
 										<div class="page-header-icon"><i data-feather="database"></i></div>
-										<span><spring:message code="smart.business.title" /></span>
+										<span><spring:message code="smart.cad.title" /></span>
 									</h1>
 								</div>
 							</div>
@@ -162,8 +117,6 @@
 								</div>
 								&nbsp;
 								<div class="btn btn-outline-primary" id="btn_search"><spring:message code="smart.common.button.search" /></div>
-								&nbsp;
-								<div class="btn btn-outline-primary" id="btn_add"><spring:message code="smart.common.button.add" /></div>
 							</div>
 							<div class="card-body">
 								<div class="datatable table-responsive">

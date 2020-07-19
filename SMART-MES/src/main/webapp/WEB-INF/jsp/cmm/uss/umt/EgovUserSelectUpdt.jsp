@@ -113,7 +113,7 @@
 	<form:form commandName="userManageVO" action="${pageContext.request.contextPath}/uss/umt/user/EgovUserSelectUpdt.do" name="userManageVO" method="post" >
 		<div class="card card-header-actions">
 		    <div class="card-header">
-		    	Update User
+		    	<spring:message code="smart.manage.user.updateuser.title" />
 		    	<div>
 			    	<div class="btn btn-primary btn-sm" onclick="fnUpdate();"><spring:message code="button.save" /></div>
 			    	<div class="btn btn-primary btn-sm" onclick="self.close();"><spring:message code="button.close" /></div>
@@ -129,19 +129,19 @@
 			    				<form:input path="emplyrId" id="emplyrId" size="20" maxlength="20" value="${userManageVO.emplyrId }" cssStyle="display:none" />
 			    				<input name="uniqId" id="uniqId" title="uniqId" type="hidden" size="20" value="<c:out value='${userManageVO.uniqId}'/>"/>
 			    			<td class="card-header">이름</td>
-			    			<td><input class="form-control" id="emplyrNm" name="emplyrNm" value="${userManageVO.emplyrNm }" placeholder="Name"></td>
+			    			<td><input class="form-control" id="emplyrNm" name="emplyrNm" value="${userManageVO.emplyrNm }"></td>
 			    		</tr>
 			    		<tr>
 			    			<td class="card-header">이메일</td>
-			    			<td><input class="form-control" id="emailAdres" name="emailAdres" value="${userManageVO.emailAdres }" placeholder="Email Address"></td>
+			    			<td><input class="form-control" id="emailAdres" name="emailAdres" value="${userManageVO.emailAdres }"></td>
 			    			<td class="card-header">전화번호</td>
-			    			<td><input class="form-control" id="moblphonNo" name="moblphonNo" value="${userManageVO.moblphonNo }" placeholder="Phone Number"></td>
+			    			<td><input class="form-control" id="moblphonNo" name="moblphonNo" value="${userManageVO.moblphonNo }"></td>
 			    		</tr>
 			    		<tr>
 			    			<td class="card-header">변경후 비밀번호</td>
-			    			<td><input class="form-control" id="newpassword" name="newpassword" type="password" placeholder="새로운 비밀번호"></td>
+			    			<td><input class="form-control" id="newpassword" name="newpassword" type="password"></td>
 			    			<td class="card-header">변경후 비밀번호 확인</td>
-			    			<td><input class="form-control" id="newpassword2" name="newpassword2" type="password" placeholder="새로운 비밀번호 확인"></td>
+			    			<td><input class="form-control" id="newpassword2" name="newpassword2" type="password"></td>
 			    		</tr>
 		    		</tbody>
 		    	</table>

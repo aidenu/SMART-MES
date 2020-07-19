@@ -57,18 +57,25 @@
 		<input type="hidden" name="modelid" id="modelid">
 		<div class="card card-header-actions">
 		    <div class="card-header">
-		    	Add Model
+		    	<c:choose>
+			    	<c:when test="${gubun == 'add' }">
+	    				<spring:message code="smart.business.insert.title" />
+	    			</c:when>
+	    			<c:otherwise>
+	    				<spring:message code="smart.business.update.title" />
+	    			</c:otherwise>
+	    		</c:choose>
 		    	<div>
 		    		<c:choose>
 		    			<c:when test="${gubun == 'add' }">
-		    				<div class="btn btn-primary btn-sm" id="btn_add">Add</div>
+		    				<div class="btn btn-primary btn-sm" id="btn_add"><spring:message code="smart.common.button.add" /></div>
 		    			</c:when>
 		    			<c:otherwise>
-		    				<div class="btn btn-primary btn-sm" id="btn_update">Update</div>
+		    				<div class="btn btn-primary btn-sm" id="btn_update"><spring:message code="smart.common.button.update" /></div>
 		    			</c:otherwise>
 		    		</c:choose>
 			    	&nbsp;
-			    	<div class="btn btn-primary btn-sm" id="btn_close">Close</div>
+			    	<div class="btn btn-primary btn-sm" id="btn_close"><spring:message code="smart.common.button.close" /></div>
 		    	</div>
 		    </div>
 		    <div class="card-body">
@@ -76,15 +83,15 @@
 		    		<tbody>
 		    			<tr>
 			    			<td class="card-header"><spring:message code="smart.business.modelno" /></td>
-			    			<td>	<input class="form-control" id="modelno" name="modelno" placeholder="<spring:message code="smart.business.modelno" />"></td>
+			    			<td>	<input class="form-control" id="modelno" name="modelno"></td>
 			    			<td class="card-header"><spring:message code="smart.business.productno" /></td>
-			    			<td><input class="form-control" id="productno" name="productno" placeholder="<spring:message code="smart.business.productno" />"></td>
+			    			<td><input class="form-control" id="productno" name="productno"></td>
 			    			<td class="card-header"><spring:message code="smart.business.productname" /></td>
-			    			<td><input class="form-control" id="productname" name="productname" placeholder="<spring:message code="smart.business.productname" />"></td>
+			    			<td><input class="form-control" id="productname" name="productname"></td>
 			    		</tr>
 			    		<tr>
 			    			<td class="card-header"><spring:message code="smart.business.productgroup" /></td>
-			    			<td><input class="form-control" id="productgroup" name="productgroup" placeholder="<spring:message code="smart.business.productgroup" />"></td>
+			    			<td><input class="form-control" id="productgroup" name="productgroup"></td>
 			    			<td class="card-header"><spring:message code="smart.business.vendor" /></td>
 			    			<td>
 			    				<div class="form-group" style="margin-bottom: 0px;">
