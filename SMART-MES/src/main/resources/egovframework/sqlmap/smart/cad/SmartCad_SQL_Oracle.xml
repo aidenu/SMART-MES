@@ -17,4 +17,15 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapPartList" class="java.util.HashMap">
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getPartList" parameterMap="paramMapPartList" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_CAD.getPartList_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
 </sqlMap>

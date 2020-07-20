@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title><spring:message code="smart.business.title" /></title>
+<title><spring:message code="smart.cad.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
@@ -56,7 +56,7 @@
 						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
 						strHtml += "	<td>"+value.DUE_DATE+"</td>";
 						strHtml += "	<td>";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail' onclick='viewDetail(\""+value.MODEL_ID+"\")' title='<spring:message code="smart.cad.partlist.view" />'>";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail' title='<spring:message code="smart.cad.partlist.view" />'>";
 						strHtml += "			<i data-feather='edit'></i>";
 						strHtml += "		</div>";
 						strHtml += "		&nbsp;";
@@ -74,6 +74,15 @@
 			});	//$.ajax
 			
 		});	//$("#btn_search").click
+		
+	});
+	
+	
+
+	$(document).on("click", "div[id$='_detail']", function(){
+		
+		var modelid = this.id.replace("_detail", "");
+		window.open("<c:url value='/smart/cad/SmartCadView.do?modelid="+modelid+"'/>", "partListPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1200,height=850");
 		
 	});
 	
@@ -183,7 +192,7 @@
 <script>
 	$(document).ready(function() {
 		$("#btn_search").trigger("click");
-	})
+	});
 </script>
 
 </body>

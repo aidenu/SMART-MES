@@ -88,4 +88,25 @@ public class SmartCadController {
 	}
 	
 	
+	@RequestMapping("/smart/cad/SmartCadView.do")
+	public String SmartCadView(
+			@RequestParam(value="modelid", required=false) String modelid,
+			ModelMap model) throws Exception {
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("modelid", modelid);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getPartList", hp);
+			model.addAttribute("result", result);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/cad/SmartCadView.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/cad/SmartCadView";
+	}
+	
+	
 }
