@@ -201,6 +201,82 @@
 		});
 		
 	});
+	
+	
+	$(document).on("click", "div[id$='_delete']", function() {
+		var modelid = $("#modelid").val();
+		var trid = this.id.replace("_delete", "");
+		var msg = "<spring:message code="smart.common.delete.is" />";
+		if(confirm(msg)) {
+			$.ajax({
+				
+				url : "${pageContext.request.contextPath}/smart/cad/SmartCadPartDelete.do",
+				data : {"partgroupid":trid},
+				type : "POST",
+				datatype : "text",
+				success : function(data) {
+					if(data == "OK") {
+						alert("<spring:message code="smart.common.delete.ok" />");
+						
+						$.ajax({
+							url : "${pageContext.request.contextPath}/smart/cad/SmartCadPartData.do",
+							data : {"modelid":modelid},
+							type : "POST",
+							datatype : "json",
+							success : function(data) {
+								$('#dataTable').dataTable().fnClearTable();
+								$('#dataTable').dataTable().fnDestroy();
+								
+								$.each(data, function(index, value){
+									var strHtml = "";
+									
+									strHtml += "<tr>";
+									strHtml += "	<td>"+value.PART_GROUP_NO+"</td>";
+									strHtml += "	<td>"+value.PART_GROUP_NAME+"</td>";
+									strHtml += "	<td>"+value.PART_GROUP_SIZE+"</td>";
+									strHtml += "	<td>"+value.PART_GROUP_MATERIAL+"</td>";
+									strHtml += "	<td>"+value.PART_GROUP_COUNT+"</td>";
+									strHtml += "	<td>"+value.PART_GROUP_GUBUN+"</td>";
+									strHtml += "	<td>";
+									if(value.ORDER_DATE == null && value.STOCK_DATE == null) {
+										strHtml += "		<div class='btn btn-green btn-sm' id='"+value.PART_GROUP_ID+"_order'><spring:message code="smart.common.order" /></div>";
+									} else if(value.ORDER_DATE != null && value.STOCK_DATE == null) {
+										strHtml += "		"+value.ORDER_ORG+"";
+										strHtml += "		<br>";
+										strHtml += "		"+value.ORDER_DATE+"";
+										strHtml += "		<br>";
+										strHtml += "		<div class='btn btn-orange btn-sm' id='"+value.PART_GROUP_ID+"_ordercancel'><spring:message code="smart.common.order.cancel" /></div>";
+										strHtml += " 		/ ";
+										strHtml += "		<div class='btn btn-green btn-sm' id='"+value.PART_GROUP_ID+"_stock'><spring:message code="smart.common.stock" /></div>";
+									} else if(value.ORDER_DATE != null && value.STOCK_DATE != null) {
+										strHtml += "		"+value.ORDER_ORG+"";
+										strHtml += "		<br>";
+										strHtml += "		"+value.ORDER_DATE+" / "+value.STOCK_DATE+"";
+										strHtml += "		<br>";
+										strHtml += "		<div class='btn btn-orange btn-sm' id='"+value.PART_GROUP_ID+"_stockcancel'><spring:message code="smart.common.stock.cancel" /></div>";
+									}
+									strHtml += "	</td>";
+									strHtml += "	<td>"+value.REG_DATE+"</td>";
+									strHtml += "	<td>";
+									strHtml += "		<div class='btn btn-red btn-sm' id='"+value.PART_GROUP_ID+"_delete'><spring:message code="smart.common.button.delete" /></div>";
+									strHtml += "	</td>";
+									strHtml += "</tr>";
+									$("#data_table_tbody").append(strHtml);
+								});	//$.each
+								
+								$('#dataTable').DataTable();	//jquery dataTable Plugin reload
+								feather.replace();	//data-feather reload
+							}
+						});
+						
+					} else if(data.indexOf("ERROR") > -1) {
+						alert("<spring:message code="smart.common.delete.error" /> \n ["+data+"]");
+					}
+				}
+			});
+		}
+		
+	});
 
 	
 </script>

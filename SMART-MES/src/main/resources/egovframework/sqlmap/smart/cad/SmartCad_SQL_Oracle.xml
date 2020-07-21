@@ -47,4 +47,15 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapPartListDelete" class="java.util.HashMap">
+		<parameter property="partgroupid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setPartListDelete" parameterMap="paramMapPartListDelete" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_CAD.setPartListDelete_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
 </sqlMap>

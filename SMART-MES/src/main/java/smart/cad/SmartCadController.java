@@ -171,4 +171,31 @@ public class SmartCadController {
 	}
 	
 	
+	
+	@RequestMapping(value="/smart/cad/SmartCadPartDelete.do")
+	@ResponseBody
+	public String SmartCadPartDelete(
+			@RequestParam(value="partgroupid", required=false) String partgroupid,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("partgroupid", partgroupid);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setPartListDelete", hp);
+			
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/cad/SmartCadPartDelete.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
+	}
+	
 }
