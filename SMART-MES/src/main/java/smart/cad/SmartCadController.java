@@ -101,11 +101,73 @@ public class SmartCadController {
 			List<HashMap> result = SmartCommonDAO.commonDataProc("getPartList", hp);
 			model.addAttribute("result", result);
 			
+			model.addAttribute("modelid", modelid);
+			
 		} catch(Exception e) {
 			logger.error("[/smart/cad/SmartCadView.do] Exception :: " + e.toString());
 		}
 		
 		return "smart/cad/SmartCadView";
+	}
+	
+	
+	@RequestMapping("/smart/cad/SmartCadPartRegist.do")
+	@ResponseBody
+	public String SmartCadPartRegist(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="partgroupno", required=false) String partgroupno,
+			@RequestParam(value="partgroupname", required=false) String partgroupname,
+			@RequestParam(value="partgroupsize", required=false) String partgroupsize,
+			@RequestParam(value="partgroupmaterial", required=false) String partgroupmaterial,
+			@RequestParam(value="partgroupcount", required=false) String partgroupcount,
+			@RequestParam(value="partgroupgubun", required=false) String partgroupgubun,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("modelid", modelid);
+			hp.put("partgroupno", partgroupno);
+			hp.put("partgroupname", partgroupname);
+			hp.put("partgroupsize", partgroupsize);
+			hp.put("partgroupmaterial", partgroupmaterial);
+			hp.put("partgroupcount", partgroupcount);
+			hp.put("partgroupgubun", partgroupgubun);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setPartListRegist", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+			
+		} catch(Exception e) {
+			logger.error("[/smart/cad/SmartCadPartRegist.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
+	}
+	
+	
+	@RequestMapping(value="/smart/cad/SmartCadPartData.do")
+	@ResponseBody
+	public List<HashMap> SmartCadPartData(
+			@RequestParam(value="modelid", required=false) String modelid,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("modelid", modelid);
+			
+			result = SmartCommonDAO.commonDataProc("getPartList", hp);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/cad/SmartCadPartData.do] Exception :: " + e.toString());
+		}
+		return result;
 	}
 	
 	

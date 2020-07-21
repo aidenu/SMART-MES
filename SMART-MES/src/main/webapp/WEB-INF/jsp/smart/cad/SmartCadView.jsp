@@ -38,26 +38,26 @@
 			var addHtml = "";
 			
 			addHtml += "<tr id='"+addIdx+"'>";
-			addHtml += "	<td><input class='form-control' id='partgroupno name='partgroupno''></td>";
-			addHtml += "	<td><input class='form-control' id='partgroupname' name='partgroupname'></td>";
-			addHtml += "	<td><input class='form-control' id='partgroupsize' name='partgroupsize'></td>";
-			addHtml += "	<td><input class='form-control' id='partgroupmaterial' name='partgroupmaterial'></td>";
-			addHtml += "	<td><input class='form-control' id='partgroupcount' name='partgroupcount' onkeyup='onlyNum(this);'></td>";
+			addHtml += "	<td><input class='form-control' id='"+addIdx+"_partgroupno' name='"+addIdx+"_partgroupno''></td>";
+			addHtml += "	<td><input class='form-control' id='"+addIdx+"_partgroupname' name='"+addIdx+"_partgroupname'></td>";
+			addHtml += "	<td><input class='form-control' id='"+addIdx+"_partgroupsize' name='"+addIdx+"_partgroupsize'></td>";
+			addHtml += "	<td><input class='form-control' id='"+addIdx+"_partgroupmaterial' name='"+addIdx+"_partgroupmaterial'></td>";
+			addHtml += "	<td><input class='form-control' id='"+addIdx+"_partgroupcount' name='"+addIdx+"_partgroupcount' onkeyup='onlyNum(this);'></td>";
 			addHtml += "	<td>";
-			addHtml += "		<select class='form-control' id='partgroupsize'>";
+			addHtml += "		<select class='form-control' id='"+addIdx+"_partgroupgubun' name='"+addIdx+"_partgroupgubun'>";
 			addHtml += "			<option value='<spring:message code="smart.common.process" />'><spring:message code="smart.common.process" /></option>";
 			addHtml += "			<option value='<spring:message code="smart.common.purchase" />'><spring:message code="smart.common.purchase" /></option>";
 			addHtml += "		</select>";
 			addHtml += "	</td>";
 			addHtml += "	<td></td>";
-			addHtml += "	<td><div class='btn btn-green btn-sm' id='"+addIdx+"_add'><spring:message code="smart.common.button.add" /></div></td>";
+			addHtml += "	<td><div class='btn btn-green btn-sm' id='"+addIdx+"_regist'><spring:message code="smart.common.button.add" /></div></td>";
 			addHtml += "	<td>";
 			addHtml += "		<div class='btn btn-yellow btn-sm' id='"+addIdx+"_cancel'><spring:message code="smart.common.button.cancel" /></div>";
 			addHtml += "	</td>";
 			addHtml += "</tr>";
 			
 			$("#data_table_tbody").append(addHtml);
-			
+			$("#"+addIdx+"_partgroupno").focus();
 			addIdx++;
 		});
 		
@@ -75,14 +75,141 @@
 		$("#"+trid).remove();
 		
 	});
+	
+	/**
+		. REGIST Button Click : 부품 매뉴얼 추가
+		. Parameter : 
+			- partgroupno, partgroupname, partgroupsize, partgroupmaterial, partgroupcount, partgroupgubun
+		. validation : 
+			- 각 항목 입력 유무
+			- 품번 기등록 유무
+	*/
+	
+	$(document).on("click", "div[id$='_regist']", function() {
+		var trid = this.id.replace("_regist", "");
+		var modelid = $("#modelid").val();
+		var partgroupno = $("#"+trid+"_partgroupno").val();
+		var partgroupname = $("#"+trid+"_partgroupname").val();
+		var partgroupsize = $("#"+trid+"_partgroupsize").val();
+		var partgroupmaterial = $("#"+trid+"_partgroupmaterial").val();
+		var partgroupcount = $("#"+trid+"_partgroupcount").val();
+		var partgroupgubun = $("#"+trid+"_partgroupgubun").val();
+		
+		if(partgroupno == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupno" />을 입력하세요.");
+			$("#"+trid+"_partgroupno").focus();
+			return;
+		}
+		
+		if(partgroupname == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupname" />을 입력하세요.");
+			$("#"+trid+"_partgroupname").focus();
+			return;
+		}
+		
+		if(partgroupsize == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupsize" />를 입력하세요.");
+			$("#"+trid+"_partgroupsize").focus();
+			return;
+		}
+		
+		if(partgroupmaterial == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupmaterial" />을 입력하세요.");
+			$("#"+trid+"_partgroupmaterial").focus();
+			return;
+		}
+		
+		if(partgroupcount == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupcount" />을 입력하세요.");
+			$("#"+trid+"_partgroupcount").focus();
+			return;
+		}
+		
+		if(partgroupgubun == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupgubun" />을 선택하세.");
+			$("#"+trid+"_partgroupgubun").focus();
+			return;
+		}
+		
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/cad/SmartCadPartRegist.do",
+			data : {"modelid":modelid, "partgroupno":partgroupno, "partgroupname":partgroupname, "partgroupsize":partgroupsize, 
+				"partgroupmaterial":partgroupmaterial, "partgroupcount":partgroupcount, "partgroupgubun":partgroupgubun},
+			type : "POST",
+			datatype : "text",
+			success : function(data) {
+				if(data == "OK") {
+					alert("<spring:message code="smart.common.save.ok" />");
+					
+					$.ajax({
+						url : "${pageContext.request.contextPath}/smart/cad/SmartCadPartData.do",
+						data : {"modelid":modelid},
+						type : "POST",
+						datatype : "json",
+						success : function(data) {
+							$('#dataTable').dataTable().fnClearTable();
+							$('#dataTable').dataTable().fnDestroy();
+							
+							$.each(data, function(index, value){
+								var strHtml = "";
+								
+								strHtml += "<tr>";
+								strHtml += "	<td>"+value.PART_GROUP_NO+"</td>";
+								strHtml += "	<td>"+value.PART_GROUP_NAME+"</td>";
+								strHtml += "	<td>"+value.PART_GROUP_SIZE+"</td>";
+								strHtml += "	<td>"+value.PART_GROUP_MATERIAL+"</td>";
+								strHtml += "	<td>"+value.PART_GROUP_COUNT+"</td>";
+								strHtml += "	<td>"+value.PART_GROUP_GUBUN+"</td>";
+								strHtml += "	<td>";
+								if(value.ORDER_DATE == null && value.STOCK_DATE == null) {
+									strHtml += "		<div class='btn btn-green btn-sm' id='"+value.PART_GROUP_ID+"_order'><spring:message code="smart.common.order" /></div>";
+								} else if(value.ORDER_DATE != null && value.STOCK_DATE == null) {
+									strHtml += "		"+value.ORDER_ORG+"";
+									strHtml += "		<br>";
+									strHtml += "		"+value.ORDER_DATE+"";
+									strHtml += "		<br>";
+									strHtml += "		<div class='btn btn-orange btn-sm' id='"+value.PART_GROUP_ID+"_ordercancel'><spring:message code="smart.common.order.cancel" /></div>";
+									strHtml += " 		/ ";
+									strHtml += "		<div class='btn btn-green btn-sm' id='"+value.PART_GROUP_ID+"_stock'><spring:message code="smart.common.stock" /></div>";
+								} else if(value.ORDER_DATE != null && value.STOCK_DATE != null) {
+									strHtml += "		"+value.ORDER_ORG+"";
+									strHtml += "		<br>";
+									strHtml += "		"+value.ORDER_DATE+" / "+value.STOCK_DATE+"";
+									strHtml += "		<br>";
+									strHtml += "		<div class='btn btn-orange btn-sm' id='"+value.PART_GROUP_ID+"_stockcancel'><spring:message code="smart.common.stock.cancel" /></div>";
+								}
+								strHtml += "	</td>";
+								strHtml += "	<td>"+value.REG_DATE+"</td>";
+								strHtml += "	<td>";
+								strHtml += "		<div class='btn btn-red btn-sm' id='"+value.PART_GROUP_ID+"_delete'><spring:message code="smart.common.button.delete" /></div>";
+								strHtml += "	</td>";
+								strHtml += "</tr>";
+								$("#data_table_tbody").append(strHtml);
+							});	//$.each
+							
+							$('#dataTable').DataTable();	//jquery dataTable Plugin reload
+							feather.replace();	//data-feather reload
+						}
+					});
+					
+				} else if(data.indexOf("ERROR") > -1) {
+					alert("<spring:message code="smart.common.save.error" /> \n ["+data+"]");
+				}
+			}
+		});
+		
+	});
 
+	
 </script>
 </head>
 <body class="nav-fixed">
 
 		
 		<form name="dataForm" method="post" >
-			<input type="hidden" name="modelid" id="modelid">
+			<input type="hidden" name="modelid" id="modelid" value="${modelid }">
 			<div class="card mb-4">
 				<div class="card card-header-actions">
 					 <div class="card-header">
@@ -99,27 +226,27 @@
 							<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 					    		<thead>
 					    			<tr>
-					    				<th style="width:6%;">품번</th>
-					    				<th>품명</th>
-					    				<th>사이즈</th>
-					    				<th>재질</th>
-					    				<th style="width:6%;">수량</th>
-					    				<th style="width:9%;">구분</th>
-					    				<th>발주</th>
-					    				<th>등록일</th>
+					    				<th style="width:6%;"><spring:message code="smart.cad.partlist.partgroupno" /></th>
+					    				<th><spring:message code="smart.cad.partlist.partgroupname" /></th>
+					    				<th><spring:message code="smart.cad.partlist.partgroupsize" /></th>
+					    				<th><spring:message code="smart.cad.partlist.partgroupmaterial" /></th>
+					    				<th style="width:6%;"><spring:message code="smart.cad.partlist.partgroupcount" /></th>
+					    				<th style="width:9%;"><spring:message code="smart.cad.partlist.partgroupgubun" /></th>
+					    				<th><spring:message code="smart.common.order" /></th>
+					    				<th><spring:message code="smart.cad.partlist.regdate" /></th>
 					    				<th style="width:6%;"></th>
 					    			</tr>
 					    		</thead>
 					    		<tfoot>
 					    			<tr>
-					    				<th>품번</th>
-					    				<th>품명</th>
-					    				<th>사이즈</th>
-					    				<th>재질</th>
-					    				<th>수량</th>
-					    				<th>구분</th>
-					    				<th>발주</th>
-					    				<th>등록일</th>
+					    				<th><spring:message code="smart.cad.partlist.partgroupno" /></th>
+					    				<th><spring:message code="smart.cad.partlist.partgroupname" /></th>
+					    				<th><spring:message code="smart.cad.partlist.partgroupsize" /></th>
+					    				<th><spring:message code="smart.cad.partlist.partgroupmaterial" /></th>
+					    				<th><spring:message code="smart.cad.partlist.partgroupcount" /></th>
+					    				<th><spring:message code="smart.cad.partlist.partgroupgubun" /></th>
+					    				<th><spring:message code="smart.common.order" /></th>
+					    				<th><spring:message code="smart.cad.partlist.regdate" /></th>
 					    				<th></th>
 					    			</tr>
 					    		</tfoot>
@@ -133,25 +260,28 @@
 						    				<td>${result.PART_GROUP_COUNT }</td>
 						    				<td>${result.PART_GROUP_GUBUN }</td>
 						    				<td>
-						    					${result.ORDER_DATE }/${result.STOCK_DATE }
-						    					<br>
-						    					<button class="btn btn-success btn-sm" type="button">발주</button>
+						    					<c:choose>
+						    						<c:when test="${result.ORDER_DATE eq null && result.STOCK_DATE eq null }">
+						    							<div class="btn btn-green btn-sm" id="${result.PART_GROUP_ID }_order"><spring:message code="smart.common.order" /></div>
+						    						</c:when>
+						    						<c:when test="${result.ORDER_DATE ne null && result.STOCK_DATE eq null }">
+						    							${result.ORDER_ORG }<br>
+						    							${result.ORDER_DATE }<br>
+						    							<div class="btn btn-orange btn-sm" id="${result.PART_GROUP_ID }_ordercancel"><spring:message code="smart.common.order.cancel" /></div> / 
+						    							<div class="btn btn-green btn-sm" id="${result.PART_GROUP_ID }_stock"><spring:message code="smart.common.stock" /></div> 
+						    						</c:when>
+						    						<c:when test="${result.ORDER_DATE ne null && result.STOCK_DATE ne null }">
+						    							${result.ORDER_ORG }<br>
+						    							${result.ORDER_DATE } / ${result.STOCK_DATE }<br>
+						    							<div class="btn btn-orange btn-sm" id="${result.PART_GROUP_ID }_stockcancel"><spring:message code="smart.common.stock.cancel" /></div>
+						    						</c:when>
+						    					</c:choose>
+						    					
 						    				</td>
 						    				<td>${result.REG_DATE }</td>
 						    				<td><div class="btn btn-red btn-sm" id="${result.PART_GROUP_ID }_delete"><spring:message code="smart.common.button.delete" /></div></td>
 						    			</tr>
 					    			</c:forEach>
-					    			<tr>
-					    				<td>001</td>
-					    				<td>몰드베이스</td>
-					    				<td>---</td>
-					    				<td>-</td>
-					    				<td>1</td>
-					    				<td>가공</td>
-					    				<td><button class="btn btn-success btn-sm" type="button">발주</button></td>
-					    				<td>2020-01-03</td>
-					    				<td><div class="btn btn-red btn-sm" id="123_delete"><spring:message code="smart.common.button.delete" /></div></td>
-					    			</tr>
 			                     </tbody>
 					    	</table>
 					    </div>
