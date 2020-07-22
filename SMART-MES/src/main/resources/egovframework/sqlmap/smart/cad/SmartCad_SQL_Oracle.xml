@@ -58,4 +58,18 @@
         ]]>
 	</procedure>
 	
+	
+	<parameterMap id="paramMapPartListOrderSave" class="java.util.HashMap">
+		<parameter property="actiontype" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="partgroupid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="orderorg" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setPartListOrderSave" parameterMap="paramMapPartListOrderSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_CAD.setPartListOrderSave_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
 </sqlMap>

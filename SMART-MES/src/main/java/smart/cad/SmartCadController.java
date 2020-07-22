@@ -101,6 +101,9 @@ public class SmartCadController {
 			List<HashMap> result = SmartCommonDAO.commonDataProc("getPartList", hp);
 			model.addAttribute("result", result);
 			
+			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getBasicData");
+			model.addAttribute("resultBasic", resultBasic);
+			
 			model.addAttribute("modelid", modelid);
 			
 		} catch(Exception e) {
@@ -193,6 +196,37 @@ public class SmartCadController {
 			
 		} catch(Exception e) {
 			logger.error("[/smart/cad/SmartCadPartDelete.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
+	}
+	
+	
+	@RequestMapping(value="/smart/cad/SmartCadPartOrderSave.do")
+	@ResponseBody
+	public String SmartCadPartOrderSave(
+			@RequestParam(value="actiontype", required=false) String actiontype,
+			@RequestParam(value="partgroupid", required=false) String partgroupid,
+			@RequestParam(value="orderorg", required=false) String orderorg,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("actiontype", actiontype);
+			hp.put("partgroupid", partgroupid);
+			hp.put("orderorg", orderorg);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setPartListOrderSave", hp);
+			
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/cad/SmartCadPartOrderSave.do] Exception :: " + e.toString());
 		}
 		
 		return actionresult;
