@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title><spring:message code="smart.business.title" /></title>
+<title><spring:message code="smart.cad.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
@@ -38,7 +38,7 @@
 			var endDate = $("#endDate").val();
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessData.do",
+				url : "${pageContext.request.contextPath}/smart/process/SmartScheduleData.do",
 				data : {"startDate":startDate, "endDate":endDate},
 				type : "POST",
 				datatype : "json",
@@ -56,11 +56,9 @@
 						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
 						strHtml += "	<td>"+value.DUE_DATE+"</td>";
 						strHtml += "	<td>";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail' onclick='viewDetail(\""+value.MODEL_ID+"\")'>";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_schedule' title='<spring:message code="smart.process.schedule.view" />'>";
+						strHtml += "			<input type='hidden' id='"+value.MODEL_ID+"_modelno' name='"+value.MODEL_ID+"_modelno' value='"+value.MODEL_NO+"'>";
 						strHtml += "			<i data-feather='edit'></i>";
-						strHtml += "		</div>";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_delete' onclick='delData(\""+value.MODEL_ID+"\")'>";
-						strHtml += "			<i data-feather='trash-2'></i>";
 						strHtml += "		</div>";
 						strHtml += "	</td>";
 						strHtml += "</tr>";
@@ -74,54 +72,19 @@
 			
 		});	//$("#btn_search").click
 		
+	});
+	
+	
+	$(document).on("click", "div[id$='_schedule']", function() {
 		
-		/**
-			. 추가 버튼 클릭
-			. parameter : none
-		*/
-		$("#btn_add").click(function() {
-			window.open("<c:url value='/smart/business/SmartBusinessView.do?gubun=add'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1100,height=400");
-		});
+		var modelid = this.id.replace("_schedule", "");
+		var modelno = $("#"+modelid+"_modelno").val();
+		window.open("<c:url value='/smart/process/SmartScheduleView.do?modelid="+modelid+"&modelno="+modelno+"'/>", "schedPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1500,height=850");
 		
 	});
 	
-
-	/**
-		. Detail 버튼 클릭
-		. parameter
-		  - modelid
-	*/
-	function viewDetail(modelid) {
-		window.open("<c:url value='/smart/business/SmartBusinessView.do?gubun=update&modelid="+modelid+"'/>", "addPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1100,height=400");
-	}
 	
-	/**
-		. Delete 버튼 클릭
-		. parameter
-		  - modelid
-	*/
-	function delData(modelid) {
-		
-		if(confirm("<spring:message code="smart.common.delete.is" />")) {
-			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessDelete.do",
-				data : {"modelid":modelid},
-				type : "POST",
-				datatype : "text",
-				success : function(data) {
-					
-					if(data == "OK") {
-						alert("<spring:message code="smart.common.delete.ok" />");
-						$("#btn_search").trigger("click");
-					} else if(data.indexOf("ERROR") > -1) {
-						alert("<spring:message code="smart.common.delete.error" /> \n ["+data+"]");
-					}
-					
-				}	//success
-			});	//$.ajax
-		}	//if(confirm(msg));
-		
-	}
+	
 </script>
 
 </head>
@@ -142,7 +105,7 @@
 								<div class="col-auto mt-4">
 									<h1 class="page-header-title">
 										<div class="page-header-icon"><i data-feather="database"></i></div>
-										<span><spring:message code="smart.business.title" /></span>
+										<span><spring:message code="smart.process.schedule.title" /></span>
 									</h1>
 								</div>
 							</div>
@@ -150,7 +113,7 @@
 					</div>
 				</header>
 				<div class="container-fluid">
-					<form name="dataForm" method="post">
+					<form name="dataForm" id="dataForm" method="post" enctype="multipart/form-data">
 						<div class="card mb-4">
 							<div class="card-header">
 								<div class="btn btn-light btn-sm line-height-normal p-3" id="dateRange">
@@ -162,8 +125,6 @@
 								</div>
 								&nbsp;
 								<div class="btn btn-outline-primary" id="btn_search"><spring:message code="smart.common.button.search" /></div>
-								&nbsp;
-								<div class="btn btn-outline-primary" id="btn_add"><spring:message code="smart.common.button.add" /></div>
 							</div>
 							<div class="card-body">
 								<div class="datatable table-responsive">
@@ -230,7 +191,7 @@
 <script>
 	$(document).ready(function() {
 		$("#btn_search").trigger("click");
-	})
+	});
 </script>
 
 </body>

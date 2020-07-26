@@ -32,7 +32,9 @@
 	$(document).ready(function() {
 		
 		
-		
+		/**
+			. 매뉴얼 추가 버튼
+		*/
 		$("#btn_add").click(function() {
 			
 			var addHtml = "";
@@ -68,7 +70,10 @@
 		
 	});
 	
-	//Cancel Button Click
+	/**
+		. Cancel Button Click
+		. 매뉴얼 추가 이후 cancel
+	*/
 	$(document).on("click", "div[id$='_cancel']", function() {
 		
 		var trid = this.id.replace("_cancel", "");
@@ -77,7 +82,7 @@
 	});
 	
 	/**
-		. REGIST Button Click : 부품 매뉴얼 추가
+		. REGIST Button Click : 부품 매뉴얼 추가 등록
 		. Parameter : 
 			- partgroupno, partgroupname, partgroupsize, partgroupmaterial, partgroupcount, partgroupgubun
 		. validation : 
@@ -156,12 +161,163 @@
 								var strHtml = "";
 								
 								strHtml += "<tr>";
-								strHtml += "	<td>"+value.PART_GROUP_NO+"</td>";
-								strHtml += "	<td>"+value.PART_GROUP_NAME+"</td>";
-								strHtml += "	<td>"+value.PART_GROUP_SIZE+"</td>";
-								strHtml += "	<td>"+value.PART_GROUP_MATERIAL+"</td>";
-								strHtml += "	<td>"+value.PART_GROUP_COUNT+"</td>";
-								strHtml += "	<td>"+value.PART_GROUP_GUBUN+"</td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_no' name='"+value.PART_GROUP_ID+"_no' value='"+value.PART_GROUP_NO+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_name' name='"+value.PART_GROUP_ID+"_name' value='"+value.PART_GROUP_NAME+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_size' name='"+value.PART_GROUP_ID+"_size' value='"+value.PART_GROUP_SIZE+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_material' name='"+value.PART_GROUP_ID+"_material' value='"+value.PART_GROUP_MATERIAL+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_count' name='"+value.PART_GROUP_ID+"_count' value='"+value.PART_GROUP_COUNT+"' onkeyup='onlyNum(this);'></td>";
+								strHtml += "	<td>";
+								strHtml += "		<select class='form-control' id='"+value.PART_GROUP_ID+"_gubun' name='"+value.PART_GROUP_ID+"_gubun'>";
+								if(value.PART_GROUP_GUBUN == "<spring:message code="smart.common.process" />") {
+									strHtml += "			<option value='<spring:message code="smart.common.process" />' selected><spring:message code="smart.common.process" /></option>";
+									strHtml += "			<option value='<spring:message code="smart.common.purchase" />'><spring:message code="smart.common.purchase" /></option>";
+								} else {
+									strHtml += "			<option value='<spring:message code="smart.common.process" />'><spring:message code="smart.common.process" /></option>";
+									strHtml += "			<option value='<spring:message code="smart.common.purchase" />' selected><spring:message code="smart.common.purchase" /></option>";
+								}
+								strHtml += "		</select>";
+								strHtml += "	</td>";
+								strHtml += "	<td>";
+								if(value.ORDER_DATE == null && value.STOCK_DATE == null) {
+									strHtml += "		<div class='form-group' style='margin-bottom: 0px;'>";
+									strHtml += "			<select class='form-control form-control-solid' id='"+value.PART_GROUP_ID+"_orderorg' name='"+value.PART_GROUP_ID+"_orderorg'>";
+									strHtml += "				<option value=''>-select-</option>";
+										<c:forEach var="resultBasic" items="${resultBasic }" varStatus="basicStatus">
+	    									<c:if test="${resultBasic.KEY == 'ORDER_ORG' }">
+	    										strHtml += "	<option value='${resultBasic.VALUE }'>${resultBasic.VALUE }</option>";
+	    									</c:if>
+	    								</c:forEach>
+	    							strHtml += "			</select>";
+	    							strHtml += "		</div>";
+									strHtml += "		<br>";
+									strHtml += "		<div class='btn btn-green btn-sm' id='"+value.PART_GROUP_ID+"_orderActionPurchase'><spring:message code="smart.common.order" /></div>";
+								} else if(value.ORDER_DATE != null && value.STOCK_DATE == null) {
+									strHtml += "		"+value.ORDER_ORG+"";
+									strHtml += "		<br>";
+									strHtml += "		"+value.ORDER_DATE+"";
+									strHtml += "		<br>";
+									strHtml += "		<div class='btn btn-orange btn-sm' id='"+value.PART_GROUP_ID+"_orderCancelPurchase'><spring:message code="smart.common.order.cancel" /></div>";
+									strHtml += " 		/ ";
+									strHtml += "		<div class='btn btn-green btn-sm' id='"+value.PART_GROUP_ID+"_stockActionPurchase'><spring:message code="smart.common.stock" /></div>";
+								} else if(value.ORDER_DATE != null && value.STOCK_DATE != null) {
+									strHtml += "		"+value.ORDER_ORG+"";
+									strHtml += "		<br>";
+									strHtml += "		"+value.ORDER_DATE+" / "+value.STOCK_DATE+"";
+									strHtml += "		<br>";
+									strHtml += "		<div class='btn btn-orange btn-sm' id='"+value.PART_GROUP_ID+"_stockCancelPurchase'><spring:message code="smart.common.stock.cancel" /></div>";
+								}
+								strHtml += "	</td>";
+								strHtml += "	<td>"+value.REG_DATE+"</td>";
+								strHtml += "	<td>";
+								strHtml += "		<div class='btn btn-red btn-sm' id='"+value.PART_GROUP_ID+"_delete'><spring:message code="smart.common.button.delete" /></div>";
+								strHtml += "	</td>";
+								strHtml += "</tr>";
+								$("#data_table_tbody").append(strHtml);
+							});	//$.each
+							
+							$('#dataTable').DataTable();	//jquery dataTable Plugin reload
+							feather.replace();	//data-feather reload
+						}
+					});
+					
+				} else if(data.indexOf("ERROR") > -1) {
+					alert("<spring:message code="smart.common.save.error" /> \n ["+data+"]");
+				}
+			}
+		});
+		
+	});
+	
+	
+	$(document).on("click", "div[id$='_save']", function() {
+		var trid = this.id.replace("_save", "");
+		var modelid = $("#modelid").val();
+		var partgroupid = trid;
+		var partgroupno = $("#"+trid+"_no").val();
+		var partgroupname = $("#"+trid+"_name").val();
+		var partgroupsize = $("#"+trid+"_size").val();
+		var partgroupmaterial = $("#"+trid+"_material").val();
+		var partgroupcount = $("#"+trid+"_count").val();
+		var partgroupgubun = $("#"+trid+"_gubun").val();
+		var orderorg = $("#"+trid+"_orderorg").val();
+		
+		if(partgroupno == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupno" />을 입력하세요.");
+			$("#"+trid+"_partgroupno").focus();
+			return;
+		}
+		
+		if(partgroupname == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupname" />을 입력하세요.");
+			$("#"+trid+"_partgroupname").focus();
+			return;
+		}
+		
+		if(partgroupsize == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupsize" />를 입력하세요.");
+			$("#"+trid+"_partgroupsize").focus();
+			return;
+		}
+		
+		if(partgroupmaterial == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupmaterial" />을 입력하세요.");
+			$("#"+trid+"_partgroupmaterial").focus();
+			return;
+		}
+		
+		if(partgroupcount == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupcount" />을 입력하세요.");
+			$("#"+trid+"_partgroupcount").focus();
+			return;
+		}
+		
+		if(partgroupgubun == "") {
+			alert("<spring:message code="smart.cad.partlist.partgroupgubun" />을 선택하세.");
+			$("#"+trid+"_partgroupgubun").focus();
+			return;
+		}
+		
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/cad/SmartCadPartSave.do",
+			data : {"modelid":modelid, "partgroupid":partgroupid, "partgroupno":partgroupno, "partgroupname":partgroupname, "partgroupsize":partgroupsize, 
+				"partgroupmaterial":partgroupmaterial, "partgroupcount":partgroupcount, "partgroupgubun":partgroupgubun},
+			type : "POST",
+			datatype : "text",
+			success : function(data) {
+				if(data == "OK") {
+					alert("<spring:message code="smart.common.save.ok" />");
+					
+					$.ajax({
+						url : "${pageContext.request.contextPath}/smart/cad/SmartCadPartData.do",
+						data : {"modelid":modelid},
+						type : "POST",
+						datatype : "json",
+						success : function(data) {
+							$('#dataTable').dataTable().fnClearTable();
+							$('#dataTable').dataTable().fnDestroy();
+							
+							$.each(data, function(index, value){
+								var strHtml = "";
+								
+								strHtml += "<tr>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_no' name='"+value.PART_GROUP_ID+"_no' value='"+value.PART_GROUP_NO+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_name' name='"+value.PART_GROUP_ID+"_name' value='"+value.PART_GROUP_NAME+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_size' name='"+value.PART_GROUP_ID+"_size' value='"+value.PART_GROUP_SIZE+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_material' name='"+value.PART_GROUP_ID+"_material' value='"+value.PART_GROUP_MATERIAL+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_count' name='"+value.PART_GROUP_ID+"_count' value='"+value.PART_GROUP_COUNT+"' onkeyup='onlyNum(this);'></td>";
+								strHtml += "	<td>";
+								strHtml += "		<select class='form-control' id='"+value.PART_GROUP_ID+"_gubun' name='"+value.PART_GROUP_ID+"_gubun'>";
+								if(value.PART_GROUP_GUBUN == "<spring:message code="smart.common.process" />") {
+									strHtml += "			<option value='<spring:message code="smart.common.process" />' selected><spring:message code="smart.common.process" /></option>";
+									strHtml += "			<option value='<spring:message code="smart.common.purchase" />'><spring:message code="smart.common.purchase" /></option>";
+								} else {
+									strHtml += "			<option value='<spring:message code="smart.common.process" />'><spring:message code="smart.common.process" /></option>";
+									strHtml += "			<option value='<spring:message code="smart.common.purchase" />' selected><spring:message code="smart.common.purchase" /></option>";
+								}
+								strHtml += "		</select>";
+								strHtml += "	</td>";
 								strHtml += "	<td>";
 								if(value.ORDER_DATE == null && value.STOCK_DATE == null) {
 									strHtml += "		<div class='form-group' style='margin-bottom: 0px;'>";
@@ -242,12 +398,22 @@
 									var strHtml = "";
 									
 									strHtml += "<tr>";
-									strHtml += "	<td>"+value.PART_GROUP_NO+"</td>";
-									strHtml += "	<td>"+value.PART_GROUP_NAME+"</td>";
-									strHtml += "	<td>"+value.PART_GROUP_SIZE+"</td>";
-									strHtml += "	<td>"+value.PART_GROUP_MATERIAL+"</td>";
-									strHtml += "	<td>"+value.PART_GROUP_COUNT+"</td>";
-									strHtml += "	<td>"+value.PART_GROUP_GUBUN+"</td>";
+									strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_no' name='"+value.PART_GROUP_ID+"_no' value='"+value.PART_GROUP_NO+"'></td>";
+									strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_name' name='"+value.PART_GROUP_ID+"_name' value='"+value.PART_GROUP_NAME+"'></td>";
+									strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_size' name='"+value.PART_GROUP_ID+"_size' value='"+value.PART_GROUP_SIZE+"'></td>";
+									strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_material' name='"+value.PART_GROUP_ID+"_material' value='"+value.PART_GROUP_MATERIAL+"'></td>";
+									strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_count' name='"+value.PART_GROUP_ID+"_count' value='"+value.PART_GROUP_COUNT+"' onkeyup='onlyNum(this);'></td>";
+									strHtml += "	<td>";
+									strHtml += "		<select class='form-control' id='"+value.PART_GROUP_ID+"_gubun' name='"+value.PART_GROUP_ID+"_gubun'>";
+									if(value.PART_GROUP_GUBUN == "<spring:message code="smart.common.process" />") {
+										strHtml += "			<option value='<spring:message code="smart.common.process" />' selected><spring:message code="smart.common.process" /></option>";
+										strHtml += "			<option value='<spring:message code="smart.common.purchase" />'><spring:message code="smart.common.purchase" /></option>";
+									} else {
+										strHtml += "			<option value='<spring:message code="smart.common.process" />'><spring:message code="smart.common.process" /></option>";
+										strHtml += "			<option value='<spring:message code="smart.common.purchase" />' selected><spring:message code="smart.common.purchase" /></option>";
+									}
+									strHtml += "		</select>";
+									strHtml += "	</td>";
 									strHtml += "	<td>";
 									if(value.ORDER_DATE == null && value.STOCK_DATE == null) {
 										strHtml += "		<div class='form-group' style='margin-bottom: 0px;'>";
@@ -368,12 +534,22 @@
 								var strHtml = "";
 								
 								strHtml += "<tr>";
-								strHtml += "	<td>"+value.PART_GROUP_NO+"</td>";
-								strHtml += "	<td>"+value.PART_GROUP_NAME+"</td>";
-								strHtml += "	<td>"+value.PART_GROUP_SIZE+"</td>";
-								strHtml += "	<td>"+value.PART_GROUP_MATERIAL+"</td>";
-								strHtml += "	<td>"+value.PART_GROUP_COUNT+"</td>";
-								strHtml += "	<td>"+value.PART_GROUP_GUBUN+"</td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_no' name='"+value.PART_GROUP_ID+"_no' value='"+value.PART_GROUP_NO+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_name' name='"+value.PART_GROUP_ID+"_name' value='"+value.PART_GROUP_NAME+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_size' name='"+value.PART_GROUP_ID+"_size' value='"+value.PART_GROUP_SIZE+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_material' name='"+value.PART_GROUP_ID+"_material' value='"+value.PART_GROUP_MATERIAL+"'></td>";
+								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_count' name='"+value.PART_GROUP_ID+"_count' value='"+value.PART_GROUP_COUNT+"' onkeyup='onlyNum(this);'></td>";
+								strHtml += "	<td>";
+								strHtml += "		<select class='form-control' id='"+value.PART_GROUP_ID+"_gubun' name='"+value.PART_GROUP_ID+"_gubun'>";
+								if(value.PART_GROUP_GUBUN == "<spring:message code="smart.common.process" />") {
+									strHtml += "			<option value='<spring:message code="smart.common.process" />' selected><spring:message code="smart.common.process" /></option>";
+									strHtml += "			<option value='<spring:message code="smart.common.purchase" />'><spring:message code="smart.common.purchase" /></option>";
+								} else {
+									strHtml += "			<option value='<spring:message code="smart.common.process" />'><spring:message code="smart.common.process" /></option>";
+									strHtml += "			<option value='<spring:message code="smart.common.purchase" />' selected><spring:message code="smart.common.purchase" /></option>";
+								}
+								strHtml += "		</select>";
+								strHtml += "	</td>";
 								strHtml += "	<td>";
 								if(value.ORDER_DATE == null && value.STOCK_DATE == null) {
 									strHtml += "		<div class='form-group' style='margin-bottom: 0px;'>";
@@ -456,7 +632,7 @@
 					    				<th><spring:message code="smart.cad.partlist.partgroupmaterial" /></th>
 					    				<th style="width:6%;"><spring:message code="smart.cad.partlist.partgroupcount" /></th>
 					    				<th style="width:9%;"><spring:message code="smart.cad.partlist.partgroupgubun" /></th>
-					    				<th><spring:message code="smart.common.order" /></th>
+					    				<th style="width:15%;"><spring:message code="smart.common.order" /></th>
 					    				<th style="width:10%;"><spring:message code="smart.cad.partlist.regdate" /></th>
 					    				<th style="width:6%;"></th>
 					    			</tr>
@@ -477,12 +653,27 @@
 					    		<tbody id="data_table_tbody">
 					    			<c:forEach var="result" items="${result }" varStatus="status">
 					    				<tr>
-						    				<td>${result.PART_GROUP_NO }</td>
-						    				<td>${result.PART_GROUP_NAME }</td>
-						    				<td>${result.PART_GROUP_SIZE }</td>
-						    				<td>${result.PART_GROUP_MATERIAL }</td>
-						    				<td>${result.PART_GROUP_COUNT }</td>
-						    				<td>${result.PART_GROUP_GUBUN }</td>
+						    				<td><input class="form-control" id="${result.PART_GROUP_ID}_no" name="${result.PART_GROUP_ID }_no" value="${result.PART_GROUP_NO }"></td>
+						    				<td><input class="form-control" id="${result.PART_GROUP_ID}_name" name="${result.PART_GROUP_ID }_name" value="${result.PART_GROUP_NAME }"></td>
+						    				<td><input class="form-control" id="${result.PART_GROUP_ID}_size" name="${result.PART_GROUP_ID }_size" value="${result.PART_GROUP_SIZE }"></td>
+						    				<td><input class="form-control" id="${result.PART_GROUP_ID}_material" name="${result.PART_GROUP_ID }_material" value="${result.PART_GROUP_MATERIAL }"></td>
+						    				<td><input class="form-control" id="${result.PART_GROUP_ID}_count" name="${result.PART_GROUP_ID }_count" value="${result.PART_GROUP_COUNT }" onkeyup="onlyNum(this);"></td>
+						    				<td>
+						    					<select class="form-control" id="${result.PART_GROUP_ID}_gubun" name="${result.PART_GROUP_ID }_gubun">
+						    						<c:set var="process"><spring:message code="smart.common.process" /></c:set>
+						    						<c:set var="purchase"><spring:message code="smart.common.purchase" /></c:set>
+						    						<c:choose>
+						    							<c:when test="${result.PART_GROUP_GUBUN == process}">
+						    								<option value="<spring:message code="smart.common.process" />" selected><spring:message code="smart.common.process" /></option>
+						    								<option value="<spring:message code="smart.common.purchase" />"><spring:message code="smart.common.purchase" /></option>
+						    							</c:when>
+						    							<c:otherwise>
+						    								<option value="<spring:message code="smart.common.process" />"><spring:message code="smart.common.process" /></option>
+						    								<option value="<spring:message code="smart.common.purchase" />" selected><spring:message code="smart.common.purchase" /></option>
+						    							</c:otherwise>
+						    						</c:choose>
+						    					</select>
+						    				</td>
 						    				<td>
 						    					<c:choose>
 						    						<c:when test="${result.ORDER_DATE eq null && result.STOCK_DATE eq null }">
@@ -514,7 +705,11 @@
 						    					
 						    				</td>
 						    				<td>${result.REG_DATE }</td>
-						    				<td><div class="btn btn-red btn-sm" id="${result.PART_GROUP_ID }_delete"><spring:message code="smart.common.button.delete" /></div></td>
+						    				<td>
+						    					<div class="btn btn-green btn-sm" id="${result.PART_GROUP_ID }_save"><spring:message code="smart.common.button.save" /></div>
+						    					<br style="display:block;margin:10px;content:'';">
+						    					<div class="btn btn-red btn-sm" id="${result.PART_GROUP_ID }_delete"><spring:message code="smart.common.button.delete" /></div>
+						    				</td>
 						    			</tr>
 					    			</c:forEach>
 			                     </tbody>

@@ -3,16 +3,16 @@
 
 <sqlMap namespace="SmartCad">
 
-	<parameterMap id="paramMapCadData" class="java.util.HashMap">
+	<parameterMap id="paramMapCadModelData" class="java.util.HashMap">
 		<parameter property="startDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="endDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>
 	
-	<procedure id="getCadData" parameterMap="paramMapCadData" resultClass="java.util.HashMap" remapResults="true">
+	<procedure id="getCadModelData" parameterMap="paramMapCadModelData" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
-        	{call PKG_Q_CAD.getCadData_Pro(?, ?, ?, ?)}
+        	{call PKG_Q_CAD.getCadModelData_Pro(?, ?, ?, ?)}
         ]]>
 	</procedure>
 	
@@ -29,7 +29,22 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapPartListExcelRegist" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="arraystr" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setPartListExcelRegist" parameterMap="paramMapPartListExcelRegist" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_CAD.setPartListExcelRegist_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
 	<parameterMap id="paramMapPartListRegist" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="partgroupno" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="partgroupname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
@@ -42,24 +57,46 @@
 	
 	<procedure id="setPartListRegist" parameterMap="paramMapPartListRegist" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
-        	{call PKG_Q_CAD.setPartListRegist_Pro(?, ?, ?, ?, ?, ?, ?, ?)}
+        	{call PKG_Q_CAD.setPartListRegist_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapPartListSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="partgroupid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="partgroupno" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="partgroupname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="partgroupsize" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="partgroupmaterial" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="partgroupcount" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="partgroupgubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setPartListSave" parameterMap="paramMapPartListSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_CAD.setPartListSave_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
         ]]>
 	</procedure>
 	
 	
 	<parameterMap id="paramMapPartListDelete" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="partgroupid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>
 	
 	<procedure id="setPartListDelete" parameterMap="paramMapPartListDelete" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
-        	{call PKG_Q_CAD.setPartListDelete_Pro(?, ?)}
+        	{call PKG_Q_CAD.setPartListDelete_Pro(?, ?, ?)}
         ]]>
 	</procedure>
 	
 	
 	<parameterMap id="paramMapPartListOrderSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="actiontype" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="partgroupid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="orderorg" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
@@ -68,7 +105,7 @@
 	
 	<procedure id="setPartListOrderSave" parameterMap="paramMapPartListOrderSave" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
-        	{call PKG_Q_CAD.setPartListOrderSave_Pro(?, ?, ?, ?)}
+        	{call PKG_Q_CAD.setPartListOrderSave_Pro(?, ?, ?, ?, ?)}
         ]]>
 	</procedure>
 	

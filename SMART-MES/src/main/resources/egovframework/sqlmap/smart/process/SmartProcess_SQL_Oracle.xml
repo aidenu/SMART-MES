@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SmartProcess">
+
+	<parameterMap id="paramMapScheduleModelData" class="java.util.HashMap">
+		<parameter property="startDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="endDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getScheduleModelData" parameterMap="paramMapScheduleModelData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_PROCESS.getScheduleModelData_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapScheduleData" class="java.util.HashMap">
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getScheduleData" parameterMap="paramMapScheduleData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_PROCESS.getScheduleData_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+</sqlMap>

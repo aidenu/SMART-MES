@@ -60,9 +60,10 @@
 						strHtml += "			<i data-feather='edit'></i>";
 						strHtml += "		</div>";
 						strHtml += "		&nbsp;";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_upload' title='<spring:message code="smart.cad.partlist.upload" />'>";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_uploadbtn' title='<spring:message code="smart.cad.partlist.upload" />'>";
 						strHtml += "			<i data-feather='share'></i>";
 						strHtml += "		</div>";
+						strHtml += "		<input type='file' id='"+value.MODEL_ID+"_excel' name='"+value.MODEL_ID+"_excel' style='display:none;'>";
 						strHtml += "	</td>";
 						strHtml += "</tr>";
 						$("#data_table_tbody").append(strHtml);
@@ -80,11 +81,54 @@
 	
 
 	$(document).on("click", "div[id$='_detail']", function(){
-		
 		var modelid = this.id.replace("_detail", "");
 		window.open("<c:url value='/smart/cad/SmartCadView.do?modelid="+modelid+"'/>", "partListPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1200,height=850");
 		
 	});
+	
+	
+	/**
+		. upload 아이콘 클릭
+	*/
+	$(document).on("click", "div[id$='_uploadbtn']", function() {
+		var modelid = this.id.replace("_uploadbtn", "");
+
+		$("#"+modelid+"_excel").click();
+		
+		$("#"+modelid+"_excel").change(function() {
+			
+			console.log("STEP1 :: " + modelid);
+			
+			var formData = new FormData($("#dataForm")[0]);
+			formData.append("partlist", $("#"+modelid+"_excel")[0].files[0]);
+			formData.append("modelid", modelid);
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/smart/cad/SmartCadPartListExcel.do",
+				enctype: 'multipart/form-data',
+				contentType: false,
+				processData: false,
+				type : "POST",
+				data : formData,
+				datatype : "text",
+				success : function(data) {
+					
+					if(data == "OK") {
+						alert("<spring:message code="smart.cad.partlist.excel.ok" />");
+					} else if(data == "NO DATA") {
+						alert("<spring:message code="smart.cad.partlist.excel.nodata" />");
+					} else if(data.indexOf("ERROR") > -1) {
+						alert("<spring:message code="smart.cad.partlist.excel.error" /> :: " + data);
+					}
+					
+				}
+				
+			});
+			
+		});
+		
+	});
+	
 	
 </script>
 
@@ -114,7 +158,7 @@
 					</div>
 				</header>
 				<div class="container-fluid">
-					<form name="dataForm" method="post">
+					<form name="dataForm" id="dataForm" method="post" enctype="multipart/form-data">
 						<div class="card mb-4">
 							<div class="card-header">
 								<div class="btn btn-light btn-sm line-height-normal p-3" id="dateRange">
@@ -170,7 +214,7 @@
 			<footer class="footer mt-auto footer-light">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-6 small">Copyright &copy; <spring:message code="smart.header.title" /></div>
+						<c:import url="/EgovPageLink.do?link=main/nav/SmartFooter" />
 					</div>
 				</div>
 			</footer>

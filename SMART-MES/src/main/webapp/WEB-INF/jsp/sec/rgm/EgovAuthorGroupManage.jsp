@@ -332,7 +332,7 @@
 			<footer class="footer mt-auto footer-light">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-6 small">Copyright &copy; <spring:message code="smart.header.title" /></div>
+						<c:import url="/EgovPageLink.do?link=main/nav/SmartFooter" />
 					</div>
 				</div>
 			</footer>
@@ -346,108 +346,4 @@
 <script src="<c:url value='/js/smart/datatables.js'/>"></script>
 </body>
 
-<%--
-<body style="background-color: #2c3338;">
-    
-<!-- 전체 레이어 시작 -->
-<div id="wrap">
-    <!-- header 시작 -->
-    <div id="header"><c:import url="/EgovPageLink.do?link=main/inc/EgovIncHeader" /></div>
-    <div id="topnavi"><c:import url="/sym/mms/EgovMainMenuHead.do" /></div>        
-    <div id="subnavi"><c:import url="/sym/mms/EgovMainMenuSub.do" /></div>    
-    
-    <form:form name="listForm" action="<c:url value='/sec/rgm/EgovAuthorGroupList.do'/>" method="post">
-    <input type="hidden" name="userId"/>
-	<input type="hidden" name="userIds"/>
-	<input type="hidden" name="authorCodes"/>
-	<input type="hidden" name="regYns"/>
-	<input type="hidden" name="mberTyCodes"/>
-	<input type="hidden" name="pageIndex" value="<c:out value='${authorGroupVO.pageIndex}'/>"/>
-    
-    
-    <div id="spacecontainer">
-		<table width="100%">
-			<tr><td colspan="3" height="3"></td></tr>
-			<tr>
-				<td valign="top">
-					<table>
-						<tr>
-							<td width="*">
-								<div style="width:1000px;border: 1px solid #D5D1B0;">
-									<table width="100%">
-										<tr>
-											<td id="captionSubTitle" align="center" style="background-color: #2c3338;">
-												<select name="searchCondition" onchange="onSearchCondition()">
-								                    <option value="1" <c:if test="${authorGroupVO.searchCondition == '1'}">selected</c:if> >ID</option>
-								                    <option value="2" <c:if test="${authorGroupVO.searchCondition == '2'}">selected</c:if> >NAME</option>
-								                </select> 
-								                <input name="searchKeyword" type="text" value="<c:out value='${authorGroupVO.searchKeyword}'/>" size="25" onkeypress="press();"/> 
-								                <a class='AXButton Gray' href="#LINK" onclick="javascript:fncSelectAuthorGroupList('1')" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="space.manage.user.auth.button.search" /></a>
-		                                        <a class='AXButton Gray' href="#LINK" onclick="javascript:fncAddAuthorGroupInsert()" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="space.manage.user.auth.button.regist" /></a>
-		                                        <a class='AXButton Gray' href="#LINK" onclick="javascript:fncAuthorGroupDeleteList()" style="selector-dummy:expression(this.hideFocus=false);"><spring:message code="space.manage.user.auth.button.cancel" /></a>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="3">
-								<div class="tableContainer" style="width:1000px;">
-									<table id="data_table" class="fancyTable"> 
-										<thead>
-											<tr>
-												<th><input name="checkAll" id="checkAll" type="checkbox" title="Check All" onclick="javascript:fncCheckAll();"/></th>
-												<th><spring:message code="space.manage.user.auth.item.id" /></th>
-												<th><spring:message code="space.manage.user.auth.item.name" /></th>
-												<th><spring:message code="space.manage.user.auth.item.auth" /></th>
-												<th><spring:message code="space.manage.user.auth.item.regflag" /></th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="authorGroup" items="${authorGroupList}" varStatus="status">
-											<tr>
-												<td><input type="checkbox" name="delYn" class="check2"><input type="hidden" name="checkId" value="<c:out value="${authorGroup.uniqId}"/>"/></td>
-												<td><font color="#FFF"><c:out value="${authorGroup.userId}"/></font><input type="hidden" name="mberTyCode" value="${authorGroup.mberTyCode}"/></td>
-												<td><font color="#FFF"><c:out value="${authorGroup.userNm}"/></font></td>
-												<td>
-													<select name="authorManageCombo">
-											            <c:forEach var="authorManage" items="${authorManageList}" varStatus="status">
-											                <option value="<c:out value="${authorManage.authorCode}"/>" <c:if test="${authorManage.authorCode == authorGroup.authorCode}">selected</c:if> ><c:out value="${authorManage.authorNm}"/></option>
-											            </c:forEach>
-											        </select>
-												</td>
-												<td><font color="#FFF"><c:out value="${authorGroup.regYn}"/><input type="hidden" name="regYn" value="<c:out value="${authorGroup.regYn}"/>"></font></td>
-											</tr>
-											</c:forEach>
-										</tbody>
-									</table>
-								</div>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-		<!-- 페이지 네비게이션 시작 -->
-	    <c:if test="${!empty authorGroupVO.pageIndex }">
-	   <table width="1000">
-			<tr>
-				<td>
-					<div id="paging_div">
-						<ul class="paging_align"><ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="linkPage" /></ul>
-					</div>
-				</td>
-			</tr>
-		</table>
-	    </c:if>              
-	     <!-- //페이지 네비게이션 끝 -->
-	</div>
-	</form:form>
-
-</div>
-<!-- //전체 레이어 끝 -->
-
- </body>
- --%>
 </html>

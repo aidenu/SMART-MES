@@ -122,7 +122,7 @@
 			<footer class="footer mt-auto footer-light">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-6 small">Copyright &copy; <spring:message code="smart.header.title" /></div>
+						<c:import url="/EgovPageLink.do?link=main/nav/SmartFooter" />
 					</div>
 				</div>
 			</footer>
