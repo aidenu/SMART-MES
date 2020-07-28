@@ -29,4 +29,21 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapScheduleAdd" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="scheduleName" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="dependSchedule" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setScheduleAdd" parameterMap="paramMapScheduleAdd" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_PROCESS.setScheduleAdd_Pro(?, ?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
 </sqlMap>

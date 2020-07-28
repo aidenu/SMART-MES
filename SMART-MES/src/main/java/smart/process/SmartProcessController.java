@@ -113,4 +113,39 @@ public class SmartProcessController {
 		return "smart/process/SmartScheduleView";
 	}
 	
+	
+	@RequestMapping(value="/smart/process/SmartScheduleAddData.do")
+	@ResponseBody
+	public String SmartScheduleAddData(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="scheduleName", required=false) String scheduleName,
+			@RequestParam(value="dependSchedule", required=false) String dependSchedule,
+			@RequestParam(value="startdate", required=false) String startdate,
+			@RequestParam(value="enddate", required=false) String enddate,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("modelid", modelid);
+			hp.put("scheduleName", scheduleName);
+			hp.put("dependSchedule", dependSchedule);
+			hp.put("startdate", startdate);
+			hp.put("enddate", enddate);
+			
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setScheduleAdd", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/process/SmartScheduleAddData.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
+	}
 }

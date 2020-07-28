@@ -20,7 +20,17 @@
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smart/frappe-gantt.js'/>"></script>
-
+<style>
+	
+	#addScheduleLayer {
+		display: none;
+		position: absolute;
+		top: 50%;
+		left: 30%;
+		width: 500px;
+	}
+	
+</style>
 <script>
 	
 	
@@ -34,6 +44,94 @@
 			self.close();
 		});
 		
+		
+		/**
+			. Add Button Click
+			. 일정 추가 Layer view
+		*/
+		$("#btn_add").click(function() {
+			$("#addScheduleLayer").show();
+			$("#addScheduleName").focus();
+		});
+		
+		/**
+			. Layer Close Button Click
+			. 일정 Layer hidden
+		*/
+		$("#addScheduleLayerClose").click(function() {
+			
+			$("#addScheduleName").val('');
+			$("#dependSchedule").val('');
+			
+			var date = new Date();
+			var today = "";
+			if(date.getMonth() < 10) {
+				today = date.getFullYear() + "-" + "0" + (date.getMonth()+1) + "-" + date.getDate();
+			} else {
+				today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+			}
+			$("#singleDateDivstartdate span").html(today);
+			$("#startdate").val(today);
+			
+			$("#singleDateDivenddate span").html(today);
+			$("#enddate").val(today);
+			
+			$("#addScheduleLayer").hide();
+		});
+		
+		/**
+			. Layer Insert Button Click
+			. 일정 추가 
+			. Parameter
+			   : modelid, scheduleName, dependSchedule, startdate, enddate
+		*/
+		$("#addScheduleLayerInsert").click(function() {
+			
+			var modelid = $("#modelid").val();
+			var modelno = $("#modelno").val();
+			var scheduleName = $("#addScheduleName").val();
+			var dependSchedule = $("#dependSchedule").val();
+			var startdate = $("#startdate").val();
+			var enddate = $("#enddate").val();
+			if(startdate.replace(/-/gi, "") > enddate.replace(/-/gi, "")) {
+				alert("<spring:message code="smart.common.date.validation.startend" />");
+			}
+			
+			$.ajax({
+				
+				url : "${pageContext.request.contextPath}/smart/process/SmartScheduleView.do",
+				type : "POST",
+				data : {"modelid":modelid, "scheduleName":scheduleName, "dependSchedule":dependSchedule,
+						"startdate":startdate, "enddate":enddate},
+				datatype : "text",
+				success : function(data) {
+					if(data == "OK") {
+						alert("<spring:message code="smart.common.save.ok" />");
+						
+						$("#addScheduleLayerClose").click();
+						
+						$.ajax({
+							
+							url : "${pageContext.request.contextPath}/smart/process/SmartScheduleViewData.do",
+							type : "POST",
+							data : {"modelid":modelid},
+							datatype : "json",
+							success : function(data) {
+								
+							}
+							
+						});
+						
+					} else if(data.indexOf("ERROR") > -1) {
+						alert("<spring:message code="smart.common.save.error" /> \n " + data);
+					}
+				}
+				
+			});
+			
+		});
+		
+		
 	});
 	
 	
@@ -44,6 +142,7 @@
 		
 		<form name="dataForm" method="post" >
 			<input type="hidden" name="modelid" id="modelid" value="${modelid }">
+			<input type="hidden" name="modelno" id="modelid" value="${modelno }">
 			<div class="card mb-4">
 				<div class="card card-header-actions">
 					 <div class="card-header">
@@ -111,10 +210,52 @@
 							console.log(gantt_chart);
 						</script>
 				    </div>
-			    
+			    	
+			    	<!-- Schedule Add layer-->
+					<div class="col-lg-6" id="addScheduleLayer">
+						<div class="card bg-dark text-center pricing-detailed-behind">
+							<div class="card-header justify-content-center py-4">
+								<h5 class="mb-0 text-white"><spring:message code="smart.process.schedule.add.layer.title" /></h5>
+							</div>
+							<div class="card-body text-white-50 p-5">
+								<input class="form-control" id="addScheduleName" name="addScheduleName" placeholder="<spring:message code="smart.process.schedule.name" />">
+								<br>
+								<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivstartdate">
+								    <i class="mr-2 text-primary" data-feather="calendar"></i>
+								    <span></span>
+								    <input type="hidden" name="startdate" id="startdate">
+								    <i class="ml-1" data-feather="chevron-down"></i>
+								</div>
+								~
+								<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivenddate">
+								    <i class="mr-2 text-primary" data-feather="calendar"></i>
+								    <span></span>
+								    <input type="hidden" name="enddate" id="enddate">
+								    <i class="ml-1" data-feather="chevron-down"></i>
+								</div>
+								<br><br>
+								<div class="form-group" style="margin-bottom: 0px;">
+			    					<select class="form-control form-control-solid" id="dependSchedule" name="dependSchedule">
+			    						<option value=""> -- Select -- </option>
+		    							<c:forEach var="result" items="${result }" varStatus="status">
+		    								<c:if test="${result.TASK_ID != '0' }">
+		    									<option value="${result.TASK_ID }">${result.TASK_NAME }</option>
+		    								</c:if>
+		    							</c:forEach>
+		    						</select>
+		    					</div>
+							</div>
+							<div class="card-footer bg-gray-800 text-white d-flex align-items-center justify-content-center">
+								<div class="btn btn-outline-light" id="addScheduleLayerInsert"><spring:message code="smart.common.button.add" /></div>
+								&nbsp;&nbsp;
+								<div class="btn btn-outline-light" id="addScheduleLayerClose"><spring:message code="smart.common.button.close" /></div>
+							</div>
+						</div>
+					</div>
+					
 			    </div>
 			</div>
-		
+            
 		</form>
 		   
 		    
