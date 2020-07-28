@@ -111,6 +111,7 @@ var date_utils = {
         const values = this.get_date_values(date).map(d => padStart(d, 2, 0));
         const format_map = {
             YYYY: values[0],
+            YY: values[0].substring(2),
             MM: padStart(+values[1] + 1, 2, 0),
             DD: values[2],
             HH: values[3],
@@ -599,10 +600,10 @@ class Bar {
     show_popup() {
         if (this.gantt.bar_being_dragged) return;
 
-        const start_date = date_utils.format(this.task._start, 'MMM D');
+        const start_date = date_utils.format(this.task._start, 'YY-MM-DD');
         const end_date = date_utils.format(
             date_utils.add(this.task._end, -1, 'second'),
-            'MMM D'
+            'YY-MM-DD'
         );
         const subtitle = start_date + ' - ' + end_date;
 
@@ -938,7 +939,7 @@ class Popup {
             // set data
             this.title.innerHTML = options.title;
             this.subtitle.innerHTML = options.subtitle;
-            this.parent.style.width = this.parent.clientWidth + 'px';
+            this.parent.style.width = (this.parent.clientWidth) + 'px';
         }
 
         // set position

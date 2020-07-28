@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title><spring:message code="smart.cad.partlist.title" /></title>
+<title><spring:message code="smart.process.schedule.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
@@ -99,7 +99,7 @@
 			
 			$.ajax({
 				
-				url : "${pageContext.request.contextPath}/smart/process/SmartScheduleView.do",
+				url : "${pageContext.request.contextPath}/smart/process/SmartScheduleAddData.do",
 				type : "POST",
 				data : {"modelid":modelid, "scheduleName":scheduleName, "dependSchedule":dependSchedule,
 						"startdate":startdate, "enddate":enddate},
@@ -117,6 +117,68 @@
 							data : {"modelid":modelid},
 							datatype : "json",
 							success : function(data) {
+
+								$("#dependSchedule option").remove();
+								$("#dependSchedule").append("<option value=''> --Select-- </option>");
+								var tasks = [];
+									$.each(data, function(index, value) {
+										
+										if(value.TASK_ID != "0") {
+											$("#dependSchedule").append("<option value='"+value.TASK_ID+"'>"+value.TASK_NAME+"</option>");
+										}
+
+										tasks.push(
+											{
+												start: value.START_DATE,
+												end: value.END_DATE,
+												name: value.TASK_NAME,
+												id: value.TASK_ID,
+												dependencies: value.DEPEND_TASK,
+												progress: value.PROGRESS_RATE
+											}
+										);
+									})
+								$(".gantt-target").empty();
+								var gantt_chart = new Gantt(".gantt-target", tasks, {
+									custom_popup_html: function(task, start, end) {
+										// the task object will contain the updated
+										// dates and progress value
+										var start_date = "";
+										var end_date = "";
+										var id = "";
+										var divQuery = "";
+										
+										start_date = task._start.getFullYear().toString().substr(-2) + "-" + ("00"+(task._start.getMonth()+1)).slice(-2) + "-" + ("00"+task._start.getDate()).slice(-2);
+										end_date = task._end.getFullYear().toString().substr(-2) + "-" + ("00"+(task._end.getMonth()+1)).slice(-2) + "-" + ("00"+task._end.getDate()).slice(-2);
+										id = task.id;
+										
+										if(id != "0") {
+											divQuery = "<div class='details-container' style='width:170px;text-align:center;'>"+
+																"	<div class='title'>"+
+																"		"+task.name+
+																"	</div>"+
+														        "   <div class='subtitle'>"+
+														        "    	"+start_date+" ~ "+end_date+
+														  		"        <br style='display:block;margin:10px;content:\"\";' >"+
+														  		"        <div class='btn btn-outline-light btn-xs' id='"+id+"_del'>삭제</div>"+
+														        "    </div>"+
+																"</div>";
+										} else {
+											divQuery = "<div class='details-container' style='width:170px;text-align:center;'>"+
+																"	<div class='title'>"+
+																"		"+task.name+
+																"	</div>"+
+														        "   <div class='subtitle'>"+
+														        "    	"+start_date+" ~ "+end_date+
+														        "    </div>"+
+																"</div>";
+										}
+										
+										return divQuery;
+									},
+									view_mode: 'Day',
+									language: 'kr'
+								});
 								
 							}
 							
@@ -131,6 +193,70 @@
 			
 		});
 		
+		
+		$(document).on("click", "div[id$='_del']", function() {
+			
+			var modelid = $("#modelid").val();
+			var scheduleid = this.id.replace("_del", "");
+			
+			$.ajax({
+				
+				url : "${pageContext.request.contextPath}/smart/process/SmartScheduleDeleteData.do",
+				type : "POST",
+				data : {"modelid":modelid, "scheduleid":scheduleid},
+				datatype : "text",
+				success : function(data) {
+					if(data == "OK") {
+						alert("<spring:message code="smart.common.delete.ok" />");
+						
+						$.ajax({
+							
+							url : "${pageContext.request.contextPath}/smart/process/SmartScheduleViewData.do",
+							type : "POST",
+							data : {"modelid":modelid},
+							datatype : "json",
+							success : function(data) {
+								
+								$(".popup-wrapper").css("opacity", 0);
+								
+								$("#dependSchedule option").remove();
+								$("#dependSchedule").append("<option value=''> --Select-- </option>");
+								var tasks = [];
+									$.each(data, function(index, value) {
+										
+										if(value.TASK_ID != "0") {
+											$("#dependSchedule").append("<option value='"+value.TASK_ID+"'>"+value.TASK_NAME+"</option>");
+										}
+
+										tasks.push(
+											{
+												start: value.START_DATE,
+												end: value.END_DATE,
+												name: value.TASK_NAME,
+												id: value.TASK_ID,
+												dependencies: value.DEPEND_TASK,
+												progress: value.PROGRESS_RATE
+											}
+										);
+									})
+								$(".gantt-target").empty();
+								var gantt_chart = new Gantt(".gantt-target", tasks, {
+									view_mode: 'Day',
+									language: 'kr'
+								});
+								
+							}
+							
+						});
+						
+					} else if(data.indexOf("ERROR") > -1) {
+						alert("<spring:message code="smart.common.delete.error" /> \n " + data);
+					}
+				}
+				
+			});
+			
+		});
 		
 	});
 	
@@ -192,22 +318,45 @@
 								</c:forEach>
 							]
 							var gantt_chart = new Gantt(".gantt-target", tasks, {
-								on_click: function (task) {
-									console.log(task.name);
-								},
-								on_date_change: function(task, start, end) {
-									console.log(start, end);
-								},
-								on_progress_change: function(task, progress) {
-									console.log(task, progress);
-								},
-								on_view_change: function(mode) {
-									console.log(mode);
-								},
+								 custom_popup_html: function(task, start, end) {
+										// the task object will contain the updated
+										// dates and progress value
+										var start_date = "";
+										var end_date = "";
+										var id = "";
+										var divQuery = "";
+										
+										start_date = task._start.getFullYear().toString().substr(-2) + "-" + ("00"+(task._start.getMonth()+1)).slice(-2) + "-" + ("00"+task._start.getDate()).slice(-2);
+										end_date = task._end.getFullYear().toString().substr(-2) + "-" + ("00"+(task._end.getMonth()+1)).slice(-2) + "-" + ("00"+task._end.getDate()).slice(-2);
+										id = task.id;
+										
+										if(id != "0") {
+											divQuery = "<div class='details-container' style='width:170px;text-align:center;'>"+
+																"	<div class='title'>"+
+																"		"+task.name+
+																"	</div>"+
+														        "   <div class='subtitle'>"+
+														        "    	"+start_date+" ~ "+end_date+
+														  		"        <br style='display:block;margin:10px;content:\"\";' >"+
+														  		"        <div class='btn btn-outline-light btn-xs' id='"+id+"_del'>삭제</div>"+
+														        "    </div>"+
+																"</div>";
+										} else {
+											divQuery = "<div class='details-container' style='width:170px;text-align:center;'>"+
+																"	<div class='title'>"+
+																"		"+task.name+
+																"	</div>"+
+														        "   <div class='subtitle'>"+
+														        "    	"+start_date+" ~ "+end_date+
+														        "    </div>"+
+																"</div>";
+										}
+										
+										return divQuery;
+									},
 								view_mode: 'Day',
 								language: 'kr'
 							});
-							console.log(gantt_chart);
 						</script>
 				    </div>
 			    	

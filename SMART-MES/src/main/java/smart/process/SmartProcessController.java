@@ -148,4 +148,57 @@ public class SmartProcessController {
 		
 		return actionresult;
 	}
+	
+	
+	@RequestMapping(value="/smart/process/SmartScheduleDeleteData.do")
+	@ResponseBody
+	public String SmartScheduleDeleteData(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="scheduleid", required=false) String scheduleid,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("modelid", modelid);
+			hp.put("scheduleid", scheduleid);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setScheduleDelete", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/process/SmartScheduleDeleteData.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
+	}
+	
+	@RequestMapping(value="/smart/process/SmartScheduleViewData.do")
+	@ResponseBody
+	public List<HashMap> SmartScheduleViewData(
+			@RequestParam(value="modelid", required=false) String modelid,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("modelid", modelid);
+			
+			result = SmartCommonDAO.commonDataProc("getScheduleData", hp);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/process/SmartScheduleViewData.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
 }
