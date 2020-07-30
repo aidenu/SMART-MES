@@ -36,7 +36,6 @@
 	
 	$(document).ready(function() {
 		
-		
 		/**
 			. Close Button Click
 		*/
@@ -120,7 +119,70 @@
 
 								$("#dependSchedule option").remove();
 								$("#dependSchedule").append("<option value=''> --Select-- </option>");
-								var tasks = [];
+								
+								tasks = [];
+								$.each(data, function(index, value) {
+									
+									if(value.TASK_ID != "0") {
+										$("#dependSchedule").append("<option value='"+value.TASK_ID+"'>"+value.TASK_NAME+"</option>");
+									}
+
+									tasks.push(
+										{
+											start: value.START_DATE,
+											end: value.END_DATE,
+											name: value.TASK_NAME,
+											id: value.TASK_ID,
+											dependencies: value.DEPEND_TASK,
+											progress: value.PROGRESS_RATE
+										}
+									);
+								})
+								gantt_chart.refresh(tasks);
+							}	//success
+							
+						});	//ajax url : SmartScheduleViewData.do
+						
+					} else if(data.indexOf("ERROR") > -1) {
+						alert("<spring:message code="smart.common.save.error" /> \n " + data);
+					}
+				}	//success
+				
+			});	//ajax url : SmartScheduleAddData.do
+			
+		});	//click add btn
+		
+		
+		$(document).on("click", "div[id$='_del']", function() {
+			
+			var modelid = $("#modelid").val();
+			var scheduleid = this.id.replace("_del", "");
+			
+			if(confirm("<spring:message code="smart.common.delete.is" />")) {
+				$.ajax({
+					
+					url : "${pageContext.request.contextPath}/smart/process/SmartScheduleDeleteData.do",
+					type : "POST",
+					data : {"modelid":modelid, "scheduleid":scheduleid},
+					datatype : "text",
+					success : function(data) {
+						if(data == "OK") {
+							alert("<spring:message code="smart.common.delete.ok" />");
+							
+							$.ajax({
+								
+								url : "${pageContext.request.contextPath}/smart/process/SmartScheduleViewData.do",
+								type : "POST",
+								data : {"modelid":modelid},
+								datatype : "json",
+								success : function(data) {
+									
+									$(".popup-wrapper").css("opacity", 0);
+									
+									$("#dependSchedule option").remove();
+									$("#dependSchedule").append("<option value=''> --Select-- </option>");
+									
+									tasks = [];
 									$.each(data, function(index, value) {
 										
 										if(value.TASK_ID != "0") {
@@ -138,76 +200,53 @@
 											}
 										);
 									})
-								$(".gantt-target").empty();
-								var gantt_chart = new Gantt(".gantt-target", tasks, {
-									custom_popup_html: function(task, start, end) {
-										// the task object will contain the updated
-										// dates and progress value
-										var start_date = "";
-										var end_date = "";
-										var id = "";
-										var divQuery = "";
-										
-										start_date = task._start.getFullYear().toString().substr(-2) + "-" + ("00"+(task._start.getMonth()+1)).slice(-2) + "-" + ("00"+task._start.getDate()).slice(-2);
-										end_date = task._end.getFullYear().toString().substr(-2) + "-" + ("00"+(task._end.getMonth()+1)).slice(-2) + "-" + ("00"+task._end.getDate()).slice(-2);
-										id = task.id;
-										
-										if(id != "0") {
-											divQuery = "<div class='details-container' style='width:170px;text-align:center;'>"+
-																"	<div class='title'>"+
-																"		"+task.name+
-																"	</div>"+
-														        "   <div class='subtitle'>"+
-														        "    	"+start_date+" ~ "+end_date+
-														  		"        <br style='display:block;margin:10px;content:\"\";' >"+
-														  		"        <div class='btn btn-outline-light btn-xs' id='"+id+"_del'>삭제</div>"+
-														        "    </div>"+
-																"</div>";
-										} else {
-											divQuery = "<div class='details-container' style='width:170px;text-align:center;'>"+
-																"	<div class='title'>"+
-																"		"+task.name+
-																"	</div>"+
-														        "   <div class='subtitle'>"+
-														        "    	"+start_date+" ~ "+end_date+
-														        "    </div>"+
-																"</div>";
-										}
-										
-										return divQuery;
-									},
-									view_mode: 'Day',
-									language: 'kr'
-								});
+									gantt_chart.refresh(tasks);
+								}	//success
 								
-							}
+							});	//ajax url : SmartScheduleViewData.do 
 							
-						});
-						
-					} else if(data.indexOf("ERROR") > -1) {
-						alert("<spring:message code="smart.common.save.error" /> \n " + data);
-					}
+						} else if(data.indexOf("ERROR") > -1) {
+							alert("<spring:message code="smart.common.delete.error" /> \n " + data);
+						}
+					}	//success
+					
+				});	//ajax url : SmartScheduleDeleteData.do
+			}
+			
+			
+		});	//click del btn
+		
+		
+		$(document).on("click", "div[id$='_save']", function() {
+			
+			var arraystr = "";
+			var modelid = $("#modelid").val();
+			var start_date = "";
+			var end_date = "";
+			
+			for(var i=0; i<tasks.length; i++){
+				
+				if(tasks[i].id != "0") {
+					start_date = tasks[i]._start.getFullYear().toString() + "-" + ("00"+(tasks[i]._start.getMonth()+1)).slice(-2) + "-" + ("00"+tasks[i]._start.getDate()).slice(-2);
+					end_date = tasks[i]._end.getFullYear().toString() + "-" + ("00"+(tasks[i]._end.getMonth()+1)).slice(-2) + "-" + ("00"+tasks[i]._end.getDate()).slice(-2);
+					
+					arraystr += tasks[i].id + "♬";
+					arraystr += start_date + "♬";
+					arraystr += end_date + "♩";
 				}
 				
-			});
-			
-		});
-		
-		
-		$(document).on("click", "div[id$='_del']", function() {
-			
-			var modelid = $("#modelid").val();
-			var scheduleid = this.id.replace("_del", "");
+			}
+			arraystr = arraystr.substring(0, arraystr.length-1);
 			
 			$.ajax({
 				
-				url : "${pageContext.request.contextPath}/smart/process/SmartScheduleDeleteData.do",
+				url : "${pageContext.request.contextPath}/smart/process/SmartScheduleSaveData.do",
 				type : "POST",
-				data : {"modelid":modelid, "scheduleid":scheduleid},
+				data : {"modelid":modelid, "arraystr":arraystr},
 				datatype : "text",
 				success : function(data) {
 					if(data == "OK") {
-						alert("<spring:message code="smart.common.delete.ok" />");
+						alert("<spring:message code="smart.common.save.ok" />");
 						
 						$.ajax({
 							
@@ -221,42 +260,38 @@
 								
 								$("#dependSchedule option").remove();
 								$("#dependSchedule").append("<option value=''> --Select-- </option>");
-								var tasks = [];
-									$.each(data, function(index, value) {
-										
-										if(value.TASK_ID != "0") {
-											$("#dependSchedule").append("<option value='"+value.TASK_ID+"'>"+value.TASK_NAME+"</option>");
-										}
-
-										tasks.push(
-											{
-												start: value.START_DATE,
-												end: value.END_DATE,
-												name: value.TASK_NAME,
-												id: value.TASK_ID,
-												dependencies: value.DEPEND_TASK,
-												progress: value.PROGRESS_RATE
-											}
-										);
-									})
-								$(".gantt-target").empty();
-								var gantt_chart = new Gantt(".gantt-target", tasks, {
-									view_mode: 'Day',
-									language: 'kr'
-								});
 								
-							}
+								tasks = [];
+								$.each(data, function(index, value) {
+									
+									if(value.TASK_ID != "0") {
+										$("#dependSchedule").append("<option value='"+value.TASK_ID+"'>"+value.TASK_NAME+"</option>");
+									}
+
+									tasks.push(
+										{
+											start: value.START_DATE,
+											end: value.END_DATE,
+											name: value.TASK_NAME,
+											id: value.TASK_ID,
+											dependencies: value.DEPEND_TASK,
+											progress: value.PROGRESS_RATE
+										}
+									);
+								})
+								gantt_chart.refresh(tasks);
+							}	//success
 							
-						});
+						});	//ajax url : SmartScheduleViewData.do 
 						
 					} else if(data.indexOf("ERROR") > -1) {
-						alert("<spring:message code="smart.common.delete.error" /> \n " + data);
+						alert("<spring:message code="smart.common.save.error" /> \n " + data);
 					}
-				}
+				}	//success
 				
-			});
-			
-		});
+			});	//ajax url : SmartScheduleSaveData.do
+
+		});	//click save btn
 		
 	});
 	
@@ -275,6 +310,8 @@
 				    	${modelno } <spring:message code="smart.process.schedule.title" />
 				    	<div>
 				    		<div class="btn btn-primary btn-sm" id="btn_add"><spring:message code="smart.common.button.insert" /></div>
+					    	&nbsp;
+					    	<div class="btn btn-primary btn-sm" id="btn_save"><spring:message code="smart.common.button.save" /></div>
 					    	&nbsp;
 					    	<div class="btn btn-primary btn-sm" id="btn_close"><spring:message code="smart.common.button.close" /></div>
 				    	</div>
@@ -321,13 +358,19 @@
 								 custom_popup_html: function(task, start, end) {
 										// the task object will contain the updated
 										// dates and progress value
+										var temp_start_date = task._start;
+										var temp_end_date = task._end;
+										temp_end_date.setDate(temp_end_date.getDate()-1);
 										var start_date = "";
 										var end_date = "";
+										var progressRate = "";
 										var id = "";
 										var divQuery = "";
+
+										start_date = temp_start_date.getFullYear().toString().substr(-2) + "-" + ("00"+(temp_start_date.getMonth()+1)).slice(-2) + "-" + ("00"+temp_start_date.getDate()).slice(-2);
+										end_date = temp_end_date.getFullYear().toString().substr(-2) + "-" + ("00"+(temp_end_date.getMonth()+1)).slice(-2) + "-" + ("00"+temp_end_date.getDate()).slice(-2);
+										progressRate = task.progress;
 										
-										start_date = task._start.getFullYear().toString().substr(-2) + "-" + ("00"+(task._start.getMonth()+1)).slice(-2) + "-" + ("00"+task._start.getDate()).slice(-2);
-										end_date = task._end.getFullYear().toString().substr(-2) + "-" + ("00"+(task._end.getMonth()+1)).slice(-2) + "-" + ("00"+task._end.getDate()).slice(-2);
 										id = task.id;
 										
 										if(id != "0") {
@@ -337,6 +380,8 @@
 																"	</div>"+
 														        "   <div class='subtitle'>"+
 														        "    	"+start_date+" ~ "+end_date+
+														  		"        <br style='display:block;margin:10px;content:\"\";' >"+
+														  		"    	진행률 : "+progressRate+"%"+
 														  		"        <br style='display:block;margin:10px;content:\"\";' >"+
 														  		"        <div class='btn btn-outline-light btn-xs' id='"+id+"_del'>삭제</div>"+
 														        "    </div>"+
@@ -348,6 +393,8 @@
 																"	</div>"+
 														        "   <div class='subtitle'>"+
 														        "    	"+start_date+" ~ "+end_date+
+														  		"        <br style='display:block;margin:10px;content:\"\";' >"+
+														  		"    	진행률 : "+progressRate+"%"+
 														        "    </div>"+
 																"</div>";
 										}

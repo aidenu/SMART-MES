@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title><spring:message code="smart.process.schedule.title" /></title>
+<title><spring:message code="smart.process.procmanage.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
@@ -38,7 +38,7 @@
 			var endDate = $("#endDate").val();
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/process/SmartScheduleData.do",
+				url : "${pageContext.request.contextPath}/smart/process/SmartProcManageData.do",
 				data : {"startDate":startDate, "endDate":endDate},
 				type : "POST",
 				datatype : "json",
@@ -75,16 +75,6 @@
 	});
 	
 	
-	$(document).on("click", "div[id$='_schedule']", function() {
-		
-		var modelid = this.id.replace("_schedule", "");
-		var modelno = $("#"+modelid+"_modelno").val();
-		window.open("<c:url value='/smart/process/SmartScheduleView.do?modelid="+modelid+"&modelno="+modelno+"'/>", "schedPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1500,height=850");
-		
-	});
-	
-	
-	
 </script>
 
 </head>
@@ -105,7 +95,7 @@
 								<div class="col-auto mt-4">
 									<h1 class="page-header-title">
 										<div class="page-header-icon"><i data-feather="database"></i></div>
-										<span><spring:message code="smart.process.schedule.title" /></span>
+										<span><spring:message code="smart.process.procmanage.title" /></span>
 									</h1>
 								</div>
 							</div>
