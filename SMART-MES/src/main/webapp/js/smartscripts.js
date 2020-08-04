@@ -24,6 +24,19 @@
     }
   });
 
+  
+  //Toggle the Header Title
+  $("#headerHide").on("click", function(e) {
+	  $("#headerTitle").toggleClass("header-toggled");
+	  $("#dataContainer").toggleClass("header-toggled");
+  });
+  $("#headerView").on("click", function(e) {
+	  $("#headerTitle").toggleClass("header-toggled");
+	  $("#dataContainer").toggleClass("header-toggled");
+  });
+  
+  
+  
   // Toggle the side navigation
   $("#sidebarToggle").on("click", function(e) {
     e.preventDefault();

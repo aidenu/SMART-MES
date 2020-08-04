@@ -216,83 +216,6 @@
 			
 		});	//click del btn
 		
-		
-		$(document).on("click", "div[id$='_save']", function() {
-			
-			var arraystr = "";
-			var modelid = $("#modelid").val();
-			var start_date = "";
-			var end_date = "";
-			
-			for(var i=0; i<tasks.length; i++){
-				
-				if(tasks[i].id != "0") {
-					start_date = tasks[i]._start.getFullYear().toString() + "-" + ("00"+(tasks[i]._start.getMonth()+1)).slice(-2) + "-" + ("00"+tasks[i]._start.getDate()).slice(-2);
-					end_date = tasks[i]._end.getFullYear().toString() + "-" + ("00"+(tasks[i]._end.getMonth()+1)).slice(-2) + "-" + ("00"+tasks[i]._end.getDate()).slice(-2);
-					
-					arraystr += tasks[i].id + "♬";
-					arraystr += start_date + "♬";
-					arraystr += end_date + "♩";
-				}
-				
-			}
-			arraystr = arraystr.substring(0, arraystr.length-1);
-			
-			$.ajax({
-				
-				url : "${pageContext.request.contextPath}/smart/process/SmartScheduleSaveData.do",
-				type : "POST",
-				data : {"modelid":modelid, "arraystr":arraystr},
-				datatype : "text",
-				success : function(data) {
-					if(data == "OK") {
-						alert("<spring:message code="smart.common.save.ok" />");
-						
-						$.ajax({
-							
-							url : "${pageContext.request.contextPath}/smart/process/SmartScheduleViewData.do",
-							type : "POST",
-							data : {"modelid":modelid},
-							datatype : "json",
-							success : function(data) {
-								
-								$(".popup-wrapper").css("opacity", 0);
-								
-								$("#dependSchedule option").remove();
-								$("#dependSchedule").append("<option value=''> --Select-- </option>");
-								
-								tasks = [];
-								$.each(data, function(index, value) {
-									
-									if(value.TASK_ID != "0") {
-										$("#dependSchedule").append("<option value='"+value.TASK_ID+"'>"+value.TASK_NAME+"</option>");
-									}
-
-									tasks.push(
-										{
-											start: value.START_DATE,
-											end: value.END_DATE,
-											name: value.TASK_NAME,
-											id: value.TASK_ID,
-											dependencies: value.DEPEND_TASK,
-											progress: value.PROGRESS_RATE
-										}
-									);
-								})
-								gantt_chart.refresh(tasks);
-							}	//success
-							
-						});	//ajax url : SmartScheduleViewData.do 
-						
-					} else if(data.indexOf("ERROR") > -1) {
-						alert("<spring:message code="smart.common.save.error" /> \n " + data);
-					}
-				}	//success
-				
-			});	//ajax url : SmartScheduleSaveData.do
-
-		});	//click save btn
-		
 	});
 	
 	
@@ -310,8 +233,6 @@
 				    	${modelno } <spring:message code="smart.process.schedule.title" />
 				    	<div>
 				    		<div class="btn btn-primary btn-sm" id="btn_add"><spring:message code="smart.common.button.insert" /></div>
-					    	&nbsp;
-					    	<div class="btn btn-primary btn-sm" id="btn_save"><spring:message code="smart.common.button.save" /></div>
 					    	&nbsp;
 					    	<div class="btn btn-primary btn-sm" id="btn_close"><spring:message code="smart.common.button.close" /></div>
 				    	</div>
@@ -401,8 +322,28 @@
 										
 										return divQuery;
 									},
-								view_mode: 'Day',
-								language: 'kr'
+									on_date_change: function(task, start, end) {
+										var modelid = $("#modelid").val();
+										var taskid = task.id;
+										var start_date = start.getFullYear().toString() + "-" + ("00"+(start.getMonth()+1)).slice(-2) + "-" + ("00"+start.getDate()).slice(-2);
+										var end_date = end.getFullYear().toString() + "-" + ("00"+(end.getMonth()+1)).slice(-2) + "-" + ("00"+end.getDate()).slice(-2);
+										
+										if(taskid != "0") {
+											$.ajax({
+												url : "${pageContext.request.contextPath}/smart/process/SmartScheduleSaveData.do",
+												type : "POST",
+												data : {"modelid":modelid, "taskid":taskid, "startdate":start_date, "enddate":end_date},
+												datatype : "text",
+												success : function(data) {
+													if(data.indexOf("ERROR") > -1) {
+														alert("<spring:message code="smart.common.save.error" /> :: " + data);
+													}
+												}
+											});
+										}
+									},
+									view_mode: 'Day',
+									language: 'kr'
 							});
 						</script>
 				    </div>

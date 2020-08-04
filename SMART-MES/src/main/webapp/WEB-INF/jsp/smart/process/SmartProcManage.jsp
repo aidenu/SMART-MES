@@ -282,6 +282,24 @@
 									
 									return divQuery;
 								},
+								on_date_change: function(task, start, end) {
+									var workid = task.id;
+									var start_date = start.getFullYear().toString() + "-" + ("00"+(start.getMonth()+1)).slice(-2) + "-" + ("00"+start.getDate()).slice(-2);
+									var end_date = end.getFullYear().toString() + "-" + ("00"+(end.getMonth()+1)).slice(-2) + "-" + ("00"+end.getDate()).slice(-2);
+									$.ajax({
+										
+										url : "${pageContext.request.contextPath}/smart/process/SmartProcManagePartSchedChg.do",
+										type : "POST",
+										data : {"workid":workid, "startdate":start_date, "enddate":end_date},
+										datatype : "text",
+										success : function(data) {
+											if(data.indexOf("ERROR") > -1) {
+												alert("<spring:message code="smart.common.save.error" /> :: " + data);
+											}
+										}
+										
+									});
+								},
 								view_mode: 'Day',
 								language: 'kr'
 							});
@@ -346,6 +364,24 @@
 							}
 							
 							return divQuery;
+						},
+						on_date_change: function(task, start, end) {
+							var workid = task.id;
+							var start_date = start.getFullYear().toString() + "-" + ("00"+(start.getMonth()+1)).slice(-2) + "-" + ("00"+start.getDate()).slice(-2);
+							var end_date = end.getFullYear().toString() + "-" + ("00"+(end.getMonth()+1)).slice(-2) + "-" + ("00"+end.getDate()).slice(-2);
+							$.ajax({
+								
+								url : "${pageContext.request.contextPath}/smart/process/SmartProcManagePartSchedChg.do",
+								type : "POST",
+								data : {"workid":workid, "startdate":start_date, "enddate":end_date},
+								datatype : "text",
+								success : function(data) {
+									if(data.indexOf("ERROR") > -1) {
+										alert("<spring:message code="smart.common.save.error" /> :: " + data);
+									}
+								}
+								
+							});
 						},
 						view_mode: 'Day',
 						language: 'kr'
@@ -457,6 +493,24 @@
 										
 										return divQuery;
 									},
+									on_date_change: function(task, start, end) {
+										var workid = task.id;
+										var start_date = start.getFullYear().toString() + "-" + ("00"+(start.getMonth()+1)).slice(-2) + "-" + ("00"+start.getDate()).slice(-2);
+										var end_date = end.getFullYear().toString() + "-" + ("00"+(end.getMonth()+1)).slice(-2) + "-" + ("00"+end.getDate()).slice(-2);
+										$.ajax({
+											
+											url : "${pageContext.request.contextPath}/smart/process/SmartProcManagePartSchedChg.do",
+											type : "POST",
+											data : {"workid":workid, "startdate":start_date, "enddate":end_date},
+											datatype : "text",
+											success : function(data) {
+												if(data.indexOf("ERROR") > -1) {
+													alert("<spring:message code="smart.common.save.error" /> :: " + data);
+												}
+											}
+											
+										});
+									},
 									view_mode: 'Day',
 									language: 'kr'
 								});
@@ -558,6 +612,24 @@
 														"</div>";
 											
 											return divQuery;
+										},
+										on_date_change: function(task, start, end) {
+											var workid = task.id;
+											var start_date = start.getFullYear().toString() + "-" + ("00"+(start.getMonth()+1)).slice(-2) + "-" + ("00"+start.getDate()).slice(-2);
+											var end_date = end.getFullYear().toString() + "-" + ("00"+(end.getMonth()+1)).slice(-2) + "-" + ("00"+end.getDate()).slice(-2);
+											$.ajax({
+												
+												url : "${pageContext.request.contextPath}/smart/process/SmartProcManagePartSchedChg.do",
+												type : "POST",
+												data : {"workid":workid, "startdate":start_date, "enddate":end_date},
+												datatype : "text",
+												success : function(data) {
+													if(data.indexOf("ERROR") > -1) {
+														alert("<spring:message code="smart.common.save.error" /> :: " + data);
+													}
+												}
+												
+											});
 										},
 										view_mode: 'Day',
 										language: 'kr'

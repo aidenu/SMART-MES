@@ -184,7 +184,9 @@ public class SmartProcessController {
 	@ResponseBody
 	public String SmartScheduleSaveData(
 			@RequestParam(value="modelid", required=false) String modelid,
-			@RequestParam(value="arraystr", required=false) String arraystr,
+			@RequestParam(value="taskid", required=false) String taskid,
+			@RequestParam(value="startdate", required=false) String startdate,
+			@RequestParam(value="enddate", required=false) String enddate,
 			ModelMap model) throws Exception {
 		
 		String actionresult = "";
@@ -195,7 +197,9 @@ public class SmartProcessController {
 			HashMap<String,String> hp = new HashMap<String,String>();
 			hp.put("userid", loginVO.getId());
 			hp.put("modelid", modelid);
-			hp.put("arraystr", arraystr);
+			hp.put("taskid", taskid);
+			hp.put("startdate", startdate);
+			hp.put("enddate", enddate);
 			
 			List<HashMap> result = SmartCommonDAO.commonDataProc("setScheduleSave", hp);
 			if(result != null && result.size() > 0) {
@@ -402,6 +406,40 @@ public class SmartProcessController {
 			
 		} catch(Exception e) {
 			logger.error("[/smart/process/SmartProcManagePartSchedDel.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
+	}
+	
+	
+	
+	@RequestMapping(value="/smart/process/SmartProcManagePartSchedChg.do")
+	@ResponseBody
+	public String SmartProcManagePartSchedChg(
+			@RequestParam(value="workid", required=false) String workid,
+			@RequestParam(value="startdate", required=false) String startdate,
+			@RequestParam(value="enddate", required=false) String enddate,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("workid", workid);
+			hp.put("startdate", startdate);
+			hp.put("enddate", enddate);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setPartSchedChg", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/process/SmartProcManagePartSchedChg.do] Exception :: " + e.toString());
 		}
 		
 		return actionresult;

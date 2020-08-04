@@ -70,6 +70,12 @@
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+
+/* Custom CSS */
+.header-toggled {
+	transform: translateY(-10rem);
+} 
+
 *,
 *::before,
 *::after {
