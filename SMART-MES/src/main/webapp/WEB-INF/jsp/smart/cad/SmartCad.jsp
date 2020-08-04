@@ -61,7 +61,7 @@
 						strHtml += "		</div>";
 						strHtml += "		&nbsp;";
 						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_uploadbtn' title='<spring:message code="smart.cad.partlist.upload" />'>";
-						strHtml += "			<i data-feather='share'></i>";
+						strHtml += "			<i data-feather='file-plus'></i>";
 						strHtml += "		</div>";
 						strHtml += "		<input type='file' id='"+value.MODEL_ID+"_excel' name='"+value.MODEL_ID+"_excel' style='display:none;'>";
 						strHtml += "	</td>";

@@ -287,4 +287,124 @@ public class SmartProcessController {
 		return result;
 	}
 	
+	
+	@RequestMapping(value="/smart/process/SmartProcManageSched.do")
+	@ResponseBody
+	public List<HashMap> SmartProcManageSched(
+			@RequestParam(value="modelid", required=false) String modelid,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("modelid", modelid);
+			
+			result = SmartCommonDAO.commonDataProc("getProcSchedule", hp);
+			
+			
+		} catch(Exception e) {
+			logger.error("[/smart/process/SmartProcManageSched.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/smart/process/SmartProcManagePartSched.do")
+	@ResponseBody
+	public List<HashMap> SmartProcManagePartSched(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="partgroupid", required=false) String partgroupid,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("modelid",modelid);
+			hp.put("partgroupid", partgroupid);
+			
+			result = SmartCommonDAO.commonDataProc("getPartSchedule", hp);
+			model.addAttribute("result", result);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/process/SmartProcManagePartSched.dp] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/smart/process/SmartProcManagePartSchedAdd.do")
+	@ResponseBody
+	public String SmartProcManagePartSchedAdd(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="partgroupid", required=false) String partgroupid,
+			@RequestParam(value="workname", required=false) String workname,
+			@RequestParam(value="startdate", required=false) String startdate,
+			@RequestParam(value="enddate", required=false) String enddate,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			HashMap<String, String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("modelid", modelid);
+			hp.put("partgroupid", partgroupid);
+			hp.put("workname", workname);
+			hp.put("startdate", startdate);
+			hp.put("enddate", enddate);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setPartScheduleAdd", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/process/SmartProcManagePartSchedAdd.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
+	}
+	
+	
+	@RequestMapping(value="/smart/process/SmartProcManagePartSchedDel.do")
+	@ResponseBody
+	public String SmartProcManagePartSchedDel(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="partgroupid", required=false) String partgroupid,
+			@RequestParam(value="workid", required=false) String workid,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("modelid", modelid);
+			hp.put("partgroupid", partgroupid);
+			hp.put("workid", workid);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setPartScheduleDel", hp);
+			
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/process/SmartProcManagePartSchedDel.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
+	}
+	
 }
