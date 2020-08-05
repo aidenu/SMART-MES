@@ -274,7 +274,7 @@
 		</div>
             <div id="layoutSidenav_content">
             	<main>
-            		<header class="page-header page-header-dark bg-gradient-primary-to-secondary mb-4">
+            		<header class="page-header page-header-dark bg-gradient-primary-to-secondary mb-4" id="headerTitle">
 						<div class="container-fluid">
 							<div class="page-header-content pt-4">
 								<div class="row align-items-center justify-content-between">
@@ -288,7 +288,9 @@
 							</div>
 						</div>
 					</header>
-					 <div class="container-fluid" style="overflow-x: auto;">
+					 <div class="container-fluid" id="dataContainer" style="overflow-x: auto;">
+					 	<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="headerHide"><i data-feather="chevrons-up"></i></div>
+						<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="headerView" style="display:none;"><i data-feather="chevrons-down"></i></div>
 		                <!-- container 시작 -->
 						<form name="dataForm" method="post">
 							<input type="hidden" name="actiontype">

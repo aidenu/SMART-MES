@@ -25,15 +25,19 @@
   });
 
   
-  //Toggle the Header Title
-  $("#headerHide").on("click", function(e) {
-	  $("#headerTitle").toggleClass("header-toggled");
-	  $("#dataContainer").toggleClass("header-toggled");
-  });
-  $("#headerView").on("click", function(e) {
-	  $("#headerTitle").toggleClass("header-toggled");
-	  $("#dataContainer").toggleClass("header-toggled");
-  });
+	//Toggle the Header Title
+	$("#headerHide").on("click", function(e) {
+		$("#headerTitle").toggleClass("header-toggled");
+		$("#dataContainer").toggleClass("header-toggled");
+		$("#headerHide").css("display", "none");
+		$("#headerView").css("display", "");
+	});
+	$("#headerView").on("click", function(e) {
+		$("#headerTitle").toggleClass("header-toggled");
+		$("#dataContainer").toggleClass("header-toggled");
+		$("#headerHide").css("display", "");
+		$("#headerView").css("display", "none");
+	});
   
   
   

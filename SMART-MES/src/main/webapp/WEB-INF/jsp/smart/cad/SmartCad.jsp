@@ -49,7 +49,13 @@
 					$.each(data, function(index, value){
 						var strHtml = "";
 						
-						strHtml += "<tr>";
+						if(value.CURRENT_STATUS == "DELAY") {
+							strHtml += "	<tr class='bg-orange text-white'>";
+						} else if(value.CURRENT_STATUS == "COMPLETE") {
+							strHtml += "	<tr class='bg-blue text-white'>";
+						} else {
+							strHtml += "	<tr>";
+						}
 						strHtml += "	<td>"+value.MODEL_NO+"</td>";
 						strHtml += "	<td>"+value.PRODUCT_NO+"</td>";
 						strHtml += "	<td>"+value.PRODUCT_NAME+"</td>";
@@ -97,8 +103,6 @@
 		
 		$("#"+modelid+"_excel").change(function() {
 			
-			console.log("STEP1 :: " + modelid);
-			
 			var formData = new FormData($("#dataForm")[0]);
 			formData.append("partlist", $("#"+modelid+"_excel")[0].files[0]);
 			formData.append("modelid", modelid);
@@ -143,7 +147,7 @@
 		</div>
 		<div id="layoutSidenav_content">
 			<main>
-				<header class="page-header page-header-dark bg-gradient-primary-to-secondary mb-4">
+				<header class="page-header page-header-dark bg-gradient-primary-to-secondary mb-4" id="headerTitle">
 					<div class="container-fluid">
 						<div class="page-header-content pt-4">
 							<div class="row align-items-center justify-content-between">
@@ -157,7 +161,9 @@
 						</div>
 					</div>
 				</header>
-				<div class="container-fluid">
+				<div class="container-fluid" id="dataContainer">
+					<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="headerHide"><i data-feather="chevrons-up"></i></div>
+					<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="headerView" style="display:none;"><i data-feather="chevrons-down"></i></div>
 					<form name="dataForm" id="dataForm" method="post" enctype="multipart/form-data">
 						<div class="card mb-4">
 							<div class="card-header">

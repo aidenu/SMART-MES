@@ -47,9 +47,16 @@
 					$('#dataTable').dataTable().fnDestroy();
 					
 					$.each(data, function(index, value){
+						
 						var strHtml = "";
 						
-						strHtml += "<tr>";
+						if(value.CURRENT_STATUS == "DELAY") {
+							strHtml += "	<tr class='bg-orange text-white'>";
+						} else if(value.CURRENT_STATUS == "COMPLETE") {
+							strHtml += "	<tr class='bg-blue text-white'>";
+						} else {
+							strHtml += "	<tr>";
+						}
 						strHtml += "	<td>"+value.MODEL_NO+"</td>";
 						strHtml += "	<td>"+value.PRODUCT_NO+"</td>";
 						strHtml += "	<td>"+value.PRODUCT_NAME+"</td>";
@@ -150,8 +157,8 @@
 					</div>
 				</header>
 				<div class="container-fluid" id="dataContainer">
-					<div class="page-header-icon" id="headerHide"><i data-feather="chevrons-up"></i></div>
-					<div class="page-header-icon" id="headerView"><i data-feather="chevrons-down"></i></div>
+					<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="headerHide"><i data-feather="chevrons-up"></i></div>
+					<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="headerView" style="display:none;"><i data-feather="chevrons-down"></i></div>
 					<form name="dataForm" method="post">
 						<div class="card mb-4">
 							<div class="card-header">

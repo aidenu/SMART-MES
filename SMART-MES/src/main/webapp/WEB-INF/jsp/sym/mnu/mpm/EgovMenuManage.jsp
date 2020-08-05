@@ -214,6 +214,7 @@
 												<th><spring:message code="space.manage.menulist.item.filename" /></th>
 												<th><spring:message code="space.manage.menulist.item.desc" /></th>
 												<th><spring:message code="space.manage.menulist.item.parent" /></th>
+												<th>메뉴순</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -225,6 +226,7 @@
 												<td><font color="#FFF"><c:out value="${result.progrmFileNm}"/></font></td>
 												<td><font color="#FFF"><c:out value="${result.menuDc}"/></font></td>
 												<td><font color="#FFF"><c:out value="${result.upperMenuId}"/></font></td>
+												<td><font color="#FFF"><c:out value="${result.menuOrdr}"/></font></td>
 											</tr>
 											</c:forEach>
 										</tbody>
