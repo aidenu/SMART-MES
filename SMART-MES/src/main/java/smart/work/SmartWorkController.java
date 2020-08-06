@@ -106,4 +106,39 @@ public class SmartWorkController {
 		return result;
 	}
 	
+	
+	@RequestMapping(value="/smart/work/SmartSiteWorkSave.do")
+	@ResponseBody
+	public String SmartSiteWorkSave(
+			@RequestParam(value="actiontype", required=false) String actiontype,
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="partgroupid", required=false) String partgroupid,
+			@RequestParam(value="workid", required=false) String workid,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("actiontype", actiontype);
+			hp.put("modelid", modelid);
+			hp.put("partgroupid", partgroupid);
+			hp.put("workid", workid);
+			
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setSiteWorkDataSave", hp);
+			
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/work/SmartSiteWorkSave.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
+	}
 }

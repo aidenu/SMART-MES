@@ -40,3 +40,14 @@ function checkQuota(obj)
     var re = /[\"\<\>]/gi;
     obj.value = val.replace(re, '');
 }
+
+function chkNull(val) {
+	var returnVal = "";
+	
+	if(val == null) {
+		returnVal = "";
+	} else {
+		returnVal = val;
+	}
+	return returnVal;
+}
