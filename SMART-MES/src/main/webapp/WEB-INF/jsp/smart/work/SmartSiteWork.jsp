@@ -24,6 +24,7 @@
 	#dataTable thead,
 	#dataTable tfoot {
 	  color: #0061f2;
+	  text-align: center;
 	}
 	
 	.start-work {
@@ -224,7 +225,7 @@
 						if(value.PLAN_END_DELAY == "DELAY") {
 							strHtml += "		<td class='bg-yellow text-red font-weight-700 rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 						} else {
-							strHtml += "		<td class='bg-cyan text-white rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
+							strHtml += "		<td class='bg-teal text-white rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 						}
 					} else {
 						strHtml += "		<td class='end-work'>"+chkNull(value.WORK_END_DATE)+"<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
@@ -295,7 +296,7 @@
 	$(document).on("click", "td[id$='_end']", function() {
 
 		var modelid = $("#modelid").val();
-		var workid = this.id.replace("_start", "");
+		var workid = this.id.replace("_end", "");
 		var partgroupid = $("#"+workid+"_partgroupid").val();
 		var actiontype = "END";
 		
@@ -402,7 +403,7 @@
 						if(value.PLAN_END_DELAY == "DELAY") {
 							strHtml += "		<td class='bg-yellow text-red font-weight-700 rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 						} else {
-							strHtml += "		<td class='bg-cyan text-white rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
+							strHtml += "		<td class='bg-teal text-white rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 						}
 					} else {
 						strHtml += "		<td class='end-work'>"+chkNull(value.WORK_END_DATE)+"<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
