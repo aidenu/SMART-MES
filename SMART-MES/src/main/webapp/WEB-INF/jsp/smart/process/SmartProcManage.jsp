@@ -22,11 +22,16 @@
 <script src="<c:url value='/js/smart/frappe-gantt.js'/>"></script>
 <script src="<c:url value='/js/smart/smartutil.js'/>"></script>
 <style>
+
+	#dataTable thead,
+	#dataTable tfoot {
+	  color: #0061f2;
+	  text-align: center;
+	}
+	
 	#addProcLayer {
 		display: none;
 		position: absolute;
-		top: 50%;
-		left: 30%;
 		width: 500px;
 	}
 	
@@ -204,7 +209,7 @@
 					
 					$("#dataTable").html(strHtml);
 					
-					$('#dataTable').DataTable();	//jquery dataTable Plugin reload
+// 					$('#dataTable').DataTable();	//jquery dataTable Plugin reload
 					feather.replace();	//data-feather reload
 					/******** dataTable Area Setting End *********/
 					
@@ -405,6 +410,12 @@
 		. 일정 추가 Layer view
 		*/
 		$(document).on("click", "div[id$='_add']", function() {
+			
+			$("#addProcLayer").css({
+				"top": (($(window).height()-$("#addProcLayer").outerHeight())/2+$(window).scrollTop())+"px",
+				"left": (($(window).width()-$("#addProcLayer").outerWidth())/2+$(window).scrollLeft())+"px"
+			});
+			
 			$("#addProcLayer").show();
 			$("#addProcName").focus();
 			
@@ -426,13 +437,14 @@
 			var modelid = $("#modelid").val();
 			var partgroupid = $("#addPartgroupid").val();
 			var workname = $("#addProcName").val();
+			var workgubun = $("#addWorkGubun").val();
 			var startdate = $("#startdate").val();
 			var enddate = $("#enddate").val();
 			
 			$.ajax({
 				
 				url : "${pageContext.request.contextPath}/smart/process/SmartProcManagePartSchedAdd.do",
-				data : {"modelid":modelid, "partgroupid":partgroupid, "workname":workname,
+				data : {"modelid":modelid, "partgroupid":partgroupid, "workname":workname, "workgubun":workgubun,
 						"startdate":startdate, "enddate":enddate},
 				type : "POST",
 				datatype : "text",
@@ -793,6 +805,13 @@
 						<div class="card-body text-white-50 p-5">
 							<input type="hidden" id="addPartgroupid" name="addPartgroupid">
 							<input class="form-control" id="addProcName" name="addProcName" placeholder="<spring:message code="smart.process.procmanage" />">
+							&nbsp;
+							<div class="form-group" style="margin-bottom: 0px;">
+		    					<select class="form-control form-control-solid" id="addWorkGubun" name="addWorkGubun">
+		    						<option value="SITE">사내가공</option>
+		    						<option value="OUT">외주가공</option>
+	    						</select>
+	    					</div>
 							<br>
 							<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivstartdate">
 							    <i class="mr-2 text-primary" data-feather="calendar"></i>

@@ -348,6 +348,7 @@ public class SmartProcessController {
 			@RequestParam(value="modelid", required=false) String modelid,
 			@RequestParam(value="partgroupid", required=false) String partgroupid,
 			@RequestParam(value="workname", required=false) String workname,
+			@RequestParam(value="workgubun", required=false) String workgubun,
 			@RequestParam(value="startdate", required=false) String startdate,
 			@RequestParam(value="enddate", required=false) String enddate,
 			ModelMap model) throws Exception {
@@ -363,6 +364,7 @@ public class SmartProcessController {
 			hp.put("modelid", modelid);
 			hp.put("partgroupid", partgroupid);
 			hp.put("workname", workname);
+			hp.put("workgubun", workgubun);
 			hp.put("startdate", startdate);
 			hp.put("enddate", enddate);
 			

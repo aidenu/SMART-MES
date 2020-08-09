@@ -120,6 +120,7 @@
 		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="partgroupid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="workname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="workgubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
@@ -127,7 +128,7 @@
 	
 	<procedure id="setPartScheduleAdd" parameterMap="paramMapPartScheduleAdd" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
-        	{call PKG_Q_PROCESS.setPartScheduleAdd_Pro(?, ?, ?, ?, ?, ?, ?)}
+        	{call PKG_Q_PROCESS.setPartScheduleAdd_Pro(?, ?, ?, ?, ?, ?, ?, ?)}
         ]]>
 	</procedure>
 	

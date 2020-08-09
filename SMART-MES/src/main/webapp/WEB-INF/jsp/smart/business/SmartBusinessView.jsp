@@ -160,7 +160,7 @@
 				    					<select class="form-control form-control-solid" id="assemblyworker" name="assemblyworker">
 				    						<option value=""> -- Select -- </option>
 			    							<c:forEach var="resultUser" items="${resultUser }" varStatus="status">
-			    								<c:if test="${resultUser.AUTHOR_CODE == 'ROLE_USER_CAD'}">
+			    								<c:if test="${resultUser.AUTHOR_CODE == 'ROLE_USER_ASSEMBLY'}">
 			    									<option value="${resultUser.USER_ID }">${resultUser.USER_NM }</option>
 			    								</c:if>
 			    							</c:forEach>
