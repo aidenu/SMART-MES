@@ -373,6 +373,12 @@ public class SmartCadController {
 			List<HashMap> result = SmartCommonDAO.commonDataProc("getPartList", hp);
 			model.addAttribute("result", result);
 			
+			List<HashMap> resultWork = SmartCommonDAO.commonDataProc("getCadWorkDate", hp);
+			if(resultWork != null && resultWork.size() > 0) {
+				model.addAttribute("CAD_START_DATE", resultWork.get(0).get("CAD_START_DATE"));
+				model.addAttribute("CAD_END_DATE", resultWork.get(0).get("CAD_END_DATE"));
+			}
+			
 			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getBasicData");
 			model.addAttribute("resultBasic", resultBasic);
 			
@@ -551,6 +557,72 @@ public class SmartCadController {
 			logger.error("[/smart/cad/SmartCadPartOrderSave.do] Exception :: " + e.toString());
 		}
 		
+		return actionresult;
+	}
+	
+	
+	
+	@RequestMapping(value="/smart/cad/SmartCadWorkSave.do")
+	@ResponseBody
+	public String SmartCadWorkSave(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="actiontype", required=false) String actiontype,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("modelid", modelid);
+			hp.put("actiontype", actiontype);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setCadWorkSave", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/cad/SmartCadWorkSave.do] Exception :: " + e.toString());
+		}
+		
+		
+		return actionresult;
+	}
+	
+	
+	@RequestMapping(value="/smart/cad/SmartCadWorkChange.do")
+	@ResponseBody
+	public String SmartCadWorkChange(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="startdate", required=false) String startdate,
+			@RequestParam(value="enddate", required=false) String enddate,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("modelid", modelid);
+			hp.put("startdate", startdate);
+			hp.put("enddate", enddate);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setCadWorkChange", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/cad/SmartCadWorkChange.do] Exception :: " + e.toString());
+		}
+
 		return actionresult;
 	}
 	

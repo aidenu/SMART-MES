@@ -31,7 +31,6 @@
 	
 	$(document).ready(function() {
 		
-		
 		/**
 			. 매뉴얼 추가 버튼
 		*/
@@ -68,7 +67,107 @@
 			self.close();
 		});
 		
-	});
+		
+		/**
+			. 설계 작업 시작 Button Click
+			. parameter
+			  - modelid
+		*/
+		$("#btn_start").click(function() {
+			
+			var modelid = $("#modelid").val();
+			var actiontype = "START";
+			
+			$.ajax({
+				
+				url : "${pageContext.request.contextPath}/smart/cad/SmartCadWorkSave.do",
+				data : {"modelid":modelid, "actiontype":actiontype},
+				type : "POST",
+				datatype : "text",
+				success : function(data) {
+					console.log(data);
+					if(data.indexOf("ERROR") > -1) {
+						alert("<spring:message code="space.common.saveerror" /> :: " + data);
+					} else {
+						$("#btn_start").css("display", "none");
+						$("#singleDateDivstartdate span").html(data);
+						$("#singleDateDivstartdate").css("display", "");
+						$("#startdate").val(data);
+					}
+					
+				}
+				
+			});	//ajax
+			
+		});	//btn_start Click
+		
+		/**
+			. 설계 작업 완료 Button Click
+			. parameter
+			  - modelid
+		*/
+		$("#btn_end").click(function() {
+			
+			var modelid = $("#modelid").val();
+			var actiontype = "END";
+			
+			$.ajax({
+				
+				url : "${pageContext.request.contextPath}/smart/cad/SmartCadWorkSave.do",
+				data : {"modelid":modelid, "actiontype":actiontype},
+				type : "POST",
+				datatype : "text",
+				success : function(data) {
+
+					if(data.indexOf("ERROR") > -1) {
+						alert("<spring:message code="space.common.saveerror" /> :: " + data);
+					} else {
+						$("#btn_end").css("display", "none");
+						$("#singleDateDivenddate span").html(data);
+						$("#singleDateDivenddate").css("display", "");
+						$("#enddate").val(data);
+						
+						$("#btn_worksave").css("display", "");
+					}
+					
+				}
+				
+			});	//ajax
+			
+		});	//btn_start Click
+		
+		/**
+			. 작업시간 변경 Button Click
+		*/
+		$("#btn_worksave").click(function() {
+			
+			var modelid = $("#modelid").val();
+			var startdate = $("#startdate").val();
+			var enddate = $("#enddate").val();
+			
+			if(startdate.replace("-", "") > enddate.replace("-", "")) {
+				alert("<spring:message code="smart.common.date.validation.startend" />");
+				return;
+			}
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/smart/cad/SmartCadWorkChange.do",
+				data : {"modelid":modelid, "startdate":startdate, "enddate":enddate},
+				type : "POST",
+				datatype : "text",
+				success : function(data) {
+
+					if(data.indexOf("ERROR") > -1) {
+						alert("<spring:message code="space.common.saveerror" /> :: " + data);
+					}
+					
+				}
+			});	//ajax
+			
+		});	//btn_worksave Click
+		
+	});	//$(document).ready()
+	
 	
 	/**
 		. Cancel Button Click
@@ -81,7 +180,7 @@
 		
 	});
 	
-	/**
+	/*
 		. REGIST Button Click : 부품 매뉴얼 추가 등록
 		. Parameter : 
 			- partgroupno, partgroupname, partgroupsize, partgroupmaterial, partgroupcount, partgroupgubun
@@ -615,6 +714,27 @@
 					 <div class="card-header">
 				    	<spring:message code="smart.cad.partlist" />
 				    	<div>
+				    		<div class="btn btn-outline-teal btn-sm" id="btn_start"><spring:message code="smart.cad.work.start" /></div>
+			    			<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivstartdate">
+							    <i class="mr-2 text-primary" data-feather="calendar"></i>
+							    <span></span>
+							    <input type="hidden" name="startdate" id="startdate">
+							    <i class="ml-1" data-feather="chevron-down"></i>
+							</div>
+					    	&nbsp;
+					    	~
+					    	&nbsp;
+				    		<div class="btn btn-outline-teal btn-sm" id="btn_end"><spring:message code="smart.cad.work.end" /></div>
+				    		<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivenddate">
+							    <i class="mr-2 text-primary" data-feather="calendar"></i>
+							    <span></span>
+							    <input type="hidden" name="enddate" id="enddate">
+							    <i class="ml-1" data-feather="chevron-down"></i>
+							</div>
+							&nbsp;
+							<div class="btn btn-outline-teal btn-sm" id="btn_worksave"><spring:message code="smart.common.button.work.save" /></div>
+					    	&nbsp;
+					    	&nbsp;
 				    		<div class="btn btn-primary btn-sm" id="btn_add"><spring:message code="smart.common.button.add" /></div>
 					    	&nbsp;
 					    	<div class="btn btn-primary btn-sm" id="btn_close"><spring:message code="smart.common.button.close" /></div>
@@ -735,6 +855,40 @@
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smart/date-range-picker.js'/>"></script>
 
+<script>
+	$(document).ready(function() {
+		<c:choose>
+			<c:when test="${CAD_START_DATE eq null }">
+				$("#btn_start").css("display", "");
+				$("#singleDateDivstartdate").css("display", "none");
+				$("#btn_worksave").css("display", "none");
+			</c:when>
+			<c:otherwise>
+				$("#btn_start").css("display", "none");
+				$("#singleDateDivstartdate span").html("${CAD_START_DATE}");
+				$("#singleDateDivstartdate").css("display", "");
+				$("#startdate").val("${CAD_START_DATE}");
+				$("#btn_worksave").css("display", "none");
+			</c:otherwise>
+		</c:choose>
+		
+		
+		<c:choose>
+			<c:when test="${CAD_END_DATE eq null }">
+				$("#btn_end").css("display", "");
+				$("#singleDateDivenddate").css("display", "none");
+				$("#btn_worksave").css("display", "none");
+			</c:when>
+			<c:otherwise>
+				$("#btn_end").css("display", "none");
+				$("#singleDateDivenddate span").html("${CAD_END_DATE}");
+				$("#singleDateDivenddate").css("display", "");
+				$("#enddate").val("${CAD_END_DATE}");
+				$("#btn_worksave").css("display", "");
+			</c:otherwise>
+		</c:choose>
+	});
+</script>
 <iframe name="hiddenFrame" width="0" height="0" style="visibility:hidden"></iframe>
 </body>
 </html>
