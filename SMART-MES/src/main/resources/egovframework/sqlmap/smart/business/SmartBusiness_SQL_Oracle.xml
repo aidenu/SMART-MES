@@ -63,4 +63,16 @@
         ]]>
 	</procedure>
 	
+	<parameterMap id="paramMapBusinessEnd" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setBusinessEnd" parameterMap="paramMapBusinessEnd" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_BUSINESS.setBusinessEnd_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
 </sqlMap>

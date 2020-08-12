@@ -113,10 +113,12 @@ public class SmartBusinessController {
 				model.addAttribute("PRODUCT_GROUP", result.get(0).get("PRODUCT_GROUP"));
 				model.addAttribute("ORDER_DATE", result.get(0).get("ORDER_DATE"));
 				model.addAttribute("DUE_DATE", result.get(0).get("DUE_DATE"));
+				model.addAttribute("END_DATE", result.get(0).get("END_DATE"));
 				model.addAttribute("VENDOR", result.get(0).get("VENDOR"));
 				model.addAttribute("BUSINESS_WORKER", result.get(0).get("BUSINESS_WORKER"));
 				model.addAttribute("CAD_WORKER", result.get(0).get("CAD_WORKER"));
 				model.addAttribute("ASSEMBLY_WORKER", result.get(0).get("ASSEMBLY_WORKER"));
+				model.addAttribute("ASSEMBLY_END_DATE", result.get(0).get("ASSEMBLY_END_DATE"));
 			}
 			model.addAttribute("MODEL_ID", modelid);
 			model.addAttribute("gubun", gubun);
@@ -197,6 +199,34 @@ public class SmartBusinessController {
 		} catch(Exception e) {
 			logger.error("[/smart/business/SmartBusinessDelete.do] Exception :: " + e.toString());
 		}
+		return actionresult;
+	}
+	
+	
+	@RequestMapping("/smart/business/SmartBusinessEnd.do")
+	@ResponseBody
+	public String SmartBusinessEnd(
+			@RequestParam(value="modelid", required=false) String modelid,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("modelid", modelid);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setBusinessEnd", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/business/SmartBusinessEnd.do] Exception :: " + e.toString());
+		}
+		
 		return actionresult;
 	}
 	

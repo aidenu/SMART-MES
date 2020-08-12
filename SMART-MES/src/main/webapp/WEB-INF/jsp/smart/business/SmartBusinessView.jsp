@@ -47,6 +47,35 @@
 			document.dataForm.submit();
 		});
 		
+		
+		//납품처리 btn_end Click
+		$("#btn_enddate").click(function() {
+			
+			var msg = "<spring:message code="smart.business.end.confirm" />";
+			var modelid = $("#modelid").val();
+			
+			if(confirm(msg)) {
+				$.ajax({
+					url : "${pageContext.request.contextPath}/smart/business/SmartBusinessEnd.do",
+					data : {"modelid":modelid},
+					type : "POST",
+					datatype : "text",
+					success : function(data) {
+						if(data.indexOf("ERROR") > -1) {
+							alert("<spring:message code="smart.common.save.error" />");
+						} else {
+							$("#btn_enddate").css("display", "none");
+							$("#singleDateDivenddate").css("display", "");
+							$("#singleDateDivenddate span").html(data);
+							$("#enddate").val(data);
+							
+							opener.$("#btn_search").trigger("click");
+						}
+					}	//success
+				});	//$.ajax
+			}
+			
+		});
 	});
 	
 </script>
@@ -139,6 +168,16 @@
 									    <i class="ml-1" data-feather="chevron-down"></i>
 									</div>
 			    				</td>
+			    				<td class="card-header"><spring:message code="smart.business.enddate" /></td>
+			    				<td>
+			    					<div class="btn btn-outline-teal btn-sm" id="btn_enddate"><spring:message code="smart.business.end" /></div>
+			    					<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivenddate">
+									    <i class="mr-2 text-primary" data-feather="calendar"></i>
+									    <span>${END_DATE }</span>
+									    <input type="hidden" name="enddate" id="enddate">
+									    <i class="ml-1" data-feather="chevron-down"></i>
+									</div>
+			    				</td>
 				    		</tr>
 				    		<tr>
 				    			<td class="card-header"><spring:message code="smart.business.cadworker" /></td>
@@ -206,6 +245,23 @@
 			
 		}
 		
+		
+		<c:choose>
+			<c:when test="${END_DATE eq null && ASSEMBLY_END_DATE ne null}">
+				$("#btn_enddate").css("display", "");
+				$("#singleDateDivenddate").css("display", "none");
+			</c:when>
+			<c:when test="${END_DATE ne null}">
+				$("#btn_enddate").css("display", "none");
+				$("#singleDateDivenddate").css("display", "");
+				$("#singleDateDivenddate span").html("${END_DATE}");
+				$("#enddate").val("${END_DATE}");
+			</c:when>
+			<c:otherwise>
+			$("#btn_enddate").css("display", "none");
+			$("#singleDateDivenddate").css("display", "none");
+			</c:otherwise>
+		</c:choose>
 	});
 	
 </script>

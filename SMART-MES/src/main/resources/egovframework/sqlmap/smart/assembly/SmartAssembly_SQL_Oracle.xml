@@ -28,4 +28,45 @@
         ]]>
 	</procedure>
 	
+	
+	<parameterMap id="paramMapAssemblyWorkDate" class="java.util.HashMap">
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getAssemblyWorkDate" parameterMap="paramMapAssemblyWorkDate" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_ASSEMBLY.getAssemblyWorkDate_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapAssemblyWorkSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="actiontype" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setAssemblyWorkSave" parameterMap="paramMapAssemblyWorkSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_ASSEMBLY.setAssemblyWorkSave_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapAssemblyWorkChange" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setAssemblyWorkChange" parameterMap="paramMapAssemblyWorkChange" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_ASSEMBLY.setAssemblyWorkChange_Pro(?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
 </sqlMap>

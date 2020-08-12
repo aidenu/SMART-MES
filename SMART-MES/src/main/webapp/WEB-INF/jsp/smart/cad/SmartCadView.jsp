@@ -85,7 +85,7 @@
 				type : "POST",
 				datatype : "text",
 				success : function(data) {
-					console.log(data);
+
 					if(data.indexOf("ERROR") > -1) {
 						alert("<spring:message code="space.common.saveerror" /> :: " + data);
 					} else {

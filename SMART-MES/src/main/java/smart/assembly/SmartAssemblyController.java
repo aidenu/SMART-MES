@@ -101,6 +101,15 @@ public class SmartAssemblyController {
 			
 			result = SmartCommonDAO.commonDataProc("getAssemblyData", hp);
 			model.addAttribute("result", result);
+			
+			List<HashMap> resultWork = SmartCommonDAO.commonDataProc("getAssemblyWorkDate", hp);
+			if(resultWork != null && resultWork.size() > 0) {
+				model.addAttribute("ASSEMBLY_START_DATE", resultWork.get(0).get("ASSEMBLY_START_DATE"));
+				model.addAttribute("ASSEMBLY_END_DATE", resultWork.get(0).get("ASSEMBLY_END_DATE"));
+			}
+			
+			model.addAttribute("modelid", modelid);
+			
 		} catch(Exception e) {
 			logger.error("[/smart/assembly/SmartAssemblyData.do] Exception :: " + e.toString());
 		}
@@ -108,5 +117,69 @@ public class SmartAssemblyController {
 		return "smart/assembly/SmartAssemblyData";
 	}
 	
+	
+	@RequestMapping(value="/smart/assembly/SmartAssemblyWorkSave.do")
+	@ResponseBody
+	public String SmartAssemblyWorkSave(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="actiontype", required=false) String actiontype,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("modelid", modelid);
+			hp.put("actiontype", actiontype);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setAssemblyWorkSave", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/assembkly/SmartAssemblyWorkSave.do] Exception :: " + e.toString());
+		}
+		
+		
+		return actionresult;
+	}
+	
+	
+	@RequestMapping(value="/smart/assembly/SmartAssemblyWorkChange.do")
+	@ResponseBody
+	public String SmartAssemblyWorkChange(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="startdate", required=false) String startdate,
+			@RequestParam(value="enddate", required=false) String enddate,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("modelid", modelid);
+			hp.put("startdate", startdate);
+			hp.put("enddate", enddate);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setAssemblyWorkChange", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/assembly/SmartAssemblyWorkChange.do] Exception :: " + e.toString());
+		}
+
+		return actionresult;
+	}
 	
 }
