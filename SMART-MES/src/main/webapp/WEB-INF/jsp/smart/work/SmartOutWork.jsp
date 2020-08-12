@@ -19,6 +19,7 @@
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smart/smartvalidate.js'/>"></script>
+<script src="<c:url value='/js/smart/smartutil.js'/>"></script>
 <style>
 	
 	#dataTable thead,
@@ -38,8 +39,28 @@
 </style>
 <script>
 	
-
+	var userlist = new Map();
+	
 	$(document).ready(function() {
+		
+		/**
+			.외주 업체 ID 가져오기
+		*/
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/work/SmartOutWorkUser.do",
+			type : "POST",
+			datatype : "json",
+			success : function(data) {
+				
+				$.each(data, function(index, value) {
+					userlist.put(value.USER_ID, value.USER_NM);
+					console.log("STEP1 :: " + userlist.get(value.USER_ID));
+				});
+				
+			}	//success
+			
+		});	//$.ajax
 		
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
@@ -126,6 +147,9 @@
 		
 	});
 	
+	
+	
+	
 	/**
 		. Work Button Click
 		. parameter
@@ -133,6 +157,7 @@
 	*/
 	$(document).on("click", "div[id$='_work']", function() {
 		
+		var keys = userlist.keys();
 		var modelid = this.id.replace("_work", "");
 		var modelno = $("#"+modelid+"_modelno").val();
 		
@@ -165,11 +190,12 @@
 				strHtml += "<colgroup>";
 				strHtml += "	<col width='10%'>";
 				strHtml += "	<col width='20%'>";
-				strHtml += "	<col width='10%'>";
-				strHtml += "	<col width='10%'>";
+				strHtml += "	<col width='5%'>";
+				strHtml += "	<col width='5%'>";
 				strHtml += "	<col width='10%'>";
 				strHtml += "	<col width='20%'>";
 				strHtml += "	<col width='20%'>";
+				strHtml += "	<col width='10%'>";
 				strHtml += "</colgroup>";
 				
 				strHtml += "<thead>";
@@ -181,6 +207,7 @@
 				strHtml += "		<th scope='col'><spring:message code="smart.work.out.user" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.work.start.date" /><br>(<spring:message code="smart.work.plan.start.date" />)</th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.work.end.date" /><br>(<spring:message code="smart.work.plan.end.date" />)</th>";
+				strHtml += "		<th scope='col'><spring:message code="smart.work.out.price" /></th>";
 				strHtml += "	</tr>";
 				strHtml += "</thead>";
 				strHtml += "<tfoot>";
@@ -192,6 +219,7 @@
 				strHtml += "		<th scope='col'><spring:message code="smart.work.out.user" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.work.start.date" /><br>(<spring:message code="smart.work.plan.start.date" />)</th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.work.end.date" /><br>(<spring:message code="smart.work.plan.end.date" />)</th>";
+				strHtml += "		<th scope='col'><spring:message code="smart.work.out.price" /></th>";
 				strHtml += "	</tr>";
 				strHtml += "</tfoot>";
 				strHtml += "<tbody id='data_table_tbody'>";
@@ -206,7 +234,22 @@
 					strHtml += "		<td>"+chkNull(value.WORK_NAME);
 					strHtml += "			<input type='hidden' name='"+value.WORK_ID+"_partgroupid' id='"+value.WORK_ID+"_partgroupid' value='"+value.PART_GROUP_ID+"'>";
 					strHtml += " 	</td>";
-					strHtml += "		<td>"+chkNull(value.WORK_USER_NM)+"</td>";
+// 					strHtml += "		<td>"+chkNull(value.WORK_USER_NM)+"</td>";
+					strHtml += "		<td>";
+					strHtml += "			<div class='form-group' style='margin-bottom: 0px;'>";
+					strHtml += "				<select class='form-control form-control-solid' id='"+value.WORK_ID+"_workuser' name='"+value.WORK_ID+"_workuser'>";
+					strHtml += "					<option value=''> - 선택 - </option>";
+					for(var i=0; i<keys.length; i++) {
+						if(userlist.get(keys[i]) == value.WORK_USER_NM) {
+							strHtml += "			<option value='"+keys[i]+"' selected>"+userlist.get(keys[i])+"</option>";
+						} else {
+							strHtml += "			<option value='"+keys[i]+"'>"+userlist.get(keys[i])+"</option>";
+						}
+					}
+					strHtml += "				</select>";
+					strHtml += "			</div>";
+					strHtml += "		</td>";
+					
 					if(value.WORK_START_DATE == null) {
 						if(value.PLAN_START_DELAY == "DELAY") {
 							strHtml += "		<td class='bg-yellow text-red font-weight-700 rounded-lg start-work' id='"+value.WORK_ID+"_start'>";
@@ -230,6 +273,7 @@
 					} else {
 						strHtml += "		<td class='end-work'>"+chkNull(value.WORK_END_DATE)+"<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					}
+					strHtml += "		<td><input class='form-control' id='"+value.WORK_ID+"_price' name='"+value.WORK_ID+"_price' value='"+chkNull(value.OUT_PRICE)+"' onkeyup='onlyNum(this);this.value=this.value.comma();'></td>";
 					strHtml += "	</tr>";
 					
 					partgroupid = value.PART_GROUP_ID;
@@ -267,14 +311,18 @@
 		var modelid = $("#modelid").val();
 		var workid = this.id.replace("_start", "");
 		var partgroupid = $("#"+workid+"_partgroupid").val();
-		
-		console.log(modelid + ", " + partgroupid + ", " + workid);
+		var workuser = $("#"+workid+"_workuser").val();
 		var actiontype = "START";
+		
+		if(workuser == "") {
+			alert("<spring:message code="smart.work.out.user.select.valid" />");
+			return;
+		}
 		
 		$.ajax({
 			
 			url : "${pageContext.request.contextPath}/smart/work/SmartOutWorkSave.do",
-			data : {"actiontype":actiontype, "modelid":modelid, "partgroupid":partgroupid, "workid":workid, },
+			data : {"actiontype":actiontype, "modelid":modelid, "partgroupid":partgroupid, "workid":workid, "workuser":workuser},
 			type : "POST",
 			datatype : "text",
 			success : function(data) {
@@ -323,6 +371,7 @@
 	
 	function setWorkData() {
 		
+		var keys = userlist.keys();
 		var modelid = $("#modelid").val();
 		
 		$.ajax({
@@ -343,11 +392,12 @@
 				strHtml += "<colgroup>";
 				strHtml += "	<col width='10%'>";
 				strHtml += "	<col width='20%'>";
-				strHtml += "	<col width='10%'>";
-				strHtml += "	<col width='10%'>";
+				strHtml += "	<col width='5%'>";
+				strHtml += "	<col width='5%'>";
 				strHtml += "	<col width='10%'>";
 				strHtml += "	<col width='20%'>";
 				strHtml += "	<col width='20%'>";
+				strHtml += "	<col width='10%'>";
 				strHtml += "</colgroup>";
 				
 				strHtml += "<thead>";
@@ -356,9 +406,10 @@
 				strHtml += "		<th scope='col'><spring:message code="smart.cad.partlist.partgroupname" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.cad.partlist.partgroupcount" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.process.procmanage" /></th>";
-				strHtml += "		<th scope='col'><spring:message code="smart.work.user" /></th>";
+				strHtml += "		<th scope='col'><spring:message code="smart.work.out.user" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.work.start.date" /><br>(<spring:message code="smart.work.plan.start.date" />)</th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.work.end.date" /><br>(<spring:message code="smart.work.plan.end.date" />)</th>";
+				strHtml += "		<th scope='col'><spring:message code="smart.work.out.price" /></th>";
 				strHtml += "	</tr>";
 				strHtml += "</thead>";
 				strHtml += "<tfoot>";
@@ -367,9 +418,10 @@
 				strHtml += "		<th scope='col'><spring:message code="smart.cad.partlist.partgroupname" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.cad.partlist.partgroupcount" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.process.procmanage" /></th>";
-				strHtml += "		<th scope='col'><spring:message code="smart.work.user" /></th>";
+				strHtml += "		<th scope='col'><spring:message code="smart.work.out.user" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.work.start.date" /><br>(<spring:message code="smart.work.plan.start.date" />)</th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.work.end.date" /><br>(<spring:message code="smart.work.plan.end.date" />)</th>";
+				strHtml += "		<th scope='col'><spring:message code="smart.work.out.price" /></th>";
 				strHtml += "	</tr>";
 				strHtml += "</tfoot>";
 				strHtml += "<tbody id='data_table_tbody'>";
@@ -384,7 +436,22 @@
 						strHtml += "		<td rowspan='"+value.ROWCNT+"'>"+chkNull(value.PART_GROUP_COUNT)+"</td>";
 					}
 					strHtml += "		<td>"+chkNull(value.WORK_NAME)+"</td>";
-					strHtml += "		<td>"+chkNull(value.WORK_USER_NM)+"</td>";
+// 					strHtml += "		<td>"+chkNull(value.WORK_USER_NM)+"</td>";
+					strHtml += "		<td>";
+					strHtml += "			<div class='form-group' style='margin-bottom: 0px;'>";
+					strHtml += "				<select class='form-control form-control-solid' id='"+value.WORK_ID+"_workuser' name='"+value.WORK_ID+"_workuser'>";
+					strHtml += "					<option value=''> - 선택 - </option>";
+					for(var i=0; i<keys.length; i++) {
+						if(userlist.get(keys[i]) == value.WORK_USER_NM) {
+							strHtml += "			<option value='"+keys[i]+"' selected>"+userlist.get(keys[i])+"</option>";
+						} else {
+							strHtml += "			<option value='"+keys[i]+"'>"+userlist.get(keys[i])+"</option>";
+						}
+					}
+					strHtml += "				</select>";
+					strHtml += "			</div>";
+					strHtml += "		</td>";
+					
 					if(value.WORK_START_DATE == null) {
 						if(value.PLAN_START_DELAY == "DELAY") {
 							strHtml += "		<td class='bg-yellow text-red font-weight-700 rounded-lg start-work' id='"+value.WORK_ID+"_start'>";
@@ -408,6 +475,7 @@
 					} else {
 						strHtml += "		<td class='end-work'>"+chkNull(value.WORK_END_DATE)+"<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					}
+					strHtml += "		<td><input class='form-control' id='"+value.WORK_ID+"_price' name='"+value.WORK_ID+"_price' value='"+chkNull(value.OUT_PRICE)+"' onkeyup='onlyNum(this);this.value=this.value.comma();'></td>";
 					strHtml += "	</tr>";
 					
 					partgroupid = value.PART_GROUP_ID;

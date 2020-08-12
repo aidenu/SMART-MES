@@ -70,18 +70,30 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapOutWorkUser" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getOutWorkUser" parameterMap="paramMapOutWorkUser" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_WORK.getOutWorkUser_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
 	<parameterMap id="paramMapOutWorkDataSave" class="java.util.HashMap">
 		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="actiontype" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="partgroupid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="workid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="workuser" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>
 	
 	<procedure id="setOutWorkDataSave" parameterMap="paramMapOutWorkDataSave" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
-        	{call PKG_Q_WORK.setOutWorkDataSave_Pro(?, ?, ?, ?, ?, ?)}
+        	{call PKG_Q_WORK.setOutWorkDataSave_Pro(?, ?, ?, ?, ?, ?, ?)}
         ]]>
 	</procedure>
 	

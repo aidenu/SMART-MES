@@ -215,6 +215,24 @@ public class SmartWorkController {
 	}
 	
 	
+	@RequestMapping(value="/smart/work/SmartOutWorkUser.do")
+	@ResponseBody
+	public List<HashMap> SmartOutWorkUser(ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			result = SmartCommonDAO.commonDataProc("getOutWorkUser");
+			
+		} catch(Exception e) {
+			logger.error("[/smart/work/SmartOutWorkUser.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
+	
 	@RequestMapping(value="/smart/work/SmartOutWorkSave.do")
 	@ResponseBody
 	public String SmartOutWorkSave(
@@ -222,6 +240,7 @@ public class SmartWorkController {
 			@RequestParam(value="modelid", required=false) String modelid,
 			@RequestParam(value="partgroupid", required=false) String partgroupid,
 			@RequestParam(value="workid", required=false) String workid,
+			@RequestParam(value="workuser", required=false) String workuser,
 			ModelMap model) throws Exception {
 		
 		String actionresult = "";
@@ -235,6 +254,7 @@ public class SmartWorkController {
 			hp.put("modelid", modelid);
 			hp.put("partgroupid", partgroupid);
 			hp.put("workid", workid);
+			hp.put("workuser", workuser);
 			
 			
 			List<HashMap> result = SmartCommonDAO.commonDataProc("setOutWorkDataSave", hp);
