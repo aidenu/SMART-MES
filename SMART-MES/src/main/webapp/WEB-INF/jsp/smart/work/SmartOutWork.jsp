@@ -190,12 +190,12 @@
 				strHtml += "<colgroup>";
 				strHtml += "	<col width='10%'>";
 				strHtml += "	<col width='20%'>";
-				strHtml += "	<col width='5%'>";
-				strHtml += "	<col width='5%'>";
+				strHtml += "	<col width='7%'>";
+				strHtml += "	<col width='8%'>";
 				strHtml += "	<col width='10%'>";
-				strHtml += "	<col width='20%'>";
-				strHtml += "	<col width='20%'>";
-				strHtml += "	<col width='10%'>";
+				strHtml += "	<col width='15%'>";
+				strHtml += "	<col width='15%'>";
+				strHtml += "	<col width='15%'>";
 				strHtml += "</colgroup>";
 				
 				strHtml += "<thead>";
@@ -273,7 +273,11 @@
 					} else {
 						strHtml += "		<td class='end-work'>"+chkNull(value.WORK_END_DATE)+"<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					}
-					strHtml += "		<td><input class='form-control' id='"+value.WORK_ID+"_price' name='"+value.WORK_ID+"_price' value='"+chkNull(value.OUT_PRICE)+"' onkeyup='onlyNum(this);this.value=this.value.comma();'></td>";
+					strHtml += "		<td>";
+					strHtml += "			<input class='form-control' id='"+value.WORK_ID+"_price' name='"+value.WORK_ID+"_price' style='width:70%;display:inherit;' value='"+chkNull(value.OUT_PRICE)+"' onkeyup='onlyNum(this);this.value=this.value.comma();'>";
+					strHtml += "			&nbsp;";
+					strHtml += "			<div class='btn btn-outline-teal btn-sm' id='"+value.WORK_ID+"_pricesave'><spring:message code="smart.common.button.save" /></div>";
+					strHtml += "		</td>";
 					strHtml += "	</tr>";
 					
 					partgroupid = value.PART_GROUP_ID;
@@ -340,7 +344,9 @@
 		
 	});	//_start click
 	
-	
+	/**
+		.작업완료 버튼 클릭
+	*/
 	$(document).on("click", "td[id$='_end']", function() {
 
 		var modelid = $("#modelid").val();
@@ -369,6 +375,37 @@
 		
 	});	//_end click
 	
+	
+	/**
+		. 외주가공비 저장 Button Click
+	*/
+	$(document).on("click", "div[id$='_pricesave']", function() {
+		
+		var modelid = $("#modelid").val();
+		var workid = this.id.replace("_pricesave", "");
+		var partgroupid = $("#"+workid+"_partgroupid").val();
+		var price = $("#"+workid+"_price").val();
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/work/SmartOutWorkPriceSave.do",
+			data : {"price":price, "modelid":modelid, "partgroupid":partgroupid, "workid":workid, },
+			type : "POST",
+			datatype : "text",
+			success : function(data) {
+				
+				if(data == "OK") {
+					alert("<spring:message code="smart.common.save.ok" />");
+				} else if(data.indexOf("ERROR") > -1) {
+					alert("<spring:message code="smart.common.save.error" /> :: " + data);
+				}
+				
+			}	//success
+			
+		});	//ajax	
+		
+	});	//pricesave click
+	
 	function setWorkData() {
 		
 		var keys = userlist.keys();
@@ -392,12 +429,12 @@
 				strHtml += "<colgroup>";
 				strHtml += "	<col width='10%'>";
 				strHtml += "	<col width='20%'>";
-				strHtml += "	<col width='5%'>";
-				strHtml += "	<col width='5%'>";
+				strHtml += "	<col width='7%'>";
+				strHtml += "	<col width='8%'>";
 				strHtml += "	<col width='10%'>";
-				strHtml += "	<col width='20%'>";
-				strHtml += "	<col width='20%'>";
-				strHtml += "	<col width='10%'>";
+				strHtml += "	<col width='15%'>";
+				strHtml += "	<col width='15%'>";
+				strHtml += "	<col width='15%'>";
 				strHtml += "</colgroup>";
 				
 				strHtml += "<thead>";
@@ -475,7 +512,11 @@
 					} else {
 						strHtml += "		<td class='end-work'>"+chkNull(value.WORK_END_DATE)+"<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					}
-					strHtml += "		<td><input class='form-control' id='"+value.WORK_ID+"_price' name='"+value.WORK_ID+"_price' value='"+chkNull(value.OUT_PRICE)+"' onkeyup='onlyNum(this);this.value=this.value.comma();'></td>";
+					strHtml += "		<td>";
+					strHtml += "			<input class='form-control' id='"+value.WORK_ID+"_price' name='"+value.WORK_ID+"_price' style='width:70%;display:inherit;' value='"+chkNull(value.OUT_PRICE)+"' onkeyup='onlyNum(this);this.value=this.value.comma();'>";
+					strHtml += "			&nbsp;";
+					strHtml += "			<div class='btn btn-outline-teal btn-sm' id='"+value.WORK_ID+"_pricesave'><spring:message code="smart.common.button.save" /></div>";
+					strHtml += "		</td>";
 					strHtml += "	</tr>";
 					
 					partgroupid = value.PART_GROUP_ID;

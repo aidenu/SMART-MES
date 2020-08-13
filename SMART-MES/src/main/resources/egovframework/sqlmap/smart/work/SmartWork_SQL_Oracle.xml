@@ -97,4 +97,20 @@
         ]]>
 	</procedure>
 	
+	
+	<parameterMap id="paramMapOutWorkDataPriceSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="partgroupid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="workid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="price" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setOutWorkDataPriceSave" parameterMap="paramMapOutWorkDataPriceSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_WORK.setOutWorkDataPriceSave_Pro(?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
 </sqlMap>
