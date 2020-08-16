@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title><spring:message code="smart.cad.title" /></title>
+<title><spring:message code="smart.purchase.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
@@ -18,7 +18,7 @@
 <script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
-
+<script src="<c:url value='/js/smart/smartvalidate.js'/>"></script>
 <script>
 	
 
@@ -38,16 +38,45 @@
 			var endDate = $("#endDate").val();
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/cad/SmartCadData.do",
+				url : "${pageContext.request.contextPath}/smart/purchase/SmartPurchaseModelData.do",
 				data : {"startDate":startDate, "endDate":endDate},
 				type : "POST",
 				datatype : "json",
 				success : function(data) {
 					$('#dataTable').dataTable().fnClearTable();
 					$('#dataTable').dataTable().fnDestroy();
+					$("#dataTable").empty();
+					
+					var strHtml = "";
+					
+					strHtml += "<thead>";
+					strHtml += "	<tr>";
+					strHtml += "		<th><spring:message code="smart.business.modelno" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.productno" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.productname" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.orderdate" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.duedate" /></th>";
+					strHtml += "		<th>Detail</th>";
+					strHtml += "	</tr>";
+					strHtml += "</thead>";
+					strHtml += "<tfoot>";
+					strHtml += "	<tr>";
+					strHtml += "		<th><spring:message code="smart.business.modelno" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.productno" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.productname" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.orderdate" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.duedate" /></th>";
+					strHtml += "		<th>Detail</th>";
+					strHtml += "	</tr>";
+					strHtml += "</tfoot>";
+					strHtml += "<tbody id='data_table_tbody'>";
+	                strHtml += "</tbody>";
+	                $("#dataTable").append(strHtml);
+	                
 					
 					$.each(data, function(index, value){
-						var strHtml = "";
+						
+						strHtml = "";
 						
 						if(value.CURRENT_STATUS == "DELAY") {
 							strHtml += "	<tr class='bg-orange text-white'>";
@@ -62,14 +91,9 @@
 						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
 						strHtml += "	<td>"+value.DUE_DATE+"</td>";
 						strHtml += "	<td>";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail' title='<spring:message code="smart.cad.partlist.view" />'>";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail'>";
 						strHtml += "			<i data-feather='edit'></i>";
 						strHtml += "		</div>";
-						strHtml += "		&nbsp;";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_uploadbtn' title='<spring:message code="smart.cad.partlist.upload" />'>";
-						strHtml += "			<i data-feather='file-plus'></i>";
-						strHtml += "		</div>";
-						strHtml += "		<input type='file' id='"+value.MODEL_ID+"_excel' name='"+value.MODEL_ID+"_excel' style='display:none;'>";
 						strHtml += "	</td>";
 						strHtml += "</tr>";
 						$("#data_table_tbody").append(strHtml);
@@ -84,54 +108,15 @@
 		
 	});
 	
-	
-
+	/**
+		. 파트리스트 상세 보기 Popup
+	*/
 	$(document).on("click", "div[id$='_detail']", function(){
 		var modelid = this.id.replace("_detail", "");
-		window.open("<c:url value='/smart/cad/SmartCadView.do?modelid="+modelid+"'/>", "partListPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1400,height=850");
-	});
-	
-	
-	/**
-		. upload 아이콘 클릭
-	*/
-	$(document).on("click", "div[id$='_uploadbtn']", function() {
-		var modelid = this.id.replace("_uploadbtn", "");
-
-		$("#"+modelid+"_excel").click();
-		
-		$("#"+modelid+"_excel").change(function() {
-			
-			var formData = new FormData($("#dataForm")[0]);
-			formData.append("partlist", $("#"+modelid+"_excel")[0].files[0]);
-			formData.append("modelid", modelid);
-			
-			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/cad/SmartCadPartListExcel.do",
-				enctype: 'multipart/form-data',
-				contentType: false,
-				processData: false,
-				type : "POST",
-				data : formData,
-				datatype : "text",
-				success : function(data) {
-					
-					if(data == "OK") {
-						alert("<spring:message code="smart.cad.partlist.excel.ok" />");
-					} else if(data == "NO DATA") {
-						alert("<spring:message code="smart.cad.partlist.excel.nodata" />");
-					} else if(data.indexOf("ERROR") > -1) {
-						alert("<spring:message code="smart.cad.partlist.excel.error" /> :: " + data);
-					}
-					
-				}
-				
-			});
-			
-		});
+		window.open("<c:url value='/smart/purchase/SmartPurchaseView.do?modelid="+modelid+"'/>", "partListPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1400,height=850");
 		
 	});
-	
+		
 	
 </script>
 
@@ -153,7 +138,7 @@
 								<div class="col-auto mt-4">
 									<h1 class="page-header-title">
 										<div class="page-header-icon"><i data-feather="database"></i></div>
-										<span><spring:message code="smart.cad.title" /></span>
+										<span><spring:message code="smart.purchase.title" /></span>
 									</h1>
 								</div>
 							</div>
@@ -163,7 +148,8 @@
 				<div class="container-fluid" id="dataContainer">
 					<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="headerHide"><i data-feather="chevrons-up"></i></div>
 					<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="headerView" style="display:none;"><i data-feather="chevrons-down"></i></div>
-					<form name="dataForm" id="dataForm" method="post" enctype="multipart/form-data">
+					<form name="dataForm" method="post">
+						<input type="hidden" name="modelid" id="modelid">
 						<div class="card mb-4">
 							<div class="card-header">
 								<div class="btn btn-light btn-sm line-height-normal p-3" id="dateRange">
@@ -241,7 +227,7 @@
 <script>
 	$(document).ready(function() {
 		$("#btn_search").trigger("click");
-	});
+	})
 </script>
 
 </body>
