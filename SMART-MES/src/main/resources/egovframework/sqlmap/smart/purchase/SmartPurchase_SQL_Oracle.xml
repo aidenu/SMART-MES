@@ -27,4 +27,18 @@
         ]]>
 	</procedure>
 	
+	
+	<parameterMap id="paramMapPurchaseDataSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="arraystr" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setPurchaseDataSave" parameterMap="paramMapPurchaseDataSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_PURCHASE.setPurchaseDataSave_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
 </sqlMap>

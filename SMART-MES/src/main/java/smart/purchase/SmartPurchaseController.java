@@ -94,7 +94,7 @@ public class SmartPurchaseController {
 			HashMap<String,String> hp = new HashMap<String,String>();
 			hp.put("modelid", modelid);
 			
-			List<HashMap> result = SmartCommonDAO.commonDataProc("getPurchaseData", hp);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getPurchasePartData", hp);
 			model.addAttribute("result", result);
 			
 			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getBasicData");
@@ -107,6 +107,39 @@ public class SmartPurchaseController {
 		}
 		
 		return "smart/purchase/SmartPurchaseView";
+	}
+	
+	
+	@RequestMapping(value="/smart/purchase/SmartPurchaseDataSave.do")
+	@ResponseBody
+	public String SmartPurchaseDataSave(
+			@RequestParam(value="modelid", required=false) String modelid,
+			@RequestParam(value="arraystr", required=false) String arraystr,
+			ModelMap model) throws Exception {
+		
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("modelid", modelid);
+			hp.put("arraystr", arraystr);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setPurchaseDataSave", hp);
+			
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/purchase/SmartPurchaseDataSave.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
 	}
 	
 }
