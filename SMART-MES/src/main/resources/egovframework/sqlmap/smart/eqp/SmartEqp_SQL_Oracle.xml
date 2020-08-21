@@ -151,20 +151,6 @@
 	</procedure>
 	
 	
-	
-	<!-- 
-	<parameterMap id="paramMapEqpDailySummary" class="java.util.HashMap">
-		<parameter property="macAddress" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
-		<parameter property="runningTime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
-		<parameter property="runningFlag" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
-		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
-	</parameterMap>
-	<procedure id="setEqpDailySummary" parameterMap="paramMapEqpDailySummary" resultClass="java.util.HashMap" remapResults="true">
-		<![CDATA[
-        	{call SPC_Q_EQP_DATA.setEqpDailySummary_Pro(?, ?, ?, ?)}
-        ]]>
-	</procedure>
-	 -->
 	<parameterMap id="paramMapEqpDailySummary" class="java.util.HashMap">
 		<parameter property="searchDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
