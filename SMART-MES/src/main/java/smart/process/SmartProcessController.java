@@ -101,6 +101,10 @@ public class SmartProcessController {
 			List<HashMap> result = SmartCommonDAO.commonDataProc("getScheduleData", hp);
 			model.addAttribute("result", result);
 			
+
+			//기준정보에서 공정목록 가져오기
+			List<HashMap> resultProc = SmartCommonDAO.commonDataProc("getBasicProcList");
+			model.addAttribute("resultProc", resultProc);
 			
 			model.addAttribute("modelid", modelid);
 			model.addAttribute("modelno", modelno);
@@ -255,6 +259,10 @@ public class SmartProcessController {
 			hp.put("userid", loginVO.getId());
 			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
 			model.addAttribute("resultAlarm", resultAlarm);	
+			
+			//기준정보에서 공정목록 가져오기
+			List<HashMap> resultProc = SmartCommonDAO.commonDataProc("getBasicProcList");
+			model.addAttribute("resultProc", resultProc);
 			
 		} catch(Exception e) {
 			logger.error("[/smart/process/SmartProcManage.do] Exception :: " + e.toString());

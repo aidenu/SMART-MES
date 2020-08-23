@@ -355,7 +355,15 @@
 								<h5 class="mb-0 text-white"><spring:message code="smart.process.schedule.add.layer.title" /></h5>
 							</div>
 							<div class="card-body text-white-50 p-5">
-								<input class="form-control" id="addScheduleName" name="addScheduleName" placeholder="<spring:message code="smart.process.schedule.name" />">
+								<div class="form-group" style="margin-bottom: 0px;">
+			    					<select class="form-control form-control-solid" id="addScheduleName" name="addScheduleName">
+			    						<option value=""> -- Select -- </option>
+		    							<c:forEach var="resultProc" items="${resultProc }" varStatus="procStatus">
+		    								<option value="${resultProc.PROCESS_NAME }">${resultProc.PROCESS_NAME }</option>
+		    							</c:forEach>
+		    						</select>
+		    					</div>
+<%-- 								<input class="form-control" id="addScheduleName" name="addScheduleName" placeholder="<spring:message code="smart.process.schedule.name" />"> --%>
 								<br>
 								<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivstartdate">
 								    <i class="mr-2 text-primary" data-feather="calendar"></i>

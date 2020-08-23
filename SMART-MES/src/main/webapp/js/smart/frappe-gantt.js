@@ -962,10 +962,12 @@ class Popup {
 
         // show
         this.parent.style.opacity = 1;
+        this.parent.style.display = "";
     }
 
     hide() {
         this.parent.style.opacity = 0;
+        this.parent.style.display = "none";
     }
 }
 

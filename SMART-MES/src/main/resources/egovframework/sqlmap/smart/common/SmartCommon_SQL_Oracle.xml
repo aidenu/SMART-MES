@@ -33,6 +33,17 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapBasicProcList" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getBasicProcList" parameterMap="paramMapBasicProcList" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_COMMON.getBasicProcList_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
 	
 	<parameterMap id="paramMapLogInfoListTotalCnt" class="java.util.HashMap">
 		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />

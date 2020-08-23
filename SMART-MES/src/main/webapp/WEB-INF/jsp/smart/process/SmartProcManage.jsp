@@ -804,7 +804,17 @@
 						</div>
 						<div class="card-body text-white-50 p-5">
 							<input type="hidden" id="addPartgroupid" name="addPartgroupid">
-							<input class="form-control" id="addProcName" name="addProcName" placeholder="<spring:message code="smart.process.procmanage" />">
+							<div class="form-group" style="margin-bottom: 0px;">
+		    					<select class="form-control form-control-solid" id="addProcName" name="addProcName">
+		    						<option value=""> -- 선택 -- </option>
+		    						<c:forEach var="resultProc" items="${resultProc }" varStatus="procStatus">
+		    							<c:if test="${resultProc.PROCESS_GUBUN == '가공' }">
+		    								<option value="${resultProc.PROCESS_NAME }">${resultProc.PROCESS_NAME }</option>
+		    							</c:if>
+		    						</c:forEach>
+	    						</select>
+	    					</div>
+<%-- 							<input class="form-control" id="addProcName" name="addProcName" placeholder="<spring:message code="smart.process.procmanage" />"> --%>
 							&nbsp;
 							<div class="form-group" style="margin-bottom: 0px;">
 		    					<select class="form-control form-control-solid" id="addWorkGubun" name="addWorkGubun">

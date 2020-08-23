@@ -60,31 +60,39 @@
 					$("#dataTable").empty();
 					
 					var strHtml = "";
+					strHtml += "<colgroup>";
+					strHtml += "	<col width='15%'>";
+					strHtml += "	<col width='15%'>";
+					strHtml += "	<col width='16%'>";
+					strHtml += "	<col width='9%'>";
+					strHtml += "	<col width='9%'>";
+					strHtml += "	<col width='10%'>";
+					strHtml += "	<col width='16%'>";
+					strHtml += "	<col width='10%'>";
+					strHtml += "</colgroup>";
 					
 					strHtml += "<thead>";
 					strHtml += "	<tr>";
-					strHtml += "		<th><spring:message code="smart.business.modelno" /></th>";
-					strHtml += "		<th><spring:message code="smart.business.productno" /></th>";
-					strHtml += "		<th><spring:message code="smart.business.productname" /></th>";
-					strHtml += "		<th><spring:message code="smart.business.orderdate" /></th>";
-					strHtml += "		<th><spring:message code="smart.business.duedate" /></th>";
-					strHtml += "		<th><spring:message code="smart.cad" /></th>";
-					strHtml += "		<th><spring:message code="smart.work" /></th>";
-					strHtml += "		<th><spring:message code="smart.assembly" /></th>";
-					strHtml += "		<th>Detail</th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.business.modelno" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.business.productno" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.business.productname" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.business.orderdate" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.business.duedate" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.cad" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.work" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.assembly" /></th>";
 					strHtml += "	</tr>";
 					strHtml += "</thead>";
 					strHtml += "<tfoot>";
 					strHtml += "	<tr>";
-					strHtml += "		<th><spring:message code="smart.business.modelno" /></th>";
-					strHtml += "		<th><spring:message code="smart.business.productno" /></th>";
-					strHtml += "		<th><spring:message code="smart.business.productname" /></th>";
-					strHtml += "		<th><spring:message code="smart.business.orderdate" /></th>";
-					strHtml += "		<th><spring:message code="smart.business.duedate" /></th>";
-					strHtml += "		<th><spring:message code="smart.cad" /></th>";
-					strHtml += "		<th><spring:message code="smart.work" /></th>";
-					strHtml += "		<th><spring:message code="smart.assembly" /></th>";
-					strHtml += "		<th>Detail</th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.business.modelno" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.business.productno" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.business.productname" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.business.orderdate" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.business.duedate" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.cad" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.work" /></th>";
+					strHtml += "		<th scope='col'><spring:message code="smart.assembly" /></th>";
 					strHtml += "	</tr>";
 					strHtml += "</tfoot>";
 					strHtml += "<tbody id='data_table_tbody'>";
@@ -108,19 +116,46 @@
 						strHtml += "	<td>"+value.PRODUCT_NAME+"</td>";
 						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
 						strHtml += "	<td>"+value.DUE_DATE+"</td>";
-						strHtml += "	<td>"+value.CAD_END_DATE+"</td>";
+						
+						//설계 진행상태
+						strHtml += "	<td>";
+						strHtml += "		<h4 class='small'>";
+						strHtml += "			계획 : <br>"+chknull(value.PLAN_CAD_DATE)+"";
+						strHtml += "		</h4>";
+						if(value.CAD_STATUS == 'DELAY') {
+							strHtml += "		<div class='progress mb-4'><div class='progress-bar bg-red' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>지연</div></div>";
+						} else if(value.CAD_STATUS == 'BEFORE_START'){
+							strHtml += "		<div class='progress mb-4'><div class='progress-bar' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
+						} else if(value.CAD_STATUS == 'ING') {
+							strHtml += "		<div class='progress mb-4'><div class='progress-bar bg-green' role='progressbar' style='width: 50%;' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100'></div></div>";
+						} else if(value.CAD_STATUS == 'COMPLETE') {
+							strHtml += "		<div class='progress mb-4'><div class='progress-bar bg-blue' role='progressbar' style='width: 100%;' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100'></div></div>";
+						}
+						strHtml += "	</td>";
+						
+						//가공 진행상태
 						strHtml += "	<td>";
 						strHtml += "		<div class='progress' id='"+value.MODEL_ID+"_progress'>";
-						strHtml += "       		<div class='progress-bar bg-danger' role='progressbar' style='width: 25%' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'>25%</div>";
+						strHtml += "       		<div class='progress-bar bg-green' role='progressbar' style='width: "+value.PROGRESS_RATE+"%' aria-valuenow='"+value.PROGRESS_RATE+"' aria-valuemin='0' aria-valuemax='100'>"+value.PROGRESS_RATE+"%</div>";
 						strHtml += "		</div>";
 						strHtml += "	</td>";
-						strHtml += "	<td>"+value.ASSEMBLY_END_DATE+"</td>";
+						
+						//조립 진행상태
 						strHtml += "	<td>";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_work'>";
-						strHtml += "			<input type='hidden' id='"+value.MODEL_ID+"_modelno' name='"+value.MODEL_ID+"_modelno' value='"+value.MODEL_NO+"'>";
-						strHtml += "			<i data-feather='edit'></i>";
-						strHtml += "		</div>";
+						strHtml += "		<h4 class='small'>";
+						strHtml += "			계획 : <br>"+chknull(value.PLAN_ASSEMBLY_DATE)+"";
+						strHtml += "		</h4>";
+						if(value.ASSEMBLY_STATUS == 'DELAY') {
+	 						strHtml += "		<h3><span class='badge badge-red'>지연</span></h3>";
+						} else if(value.ASSEMBLY_STATUS == 'BEFORE_START'){
+							strHtml += "		<div class='progress mb-4'><div class='progress-bar' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
+						} else if(value.ASSEMBLY_STATUS == 'ING') {
+							strHtml += "		<div class='progress mb-4'><div class='progress-bar bg-green' role='progressbar' style='width: 50%;' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100'></div></div>";
+						} else if(value.ASSEMBLY_STATUS == 'COMPLETE') {
+							strHtml += "		<div class='progress mb-4'><div class='progress-bar bg-blue' role='progressbar' style='width: 100%;' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100'></div></div>";
+						}
 						strHtml += "	</td>";
+						
 						strHtml += "</tr>";
 						$("#data_table_tbody").append(strHtml);
 					});	//$.each
@@ -143,9 +178,21 @@
 	$(document).on("click", "div[id$='_progress']", function() {
 		
 		var modelid = this.id.replace("_progress", "");
-		console.log(modelid);
 		
 	});		//$(documewnt).on("click", "div[id$='_progress']", function() {}
+	
+	
+	
+	function chknull(val) {
+		var returnVal = "";
+		
+		if(val == null) {
+			return returnVal;
+		} else {
+			return val;
+		}
+		
+	}
 	
 </script>
 
