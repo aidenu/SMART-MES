@@ -201,7 +201,7 @@ public class SmartCadController {
 									} else if(c==3) {
 										hm.put("MATERIAL", valueCell.replace("\"","'"));
 									} else if(c==4) {
-										hm.put("COUNT", valueCell.replace("\"","'"));
+										hm.put("COUNT", valueCell.replace("\"","'").replace(".0", ""));
 									} else if(c==5) {
 										hm.put("GUBUN", valueCell.replace("\"","'"));
 									}
@@ -293,7 +293,7 @@ public class SmartCadController {
 									} else if(c==3) {
 										hm.put("MATERIAL", valueCell.replace("\"","'"));
 									} else if(c==4) {
-										hm.put("COUNT", valueCell.replace("\"","'"));
+										hm.put("COUNT", valueCell.replace("\"","'").replace(".0", ""));
 									} else if(c==5) {
 										hm.put("GUBUN", valueCell.replace("\"","'"));
 									}

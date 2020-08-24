@@ -10,7 +10,12 @@
   $('[data-toggle="tooltip"]').tooltip();
 
   // Enable Bootstrap popovers via data-attributes globally
-  $('[data-toggle="popover"]').popover();
+  $('[data-toggle="popover"]').popover({
+	  html: true,
+      animation: false,
+      content: "TO BE ANNOUNCED",
+      placement: "bottom"
+  });
 
   $(".popover-dismiss").popover({
     trigger: "focus"

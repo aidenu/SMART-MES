@@ -34,7 +34,7 @@ public class SmartStatusController {
     protected EgovPropertyService propertyService;
 	
 	
-	@RequestMapping("/smart/status/SmartModelStatus.do")
+	@RequestMapping(value="/smart/status/SmartModelStatus.do")
 	public String SmartModelStatus (
 			ModelMap model) throws Exception {
 		
@@ -59,7 +59,7 @@ public class SmartStatusController {
 		return "smart/status/SmartModelStatus";
 	}
 	
-	@RequestMapping("/smart/status/SmartModelStatusModelData.do")
+	@RequestMapping(value="/smart/status/SmartModelStatusModelData.do")
 	@ResponseBody
 	public List<HashMap> SmartModelStatusModelData(
 			@RequestParam(value="startDate", required=false) String startDate,
@@ -83,5 +83,28 @@ public class SmartStatusController {
 		return result;
 	}
 	
+	
+	@RequestMapping(value="/smart/status/SmartModelStatusDetail.do")
+	public String SmartModelStatusDetail(
+			@RequestParam(value="modelid", required=false) String modelid,
+			ModelMap model) throws Exception {
+		
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("modelid", modelid);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getModelStatusPartData", hp);
+			model.addAttribute("result", result);
+			
+			List<HashMap> resultWork = SmartCommonDAO.commonDataProc("getModelStatusWorkData", hp);
+			model.addAttribute("resultWork", resultWork);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/status/SmartModelStatusDetail.do] Exception :: " + e.toString());
+		}
+		return "smart/status/SmartModelStatusDetail";
+	}
 	
 }

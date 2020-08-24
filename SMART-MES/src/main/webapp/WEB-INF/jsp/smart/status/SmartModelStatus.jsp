@@ -29,6 +29,17 @@
 	
 	.progress {
 		cursor: pointer;
+		margin-bottom: 0.5rem;
+	}
+	
+	.blink {
+		animation: blink 1s linear infinite;
+	}
+	
+	@keyframes blink{
+		0%{opacity: 0;}
+		50%{opacity: .5;}
+		100%{opacity: 1;}
 	}
 </style>
 <script>
@@ -119,17 +130,28 @@
 						
 						//설계 진행상태
 						strHtml += "	<td>";
-						strHtml += "		<h4 class='small'>";
-						strHtml += "			계획 : <br>"+chknull(value.PLAN_CAD_DATE)+"";
-						strHtml += "		</h4>";
+						
 						if(value.CAD_STATUS == 'DELAY') {
-							strHtml += "		<div class='progress mb-4'><div class='progress-bar bg-red' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>지연</div></div>";
+							strHtml += "		<div class='progress'><div class='progress-bar bg-red' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br><br></h4>";
 						} else if(value.CAD_STATUS == 'BEFORE_START'){
-							strHtml += "		<div class='progress mb-4'><div class='progress-bar' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<div class='progress'><div class='progress-bar' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br><br></h4>";
 						} else if(value.CAD_STATUS == 'ING') {
-							strHtml += "		<div class='progress mb-4'><div class='progress-bar bg-green' role='progressbar' style='width: 50%;' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<div class='progress'><div class='progress-bar bg-green' role='progressbar' style='width: 50%;' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br>"+chknull(value.CAD_WORK_DATE)+"</h4>";
 						} else if(value.CAD_STATUS == 'COMPLETE') {
-							strHtml += "		<div class='progress mb-4'><div class='progress-bar bg-blue' role='progressbar' style='width: 100%;' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<div class='progress'><div class='progress-bar bg-blue' role='progressbar' style='width: 100%;' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br>"+chknull(value.CAD_WORK_DATE)+"</h4>";
+						}
+						if(value.CAD_STATUS == 'DELAY') {
+							strHtml += "		<h4 class='small font-weight-bolder text-red blink'>";
+							strHtml += "			계획 : <br>"+chknull(value.PLAN_CAD_DATE)+"";
+							strHtml += "		</h4>";
+						} else {
+							strHtml += "		<h4 class='small'>";
+							strHtml += "			계획 : <br>"+chknull(value.PLAN_CAD_DATE)+"";
+							strHtml += "		</h4>";
 						}
 						strHtml += "	</td>";
 						
@@ -138,22 +160,35 @@
 						strHtml += "		<div class='progress' id='"+value.MODEL_ID+"_progress'>";
 						strHtml += "       		<div class='progress-bar bg-green' role='progressbar' style='width: "+value.PROGRESS_RATE+"%' aria-valuenow='"+value.PROGRESS_RATE+"' aria-valuemin='0' aria-valuemax='100'>"+value.PROGRESS_RATE+"%</div>";
 						strHtml += "		</div>";
+						strHtml += "		<br><br><br>";
 						strHtml += "	</td>";
 						
 						//조립 진행상태
 						strHtml += "	<td>";
-						strHtml += "		<h4 class='small'>";
-						strHtml += "			계획 : <br>"+chknull(value.PLAN_ASSEMBLY_DATE)+"";
-						strHtml += "		</h4>";
 						if(value.ASSEMBLY_STATUS == 'DELAY') {
-	 						strHtml += "		<h3><span class='badge badge-red'>지연</span></h3>";
+							strHtml += "		<div class='progress'><div class='progress-bar bg-red' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br><br></h4>";
 						} else if(value.ASSEMBLY_STATUS == 'BEFORE_START'){
-							strHtml += "		<div class='progress mb-4'><div class='progress-bar' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<div class='progress'><div class='progress-bar' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br><br></h4>";
 						} else if(value.ASSEMBLY_STATUS == 'ING') {
-							strHtml += "		<div class='progress mb-4'><div class='progress-bar bg-green' role='progressbar' style='width: 50%;' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<div class='progress'><div class='progress-bar bg-green' role='progressbar' style='width: 50%;' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br>"+chknull(value.ASSEMBLY_WORK_DATE)+"</h4>";
 						} else if(value.ASSEMBLY_STATUS == 'COMPLETE') {
-							strHtml += "		<div class='progress mb-4'><div class='progress-bar bg-blue' role='progressbar' style='width: 100%;' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<div class='progress'><div class='progress-bar bg-blue' role='progressbar' style='width: 100%;' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100'></div></div>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br>"+chknull(value.ASSEMBLY_WORK_DATE)+"</h4>";
 						}
+						
+						if(value.ASSEMBLY_STATUS == 'DELAY') {
+							strHtml += "		<h4 class='small font-weight-bolder text-red blink'>";
+							strHtml += "			계획 : <br>"+chknull(value.PLAN_ASSEMBLY_DATE)+"";
+							strHtml += "		</h4>";
+						} else {
+							strHtml += "		<h4 class='small'>";
+							strHtml += "			계획 : <br>"+chknull(value.PLAN_ASSEMBLY_DATE)+"";
+							strHtml += "		</h4>";
+						}
+						
 						strHtml += "	</td>";
 						
 						strHtml += "</tr>";
@@ -178,6 +213,7 @@
 	$(document).on("click", "div[id$='_progress']", function() {
 		
 		var modelid = this.id.replace("_progress", "");
+		window.open("<c:url value='/smart/status/SmartModelStatusDetail.do?modelid="+modelid+"'/>", "statusPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1400,height=850");
 		
 	});		//$(documewnt).on("click", "div[id$='_progress']", function() {}
 	
@@ -299,7 +335,7 @@
 	
 <iframe name="dataFrame" width="0" height="0" style="visibility:hidden"></iframe>
 	
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smartscripts.js'/>"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>

@@ -16,4 +16,27 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapModelStatusPartData" class="java.util.HashMap">
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getModelStatusPartData" parameterMap="paramMapModelStatusPartData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STATUS.getModelStatusPartData_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	<parameterMap id="paramMapModelStatusWorkData" class="java.util.HashMap">
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getModelStatusWorkData" parameterMap="paramMapModelStatusWorkData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STATUS.getModelStatusWorkData_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
 </sqlMap>
