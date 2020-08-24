@@ -111,11 +111,11 @@
 										    							${resultWork.WORK_NAME }
 										    						</div>
 										    						<div class="p-1 small workbox">
-										    							실행 : 
+										    							<spring:message code="smart.status.work.action" /> : 
 										    							<br>
 										    							<span class="font-weight-bolder text-blue">${resultWork.WORK_DATE }</span>
 										    							<br>
-										    							계획 :
+										    							<spring:message code="smart.status.work.plan" /> :
 										    							<br>
 										    							${resultWork.PLAN_DATE } 
 										    						</div>
@@ -127,20 +127,20 @@
 										    							${resultWork.WORK_NAME }
 										    						</div>
 										    						<div class="p-1 small workbox">
-										    							실행 : 
+										    							<spring:message code="smart.status.work.action" /> : 
 										    							<br>
 										    							<span class="font-weight-bolder text-teal">${resultWork.WORK_DATE }</span>
 										    							<br>
 										    							<c:choose>
 										    								<c:when test="${resultWork.PLAN_DELAY == 'DELAY' }">
 										    									<span class="font-weight-bolder text-red blink">
-										    										계획 :
+										    										<spring:message code="smart.status.work.plan" /> :
 													    							<br>
 													    							${resultWork.PLAN_DATE }
 										    									</span>
 										    								</c:when>
 										    								<c:otherwise>
-										    									계획 :
+										    									<spring:message code="smart.status.work.plan" /> :
 												    							<br>
 												    							${resultWork.PLAN_DATE }
 										    								</c:otherwise>
@@ -154,18 +154,18 @@
 										    							${resultWork.WORK_NAME }
 										    						</div>
 										    						<div class="p-1 small workbox">
-										    							실행 : 
+										    							<spring:message code="smart.status.work.action" /> : 
 										    							<br><br>
 										    							<c:choose>
 										    								<c:when test="${resultWork.PLAN_DELAY == 'DELAY' }">
 										    									<span class="font-weight-bolder text-red blink">
-										    										계획 :
+										    										<spring:message code="smart.status.work.plan" /> :
 													    							<br>
 													    							${resultWork.PLAN_DATE }
 										    									</span>
 										    								</c:when>
 										    								<c:otherwise>
-										    									계획 :
+										    									<spring:message code="smart.status.work.plan" /> :
 												    							<br>
 												    							${resultWork.PLAN_DATE }
 										    								</c:otherwise>

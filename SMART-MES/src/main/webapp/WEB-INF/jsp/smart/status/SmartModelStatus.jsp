@@ -133,24 +133,24 @@
 						
 						if(value.CAD_STATUS == 'DELAY') {
 							strHtml += "		<div class='progress'><div class='progress-bar bg-red' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
-							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br><br></h4>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'><spring:message code="smart.status.work.action" /> : <br><br></h4>";
 						} else if(value.CAD_STATUS == 'BEFORE_START'){
 							strHtml += "		<div class='progress'><div class='progress-bar' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
-							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br><br></h4>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'><spring:message code="smart.status.work.action" /> : <br><br></h4>";
 						} else if(value.CAD_STATUS == 'ING') {
 							strHtml += "		<div class='progress'><div class='progress-bar bg-green' role='progressbar' style='width: 50%;' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100'></div></div>";
-							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br>"+chknull(value.CAD_WORK_DATE)+"</h4>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'><spring:message code="smart.status.work.action" /> : <br>"+chknull(value.CAD_WORK_DATE)+"</h4>";
 						} else if(value.CAD_STATUS == 'COMPLETE') {
 							strHtml += "		<div class='progress'><div class='progress-bar bg-blue' role='progressbar' style='width: 100%;' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100'></div></div>";
-							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br>"+chknull(value.CAD_WORK_DATE)+"</h4>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'><spring:message code="smart.status.work.action" /> : <br>"+chknull(value.CAD_WORK_DATE)+"</h4>";
 						}
 						if(value.CAD_STATUS == 'DELAY') {
 							strHtml += "		<h4 class='small font-weight-bolder text-red blink'>";
-							strHtml += "			계획 : <br>"+chknull(value.PLAN_CAD_DATE)+"";
+							strHtml += "			<spring:message code="smart.status.work.plan" /> : <br>"+chknull(value.PLAN_CAD_DATE)+"";
 							strHtml += "		</h4>";
 						} else {
 							strHtml += "		<h4 class='small'>";
-							strHtml += "			계획 : <br>"+chknull(value.PLAN_CAD_DATE)+"";
+							strHtml += "			<spring:message code="smart.status.work.plan" /> : <br>"+chknull(value.PLAN_CAD_DATE)+"";
 							strHtml += "		</h4>";
 						}
 						strHtml += "	</td>";
@@ -167,25 +167,25 @@
 						strHtml += "	<td>";
 						if(value.ASSEMBLY_STATUS == 'DELAY') {
 							strHtml += "		<div class='progress'><div class='progress-bar bg-red' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
-							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br><br></h4>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'><spring:message code="smart.status.work.action" /> : <br><br></h4>";
 						} else if(value.ASSEMBLY_STATUS == 'BEFORE_START'){
 							strHtml += "		<div class='progress'><div class='progress-bar' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
-							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br><br></h4>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'><spring:message code="smart.status.work.action" /> : <br><br></h4>";
 						} else if(value.ASSEMBLY_STATUS == 'ING') {
 							strHtml += "		<div class='progress'><div class='progress-bar bg-green' role='progressbar' style='width: 50%;' aria-valuenow='50' aria-valuemin='0' aria-valuemax='100'></div></div>";
-							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br>"+chknull(value.ASSEMBLY_WORK_DATE)+"</h4>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'><spring:message code="smart.status.work.action" /> : <br>"+chknull(value.ASSEMBLY_WORK_DATE)+"</h4>";
 						} else if(value.ASSEMBLY_STATUS == 'COMPLETE') {
 							strHtml += "		<div class='progress'><div class='progress-bar bg-blue' role='progressbar' style='width: 100%;' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100'></div></div>";
-							strHtml += "		<h4 class='small font-weight-bolder text-blue'>실행 : <br>"+chknull(value.ASSEMBLY_WORK_DATE)+"</h4>";
+							strHtml += "		<h4 class='small font-weight-bolder text-blue'><spring:message code="smart.status.work.action" /> : <br>"+chknull(value.ASSEMBLY_WORK_DATE)+"</h4>";
 						}
 						
 						if(value.ASSEMBLY_STATUS == 'DELAY') {
 							strHtml += "		<h4 class='small font-weight-bolder text-red blink'>";
-							strHtml += "			계획 : <br>"+chknull(value.PLAN_ASSEMBLY_DATE)+"";
+							strHtml += "			<spring:message code="smart.status.work.plan" /> : <br>"+chknull(value.PLAN_ASSEMBLY_DATE)+"";
 							strHtml += "		</h4>";
 						} else {
 							strHtml += "		<h4 class='small'>";
-							strHtml += "			계획 : <br>"+chknull(value.PLAN_ASSEMBLY_DATE)+"";
+							strHtml += "			<spring:message code="smart.status.work.plan" /> : <br>"+chknull(value.PLAN_ASSEMBLY_DATE)+"";
 							strHtml += "		</h4>";
 						}
 						
