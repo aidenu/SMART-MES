@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
@@ -62,6 +63,32 @@ public class SmartCommonController {
 		
 		return "smart/common/SmartDashBoard";
 	}
+	
+	
+	@RequestMapping(value="/smart/common/SmartDashBoardModelStatus.do")
+	@ResponseBody
+	public List<HashMap> SmartDashBoardModelStatus(
+			@RequestParam(value="gubun", required=false) String gubun,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("startDate", "");
+			hp.put("endDate", "");
+			hp.put("gubun", gubun);
+			
+			result = SmartCommonDAO.nosessioncommonDataProc("getModelStatusData", hp);
+			model.addAttribute("result", result);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/common/SmartDashBoardModelStatus.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
 	
 	@RequestMapping(value = "/smart/common/SmartBasicData.do")
 	public String SmartBasicData(ModelMap model) throws Exception {

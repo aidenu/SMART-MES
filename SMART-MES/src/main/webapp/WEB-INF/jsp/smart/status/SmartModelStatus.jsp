@@ -62,7 +62,7 @@
 			
 			$.ajax({
 				url : "${pageContext.request.contextPath}/smart/status/SmartModelStatusModelData.do",
-				data : {"startDate":startDate, "endDate":endDate},
+				data : {"startDate":startDate, "endDate":endDate, "gubun":"MODELSTATUS"},
 				type : "POST",
 				datatype : "json",
 				success : function(data) {
@@ -227,7 +227,6 @@
 		} else {
 			return val;
 		}
-		
 	}
 	
 </script>

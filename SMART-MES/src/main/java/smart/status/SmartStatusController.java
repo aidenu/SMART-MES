@@ -64,6 +64,7 @@ public class SmartStatusController {
 	public List<HashMap> SmartModelStatusModelData(
 			@RequestParam(value="startDate", required=false) String startDate,
 			@RequestParam(value="endDate", required=false) String endDate,
+			@RequestParam(value="gubun", required=false) String gubun,
 			ModelMap model) throws Exception {
 		
 		List<HashMap> result  = null;
@@ -72,6 +73,7 @@ public class SmartStatusController {
 			HashMap<String,String> hp = new HashMap<String,String>();
 			hp.put("startDate", startDate);
 			hp.put("endDate", endDate);
+			hp.put("gubun", gubun);
 			
 			result = SmartCommonDAO.commonDataProc("getModelStatusData", hp);
 			model.addAttribute("result", result);
