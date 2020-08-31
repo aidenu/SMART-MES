@@ -90,6 +90,25 @@ public class SmartCommonController {
 	}
 	
 	
+	@RequestMapping(value="/smart/common/SmartDashBoardModelSummary.do")
+	@ResponseBody
+	public List<HashMap> SmartDashBoardModelSummary(ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			result = SmartCommonDAO.nosessioncommonDataProc("getModelSummaryStatus");
+			model.addAttribute("result", result);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/common/SmartDashBoardModelSummary.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
+	
 	@RequestMapping(value = "/smart/common/SmartBasicData.do")
 	public String SmartBasicData(ModelMap model) throws Exception {
 		

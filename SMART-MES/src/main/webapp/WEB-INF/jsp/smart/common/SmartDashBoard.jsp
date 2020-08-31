@@ -36,11 +36,54 @@
 	}
 </style>
 <script>
-
 	$(document).ready(function() {
 		//MODEL STATUS
 		getModelStatusData();
+		
+		//Summary Model Status
+		getModelSummaryData();
+		
+		
 	});
+	
+	
+	/**
+		.금형 진행 상태 Summary
+		.진행중인 금형 건수, 지연되고 있는 금형 건수, 진행중인 가공 건수, 대기중인 가공 건
+	*/
+	function getModelSummaryData() {
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/common/SmartDashBoardModelSummary.do",
+			type : "POST",
+			data : "",
+			datatype : "json",
+			async : false,
+			success : function(data) {
+				$("#ingModelCount").empty();
+				$("#delayModelCount").empty();
+				$("#ingWorkCount").empty();
+				$("#readyWorkCount").empty();
+				
+				$.each(data, function(index, value){
+					
+					if(value.SUMMARY_GUBUN == "MODEL_ING") {
+						$("#ingModelCount").html(value.COUNT);
+					} else if(value.SUMMARY_GUBUN == "MODEL_DELAY") {
+						$("#delayModelCount").html(value.COUNT);
+					} else if(value.SUMMARY_GUBUN == "WORK_ING") {
+						$("#ingWorkCount").html(value.COUNT);
+					} else if(value.SUMMARY_GUBUN == "WORK_READY") {
+						$("#readyWorkCount").html(value.COUNT);
+					}
+					
+				});	//$.each(data)
+				
+			}	//success
+			
+		}); //$.ajax
+	}
 	
 	
 	/**
@@ -54,6 +97,7 @@
 			data : {"startDate":"", "endDate":"", "gubun":"DASHBOARD"},
 			type : "POST",
 			datatype: "json",
+			async : false,
 			success : function(data) {
 				$('#dataTable').dataTable().fnClearTable();		//가공작업 상세 페이지 Span으로 인해 처리 안됨
 				$('#dataTable').dataTable().fnDestroy();
@@ -189,20 +233,6 @@
 			}	//success
 			
 		});	//$.ajax
-		
-		
-		/**
-			.Work Progress Bar Click
-			.parameter
-			 - modelid
-		*/
-		$(document).on("click", "div[id$='_progress']", function() {
-			
-			var modelid = this.id.replace("_progress", "");
-			window.open("<c:url value='/smart/status/SmartModelStatusDetail.do?modelid="+modelid+"'/>", "statusPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1400,height=850");
-			
-		});		//$(documewnt).on("click", "div[id$='_progress']", function() {})
-		
 	}
 	
 	
@@ -215,7 +245,6 @@
 			return val;
 		}
 	}
-
 </script>
 </head>
 <body class="nav-fixed">
@@ -259,45 +288,73 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Primary Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        	<div class="col-xl-3 col-md-6 mb-4">
+                                <!-- Dashboard info widget 1 진행중인 금형 건수-->
+                                <div class="card border-top-0 border-bottom-0 border-right-0 border-left-lg border-primary h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="small font-weight-bold text-primary mb-1"><spring:message code="smart.dashboard.model.ing.count" /></div>
+                                                <div class="h5">
+                                                	<span id="ingModelCount">5</span>
+                                                </div>
+                                            </div>
+                                            <div class="ml-2"><i class="fas fa-dollar-sign fa-2x text-gray-200"></i></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">Warning Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <!-- Dashboard info widget 2 지연되고 있는 금형 건-->
+                                <div class="card border-top-0 border-bottom-0 border-right-0 border-left-lg border-red h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="small font-weight-bold text-red mb-1"><spring:message code="smart.dashboard.model.delay.count" /></div>
+                                                <div class="h5">
+                                                	<span id="delayModelCount"></span>
+                                                </div>
+                                            </div>
+                                            <div class="ml-2"><i class="fas fa-tag fa-2x text-gray-200"></i></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">Success Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <!-- Dashboard info widget 3 진행중인 가공 건수-->
+                                <div class="card border-top-0 border-bottom-0 border-right-0 border-left-lg border-success h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="small font-weight-bold text-success mb-1"><spring:message code="smart.dashboard.work.ing.count" /></div>
+                                                <div class="h5">
+                                                	<span id="ingWorkCount"></span>
+                                                </div>
+                                            </div>
+                                            <div class="ml-2"><i class="fas fa-mouse-pointer fa-2x text-gray-200"></i></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">Danger Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <!-- Dashboard info widget 4 대기중인 가공 건수-->
+                                <div class="card border-top-0 border-bottom-0 border-right-0 border-left-lg border-info h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <div class="small font-weight-bold text-info mb-1"><spring:message code="smart.dashboard.work.ready.count" /></div>
+                                                <div class="h5">
+                                                	<span id="readyWorkCount"></span>
+                                                </div>
+                                            </div>
+                                            <div class="ml-2"><i class="fas fa-percentage fa-2x text-gray-200"></i></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card mb-4">
-                            <div class="card-header font-weight-900"><spring:message code="smart.dashboard.model.status.title" /></div>
+                            <div class="card-header"><spring:message code="smart.dashboard.model.status.title" /></div>
                             <div class="card-body">
                                 <div class="datatable table-responsive">
                                     <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">

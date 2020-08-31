@@ -72,4 +72,15 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapModelSummaryStatus" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getModelSummaryStatus" parameterMap="paramMapModelSummaryStatus" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call SPC_Q_COMMON.getModelSummaryStatus_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
 </sqlMap>
