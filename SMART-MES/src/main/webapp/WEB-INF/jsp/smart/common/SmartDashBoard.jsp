@@ -38,10 +38,8 @@
 <script>
 
 	$(document).ready(function() {
-		console.log("STEP0");
 		//MODEL STATUS
 		getModelStatusData();
-		console.log("STEP2");
 	});
 	
 	
@@ -50,7 +48,6 @@
 		.현재 등록되어 진행중인 모든 금형 List
 	*/
 	function getModelStatusData() {
-		console.log("STEP1");
 		$.ajax({
 			
 			url : "${pageContext.request.contextPath}/smart/common/SmartDashBoardModelStatus.do",
@@ -192,6 +189,20 @@
 			}	//success
 			
 		});	//$.ajax
+		
+		
+		/**
+			.Work Progress Bar Click
+			.parameter
+			 - modelid
+		*/
+		$(document).on("click", "div[id$='_progress']", function() {
+			
+			var modelid = this.id.replace("_progress", "");
+			window.open("<c:url value='/smart/status/SmartModelStatusDetail.do?modelid="+modelid+"'/>", "statusPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1400,height=850");
+			
+		});		//$(documewnt).on("click", "div[id$='_progress']", function() {})
+		
 	}
 	
 	
@@ -286,7 +297,7 @@
                             </div>
                         </div>
                         <div class="card mb-4">
-                            <div class="card-header"><spring:message code="smart.dashboard.model.status.title" /></div>
+                            <div class="card-header font-weight-900"><spring:message code="smart.dashboard.model.status.title" /></div>
                             <div class="card-body">
                                 <div class="datatable table-responsive">
                                     <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
