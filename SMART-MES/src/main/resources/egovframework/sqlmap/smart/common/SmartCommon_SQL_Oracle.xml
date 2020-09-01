@@ -2,12 +2,21 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="SmartCommon">
-
+	
+	<parameterMap id="paramMapModelSummaryStatus" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	<procedure id="getModelSummaryStatus" parameterMap="paramMapModelSummaryStatus" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_COMMON.getModelSummaryStatus_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
 	<parameterMap id="paramMapAlarmList" class="java.util.HashMap">
 		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>
-	
 	<procedure id="getAlarmList" parameterMap="paramMapAlarmList" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
         	{call PKG_Q_COMMON.getAlarmList_Pro(?, ?)}
@@ -68,17 +77,6 @@
 	<procedure id="getLogInfoList" parameterMap="paramMapLogInfoList" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
         	{call SPC_Q_COMMON.getLogInfoList_Pro(?, ?, ?, ?)}
-        ]]>
-	</procedure>
-	
-	
-	<parameterMap id="paramMapModelSummaryStatus" class="java.util.HashMap">
-		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
-	</parameterMap>
-	
-	<procedure id="getModelSummaryStatus" parameterMap="paramMapModelSummaryStatus" resultClass="java.util.HashMap" remapResults="true">
-		<![CDATA[
-        	{call SPC_Q_COMMON.getModelSummaryStatus_Pro(?)}
         ]]>
 	</procedure>
 	
