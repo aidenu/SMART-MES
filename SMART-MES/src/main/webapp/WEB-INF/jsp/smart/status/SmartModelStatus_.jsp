@@ -56,7 +56,7 @@
 		$("#btn_search").click(function() {
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
-
+			console.log("STEP1");
 			$.ajax({
 				url : "${pageContext.request.contextPath}/smart/status/SmartModelStatusModelData.do",
 				data : {"startDate":startDate, "endDate":endDate, "gubun":"MODELSTATUS"},
@@ -194,9 +194,9 @@
 					
 					$('#dataTable').DataTable();	//jquery dataTable Plugin reload
 					feather.replace();	//data-feather reload
-				}//success
-				
+				}	//success
 			});	//$.ajax
+			console.log("STEP2");
 		});	//$("#btn_search").click
 		
 	});
