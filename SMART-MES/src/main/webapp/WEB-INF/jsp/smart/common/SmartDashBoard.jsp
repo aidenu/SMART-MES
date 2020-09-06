@@ -236,6 +236,19 @@
 	}
 	
 	
+	/**
+		.Work Progress Bar Click
+		.parameter
+		 - modelid
+	*/
+	$(document).on("click", "div[id$='_progress']", function() {
+		
+		var modelid = this.id.replace("_progress", "");
+		window.open("<c:url value='/smart/status/SmartModelStatusDetail.do?modelid="+modelid+"'/>", "statusPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1400,height=850");
+		
+	});		//$(documewnt).on("click", "div[id$='_progress']", function() {}
+	
+	
 	function chknull(val) {
 		var returnVal = "";
 		

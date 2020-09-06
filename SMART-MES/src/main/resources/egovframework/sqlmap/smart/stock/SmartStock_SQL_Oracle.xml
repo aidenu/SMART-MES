@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SmartStock">
+	
+	
+	<parameterMap id="paramMapStockData" class="java.util.HashMap">
+		<parameter property="stockid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getStockData" parameterMap="paramMapStockData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.getStockData_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapStockDataSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stockname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stocksize" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stockcount" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stockprice" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="safecount" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setStockDataSave" parameterMap="paramMapStockDataSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.setStockDataSave_Pro(?, ?, ?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapStockDataDelete" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stockid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setStockDataDelete" parameterMap="paramMapStockDataDelete" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.setStockDataDelete_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	<parameterMap id="paramMapStockDataOrder" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stockid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="ordercount" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setStockDataOrder" parameterMap="paramMapStockDataOrder" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.setStockDataOrder_Pro(?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapStockDataModify" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stockname" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stocksize" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stockcount" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stockprice" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="safecount" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="stockid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setStockDataModify" parameterMap="paramMapStockDataModify" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.setStockDataModify_Pro(?, ?, ?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+</sqlMap>
