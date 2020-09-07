@@ -35,7 +35,7 @@ public class SmartStockController {
 	
 	
 	@RequestMapping(value="/smart/stock/SmartStock.do")
-	public String SmartSiteWork (
+	public String SmartStock (
 			ModelMap model) throws Exception {
 		
 		try {
@@ -243,4 +243,105 @@ public class SmartStockController {
 		
 		return actionresult;
 	}
+	
+	
+	
+	@RequestMapping(value="/smart/stock/SmartTool.do")
+	public String SmartTool(
+			ModelMap model) throws Exception {
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
+			model.addAttribute("useremail", loginVO.getEmail());
+			
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);	
+			
+			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getToolBasic");
+			model.addAttribute("resultBasic", resultBasic);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/stock/SmartTool.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/stock/SmartTool";
+	}
+	
+	
+	@RequestMapping(value="/smart/stock/SmartToolBasicData.do")
+	@ResponseBody
+	public List<HashMap> SmartToolBasicData(
+			@RequestParam(value="maincategory", required=false) String maincategory,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("maincategory", maincategory);
+			result = SmartCommonDAO.commonDataProc("getToolCategoryBasic", hp);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/stock/SmartToolBasicData.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/smart/stock/SmartToolDataSave.do")
+	@ResponseBody
+	public String SmartToolDataSave(
+			@RequestParam(value="maincategory", required=false) String maincategory,
+			@RequestParam(value="subcategory", required=false) String subcategory,
+			@RequestParam(value="toolpie", required=false) String toolpie,
+			@RequestParam(value="toolfb", required=false) String toolfb,
+			@RequestParam(value="toolr", required=false) String toolr,
+			@RequestParam(value="toollength", required=false) String toollength,
+			@RequestParam(value="toolcount", required=false) String toolcount,
+			@RequestParam(value="safecount", required=false) String safecount,
+			@RequestParam(value="toolprice", required=false) String toolprice,
+			@RequestParam(value="gubun", required=false) String gubun,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("maincategory", maincategory);
+			hp.put("subcategory", subcategory);
+			hp.put("toolpie", toolpie);
+			hp.put("toolfb", toolfb);
+			hp.put("toolr", toolr);
+			hp.put("toollength", toollength);
+			hp.put("toolcount", toolcount);
+			hp.put("safecount", safecount);
+			hp.put("toolprice", toolprice);
+			hp.put("gubun", gubun);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setToolDataSafe", hp);
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+			
+		} catch(Exception e) {
+			logger.error("[/smart/stock/SmartToolDataSave.do] Exception :: " + e.toString());
+		}
+		
+		
+		return actionresult;
+	}
+	
 }

@@ -78,4 +78,49 @@
         ]]>
 	</procedure>
 	
+	
+	<parameterMap id="paramMapToolBasic" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getToolBasic" parameterMap="paramMapToolBasic" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.getToolBasic_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapToolCategoryBasic" class="java.util.HashMap">
+		<parameter property="maincategory" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getToolCategoryBasic" parameterMap="paramMapToolCategoryBasic" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.getToolCategoryBasic_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapToolDataSafe" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="maincategory" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="subcategory" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="toolpie" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="toolfb" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="toolr" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="toollength" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="toolcount" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="safecount" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="toolprice" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setToolDataSafe" parameterMap="paramMapToolDataSafe" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.setToolDataSafe_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
 </sqlMap>
