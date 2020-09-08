@@ -47,9 +47,6 @@
 
 	$(document).ready(function() {
 		
-		var startDate = $("#startDate").val();
-		var endDate = $("#endDate").val();
-		
 		/**
 			. 조회 버튼 클릭
 			. parameter
@@ -59,7 +56,7 @@
 		$("#btn_search").click(function() {
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
-			
+
 			$.ajax({
 				url : "${pageContext.request.contextPath}/smart/status/SmartModelStatusModelData.do",
 				data : {"startDate":startDate, "endDate":endDate, "gubun":"MODELSTATUS"},
@@ -197,9 +194,9 @@
 					
 					$('#dataTable').DataTable();	//jquery dataTable Plugin reload
 					feather.replace();	//data-feather reload
-				}	//success
+				}//success
+				
 			});	//$.ajax
-			
 		});	//$("#btn_search").click
 		
 	});
@@ -333,7 +330,7 @@
 	</div>
 	
 <iframe name="dataFrame" width="0" height="0" style="visibility:hidden"></iframe>
-	
+
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smartscripts.js'/>"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>

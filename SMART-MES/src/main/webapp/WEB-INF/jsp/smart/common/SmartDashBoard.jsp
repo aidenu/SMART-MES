@@ -36,7 +36,6 @@
 	}
 </style>
 <script>
-
 	$(document).ready(function() {
 		//MODEL STATUS
 		getModelStatusData();
@@ -73,10 +72,10 @@
 						$("#ingModelCount").html(value.COUNT);
 					} else if(value.SUMMARY_GUBUN == "MODEL_DELAY") {
 						$("#delayModelCount").html(value.COUNT);
-					} else if(value.SUMMARY_GUBUN == "WORK_ING") {
-						$("#ingWorkCount").html(value.COUNT);
-					} else if(value.SUMMARY_GUBUN == "WORK_READY") {
-						$("#readyWorkCount").html(value.COUNT);
+					} else if(value.SUMMARY_GUBUN == "WORK_SITE_ING") {
+						$("#ingSiteWorkCount").html(value.COUNT);
+					} else if(value.SUMMARY_GUBUN == "WORK_OUT_ING") {
+						$("#ingOutWorkcount").html(value.COUNT);
 					}
 					
 				});	//$.each(data)
@@ -237,6 +236,19 @@
 	}
 	
 	
+	/**
+		.Work Progress Bar Click
+		.parameter
+		 - modelid
+	*/
+	$(document).on("click", "div[id$='_progress']", function() {
+		
+		var modelid = this.id.replace("_progress", "");
+		window.open("<c:url value='/smart/status/SmartModelStatusDetail.do?modelid="+modelid+"'/>", "statusPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1400,height=850");
+		
+	});		//$(documewnt).on("click", "div[id$='_progress']", function() {}
+	
+	
 	function chknull(val) {
 		var returnVal = "";
 		
@@ -246,7 +258,6 @@
 			return val;
 		}
 	}
-
 </script>
 </head>
 <body class="nav-fixed">
@@ -266,7 +277,6 @@
                                     <div class="page-header-icon"><i data-feather="activity"></i></div>
                                     <span><spring:message code="smart.dashboard.title" /></span>
                                 </h1>
-                                <div class="page-header-subtitle">Example dashboard overview and content summary</div>
                             </div>
                         </div>
                     </div>
@@ -274,7 +284,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="card mb-4">
-                                    <div class="card-header">Area Chart Example</div>
+                                    <div class="card-header"><spring:message code="smart.dashboard.eqp.status" /></div>
                                     <div class="card-body">
                                         <div class="chart-area"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
                                     </div>
@@ -282,7 +292,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card mb-4">
-                                    <div class="card-header">Bar Chart Example</div>
+                                    <div class="card-header"><spring:message code="smart.dashboard.eqp.stack" /></div>
                                     <div class="card-body">
                                         <div class="chart-bar"><canvas id="myBarChart" width="100%" height="30"></canvas></div>
                                     </div>
@@ -296,12 +306,12 @@
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1">
-                                                <div class="small font-weight-bold text-primary mb-1"><spring:message code="smart.dashboard.model.ing.count" /></div>
+                                                <div class="small font-weight-bold text-primary mb-1 text-lg font-weight-800"><spring:message code="smart.dashboard.model.ing.count" /></div>
                                                 <div class="h5">
-                                                	<span id="ingModelCount">5</span>
+                                                	<span class="text-xl" id="ingModelCount">5</span>
                                                 </div>
                                             </div>
-                                            <div class="ml-2"><i class="fas fa-dollar-sign fa-2x text-gray-200"></i></div>
+                                            <div class="ml-2"><i class="fas fa-clipboard-list fa-2x text-gray-200"></i></div>
                                         </div>
                                     </div>
                                 </div>
@@ -312,44 +322,44 @@
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1">
-                                                <div class="small font-weight-bold text-red mb-1"><spring:message code="smart.dashboard.model.delay.count" /></div>
+                                                <div class="small font-weight-bold text-red mb-1 text-lg font-weight-800"><spring:message code="smart.dashboard.model.delay.count" /></div>
                                                 <div class="h5">
-                                                	<span id="delayModelCount"></span>
+                                                	<span class="text-xl" id="delayModelCount"></span>
                                                 </div>
                                             </div>
-                                            <div class="ml-2"><i class="fas fa-tag fa-2x text-gray-200"></i></div>
+                                            <div class="ml-2"><i class="fas fa-bomb fa-2x text-gray-200"></i></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6 mb-4">
-                                <!-- Dashboard info widget 3 진행중인 가공 건수-->
+                                <!-- Dashboard info widget 3 진행중인 사내가공 건수-->
                                 <div class="card border-top-0 border-bottom-0 border-right-0 border-left-lg border-success h-100">
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1">
-                                                <div class="small font-weight-bold text-success mb-1"><spring:message code="smart.dashboard.work.ing.count" /></div>
+                                                <div class="small font-weight-bold text-success mb-1 text-lg font-weight-800"><spring:message code="smart.dashboard.work.site.ing.count" /></div>
                                                 <div class="h5">
-                                                	<span id="ingWorkCount"></span>
+                                                	<span class="text-xl" id="ingSiteWorkCount"></span>
                                                 </div>
                                             </div>
-                                            <div class="ml-2"><i class="fas fa-mouse-pointer fa-2x text-gray-200"></i></div>
+                                            <div class="ml-2"><i class="far fa-calendar-alt fa-2x text-gray-200"></i></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6 mb-4">
-                                <!-- Dashboard info widget 4 대기중인 가공 건수-->
+                                <!-- Dashboard info widget 4 진행중인 외주가공 건수-->
                                 <div class="card border-top-0 border-bottom-0 border-right-0 border-left-lg border-info h-100">
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1">
-                                                <div class="small font-weight-bold text-info mb-1"><spring:message code="smart.dashboard.work.ready.count" /></div>
+                                                <div class="small font-weight-bold text-info mb-1 text-lg font-weight-800"><spring:message code="smart.dashboard.work.out.ing.count" /></div>
                                                 <div class="h5">
-                                                	<span id="readyWorkCount"></span>
+                                                	<span class="text-xl" id="ingOutWorkcount"></span>
                                                 </div>
                                             </div>
-                                            <div class="ml-2"><i class="fas fa-percentage fa-2x text-gray-200"></i></div>
+                                            <div class="ml-2"><i class="fas fa-calendar-alt fa-2x text-gray-200"></i></div>
                                         </div>
                                     </div>
                                 </div>

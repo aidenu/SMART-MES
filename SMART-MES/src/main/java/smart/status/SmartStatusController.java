@@ -69,7 +69,6 @@ public class SmartStatusController {
 		
 		List<HashMap> result  = null;
 		try {
-			
 			HashMap<String,String> hp = new HashMap<String,String>();
 			hp.put("startDate", startDate);
 			hp.put("endDate", endDate);
