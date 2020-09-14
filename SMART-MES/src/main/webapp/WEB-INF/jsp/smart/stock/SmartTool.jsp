@@ -52,22 +52,26 @@
 					$.each(data, function(index, value){
 						
 						strHtml += "<tr>";
-						strHtml += "		<td>"+value.STOCK_NAME+"</td>";
-						strHtml += "		<td>"+value.STOCK_SIZE+"</td>";
-						strHtml += "		<td>"+value.STOCK_COUNT+"</td>";
-						strHtml += "		<td>"+value.STOCK_SAFE_COUNT+"</td>";
-						strHtml += "		<td>"+value.STOCK_PRICE+"</td>";
+						strHtml += "		<td>"+value.MAIN_CATEGORY+"</td>";
+						strHtml += "		<td>"+value.SUB_CATEGORY+"</td>";
+						strHtml += "		<td>"+value.TOOL_PIE+"</td>";
+						strHtml += "		<td>"+value.TOOL_FB+"</td>";
+						strHtml += "		<td>"+value.TOOL_R+"</td>";
+						strHtml += "		<td>"+value.TOOL_LENGTH+"</td>";
+						strHtml += "		<td>"+value.TOOL_COUNT+"</td>";
+						strHtml += "		<td>"+value.TOOL_SAFE_COUNT+"</td>";
+						strHtml += "		<td>"+value.TOOL_PRICE+"</td>";
 						strHtml += "		<td>";
-						strHtml += "			<input class='form-control' id='"+value.STOCK_ID+"_ordercount' name='"+value.STOCK_ID+"_ordercount' onkeyup='onlyNum(this);' style='width: 40%;float: left;' placeholder='수량 입력'>";
+						strHtml += "			<input class='form-control' id='"+value.TOOL_ID+"_ordercount' name='"+value.TOOL_ID+"_ordercount' onkeyup='onlyNum(this);' style='width: 40%;float: left;' placeholder='수량 입력'>";
 						strHtml += "			&nbsp;";
-						strHtml += "			<div class='btn btn-green btn-sm' id='"+value.STOCK_ID+"_instock'>입고</div>";
-						strHtml += "			<div class='btn btn-yellow btn-sm' id='"+value.STOCK_ID+"_outstock'>출고</div>";
+						strHtml += "			<div class='btn btn-green btn-sm' id='"+value.TOOL_ID+"_intool'>입고</div>";
+						strHtml += "			<div class='btn btn-yellow btn-sm' id='"+value.TOOL_ID+"_outtool'>출고</div>";
 						strHtml += "		</td>";
 						strHtml += "		<td>";
-						strHtml += "			<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.STOCK_ID+"_detail'>";
+						strHtml += "			<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.TOOL_ID+"_detail'>";
 						strHtml += "				<i data-feather='edit'></i>";
 						strHtml += "			</div>";
-						strHtml += "			<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.STOCK_ID+"_delete'>";
+						strHtml += "			<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.TOOL_ID+"_delete'>";
 						strHtml += "				<i data-feather='trash-2'></i>";
 						strHtml += "			</div>";
 						strHtml += "		</td>";
@@ -122,11 +126,6 @@
 		/**
 			. 신규 데이터 등록 버튼 클릭
 			. parameter
-			  - stockname
-			  - stocksize
-			  - stockcount
-			  - stockprice
-			  - safecount
 		*/
 		$("#btn_save").click(function() {
 			
@@ -211,18 +210,18 @@
 		/**
 			. 삭제 버튼 클릭
 			. parameter
-			  - stockid
+			  - toolid
 		*/
 		$(document).on("click", "div[id$='_delete']", function() {
 			
-			var stockid = this.id.replace("_delete", "");
+			var toolid = this.id.replace("_delete", "");
 			var msg = "<spring:message code="smart.common.delete.is" />";
 			
 			if(confirm(msg)) {
 				$.ajax({
 					
 					url : "${pageContext.request.contextPath}/smart/stock/SmartToolDataDelete.do",
-					data : {"stockid":stockid},
+					data : {"toolid":toolid},
 					type : "POST",
 					datatype : "text",
 					success : function(data) {
@@ -244,36 +243,36 @@
 		/**
 			. 입/출고 버튼 클릭
 			. parameter
-			  - stockid
+			  - toolid
 			  - ordercount
 		*/
-		$(document).on("click", "div[id$='_instock']", function() {
-			var stockid = this.id.replace("_instock", "");
-			var ordercount = $("#"+stockid+"_ordercount").val();
+		$(document).on("click", "div[id$='_intool']", function() {
+			var toolid = this.id.replace("_intool", "");
+			var ordercount = $("#"+toolid+"_ordercount").val();
 			var gubun = "IN";
-			inoutStock(stockid, ordercount, gubun);
+			inoutTool(toolid, ordercount, gubun);
 		});	//click 입고
-		$(document).on("click", "div[id$='_outstock']", function() {
-			var stockid = this.id.replace("_outstock", "");
-			var ordercount = $("#"+stockid+"_ordercount").val();
+		$(document).on("click", "div[id$='_outtool']", function() {
+			var toolid = this.id.replace("_outtool", "");
+			var ordercount = $("#"+toolid+"_ordercount").val();
 			var gubun = "OUT";
-			inoutStock(stockid, ordercount, gubun);
+			inoutTool(toolid, ordercount, gubun);
 		});	//click 출고
 		
 		
 		/**
 			. 입/출고 버튼 클릭 function
 			. parameter
-			  - stockid
+			  - toolid
 			  - ordercount
 			  - gubun
 		*/
-		function inoutStock(stockid, ordercount, gubun) {
+		function inoutTool(toolid, ordercount, gubun) {
 			
 			$.ajax({
 				
 				url : "${pageContext.request.contextPath}/smart/stock/SmartToolDataOrder.do",
-				data : {"stockid":stockid, "ordercount":ordercount, "gubun":gubun},
+				data : {"toolid":toolid, "ordercount":ordercount, "gubun":gubun},
 				type : "POST",
 				datatype : "text",
 				success : function(data) {
@@ -449,7 +448,7 @@
 								                	</tr>
 								                	<tr>
 								                		<td><spring:message code="smart.stock.tool.pie" /></td>
-								                		<td><input class="form-control" id="add_toolpie" name="add_toolpie"></td>
+								                		<td><input class="form-control" id="add_toolpie" name="add_toolpie" onkeyup="onlyNum(this);"></td>
 								                		<td><spring:message code="smart.stock.tool.fb" /></td>
 								                		<td>
 								                			<div class="form-group" style="margin-bottom: 0px;">
@@ -465,7 +464,7 @@
 								                		<td><spring:message code="smart.stock.tool.r" /></td>
 								                		<td><input class="form-control" id="add_toolr" name="add_toolr" onkeyup="onlyNum(this);"></td>
 								                		<td><spring:message code="smart.stock.tool.length" /></td>
-								                		<td><input class="form-control" id="add_toollenth" name="add_toollenth" onkeyup="onlyNum(this);"></td>
+								                		<td><input class="form-control" id="add_toollength" name="add_toollength" onkeyup="onlyNum(this);"></td>
 								                	</tr>
 								                	<tr>
 								                		<td><spring:message code="smart.stock.part.count" /></td>
@@ -494,50 +493,54 @@
 							<div class="card-body">
 								<div class="datatable table-responsive">
 									<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-<%-- 										<colgroup> --%>
-<%-- 											<col width="15%"> --%>
-<%-- 											<col width="20%"> --%>
-<%-- 											<col width="10%"> --%>
-<%-- 											<col width="10%"> --%>
-<%-- 											<col width="10%"> --%>
-<%-- 											<col width="25%"> --%>
-<%-- 											<col width="10%"> --%>
-<%-- 										</colgroup> --%>
+										<colgroup>
+											<col width="7%">
+											<col width="7%">
+											<col width="9%">
+											<col width="5%">
+											<col width="7%">
+											<col width="9%">
+											<col width="7%">
+											<col width="8%">
+											<col width="8%">
+											<col width="25%">
+											<col width="7%">
+										</colgroup>
 										<thead>
 											<tr>
-												<th><spring:message code="smart.stock.tool.main.category" /></th>
-												<th><spring:message code="smart.stock.tool.sub.category" /></th>
-												<th><spring:message code="smart.stock.tool.pie" /></th>
-												<th><spring:message code="smart.stock.tool.fb" /></th>
-												<th><spring:message code="smart.stock.tool.r" /></th>
-												<th><spring:message code="smart.stock.tool.length" /></th>
-												<th><spring:message code="smart.stock.part.current.count" /></th>
-												<th><spring:message code="smart.stock.part.safe.count" /></th>
-												<th><spring:message code="smart.stock.part.price" /></th>
-												<th></th>
-												<th></th>
+												<th scope="col"><spring:message code="smart.stock.tool.main.category" /></th>
+												<th scope="col"><spring:message code="smart.stock.tool.sub.category" /></th>
+												<th scope="col"><spring:message code="smart.stock.tool.pie" /></th>
+												<th scope="col"><spring:message code="smart.stock.tool.fb" /></th>
+												<th scope="col"><spring:message code="smart.stock.tool.r" /></th>
+												<th scope="col"><spring:message code="smart.stock.tool.length" /></th>
+												<th scope="col"><spring:message code="smart.stock.part.current.count" /></th>
+												<th scope="col"><spring:message code="smart.stock.part.safe.count" /></th>
+												<th scope="col"><spring:message code="smart.stock.part.price" /></th>
+												<th scope="col"></th>
+												<th scope="col"></th>
 											</tr>
 										</thead>
 										<tfoot>
 											<tr>
-												<th><spring:message code="smart.stock.tool.main.category" /></th>
-												<th><spring:message code="smart.stock.tool.sub.category" /></th>
-												<th><spring:message code="smart.stock.tool.pie" /></th>
-												<th><spring:message code="smart.stock.tool.fb" /></th>
-												<th><spring:message code="smart.stock.tool.r" /></th>
-												<th><spring:message code="smart.stock.tool.length" /></th>
-												<th><spring:message code="smart.stock.part.current.count" /></th>
-												<th><spring:message code="smart.stock.part.safe.count" /></th>
-												<th><spring:message code="smart.stock.part.price" /></th>
-												<th></th>
-												<th></th>
+												<th scope="col"><spring:message code="smart.stock.tool.main.category" /></th>
+												<th scope="col"><spring:message code="smart.stock.tool.sub.category" /></th>
+												<th scope="col"><spring:message code="smart.stock.tool.pie" /></th>
+												<th scope="col"><spring:message code="smart.stock.tool.fb" /></th>
+												<th scope="col"><spring:message code="smart.stock.tool.r" /></th>
+												<th scope="col"><spring:message code="smart.stock.tool.length" /></th>
+												<th scope="col"><spring:message code="smart.stock.part.current.count" /></th>
+												<th scope="col"><spring:message code="smart.stock.part.safe.count" /></th>
+												<th scope="col"><spring:message code="smart.stock.part.price" /></th>
+												<th scope="col"></th>
+												<th scope="col"></th>
 											</tr>
 	                                    </tfoot>
 	                                    <tbody id="data_table_tbody">
 	                                    	<c:forEach var="result" items="${result }" varStatus="status">
 	                                    		<tr>
-													<td>${result.TOOL_MAIN_CATEGORY }</td>
-													<td>${result.TOOL_SUB_CATEGORY }</td>
+													<td>${result.MAIN_CATEGORY }</td>
+													<td>${result.SUB_CATEGORY }</td>
 													<td>${result.TOOL_PIE }</td>
 													<td>${result.TOOL_FB }</td>
 													<td>${result.TOOL_R }</td>
@@ -548,8 +551,8 @@
 													<td>
 														<input class="form-control" id="${result.TOOL_ID }_ordercount" name="${result.TOOL_ID }_ordercount" onkeyup="onlyNum(this);" style="width: 40%;float: left;" placeholder="수량 입력">
 														&nbsp;
-														<div class="btn btn-green btn-sm" id="${result.TOOL_ID }_instock">입고</div>
-														<div class="btn btn-yellow btn-sm" id="${result.TOOL_ID }_outstock">출고</div>
+														<div class="btn btn-green btn-sm" id="${result.TOOL_ID }_intool">입고</div>
+														<div class="btn btn-yellow btn-sm" id="${result.TOOL_ID }_outtool">출고</div>
 													</td>
 													<td>
 														<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id="${result.TOOL_ID }_detail">

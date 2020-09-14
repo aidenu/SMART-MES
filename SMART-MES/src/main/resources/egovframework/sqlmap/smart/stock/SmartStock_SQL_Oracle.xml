@@ -79,6 +79,21 @@
 	</procedure>
 	
 	
+	
+	<parameterMap id="paramMapStockHistData" class="java.util.HashMap">
+		<parameter property="startDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="endDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getStockHistData" parameterMap="paramMapStockHistData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.getStockHistData_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
 	<parameterMap id="paramMapToolBasic" class="java.util.HashMap">
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>
@@ -102,7 +117,19 @@
 	</procedure>
 	
 	
-	<parameterMap id="paramMapToolDataSafe" class="java.util.HashMap">
+	<parameterMap id="paramMapToolData" class="java.util.HashMap">
+		<parameter property="toolid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getToolData" parameterMap="paramMapToolData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.getToolData_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapToolDataSave" class="java.util.HashMap">
 		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="maincategory" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="subcategory" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
@@ -117,10 +144,39 @@
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>
 	
-	<procedure id="setToolDataSafe" parameterMap="paramMapToolDataSafe" resultClass="java.util.HashMap" remapResults="true">
+	<procedure id="setToolDataSave" parameterMap="paramMapToolDataSave" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
-        	{call PKG_Q_STOCK.setToolDataSafe_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+        	{call PKG_Q_STOCK.setToolDataSave_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
         ]]>
 	</procedure>
+	
+	
+	<parameterMap id="paramMapToolDataDelete" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="toolid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setToolDataDelete" parameterMap="paramMapToolDataDelete" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.setToolDataDelete_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapToolDataOrder" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="toolid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="ordercount" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setToolDataOrder" parameterMap="paramMapToolDataOrder" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.setToolDataOrder_Pro(?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
 	
 </sqlMap>
