@@ -1,5 +1,9 @@
 package smart.stock;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -276,18 +280,40 @@ public class SmartStockController {
 	
 	@RequestMapping(value="/smart/stock/SmartStockHistData.do")
 	public String SmartStockHistData(
-			@RequestParam(value="startDate", required=false) String startDate,
-			@RequestParam(value="endDate", required=false) String endDate,
+			@RequestParam(value="searchStart", required=false) String searchStart,
+			@RequestParam(value="searchEnd", required=false) String searchEnd,
 			ModelMap model) throws Exception {
 		
 		try {
 			
 			HashMap<String,String> hp = new HashMap<String,String>();
-			hp.put("startDate", startDate);
-			hp.put("endDate", endDate);
+			hp.put("startDate", searchStart);
+			hp.put("endDate", searchEnd);
 			
 			List<HashMap> result = SmartCommonDAO.commonDataProc("getStockHistData", hp);
 			model.addAttribute("result", result);
+			
+			model.addAttribute("startDate", searchStart);
+			model.addAttribute("endDate", searchEnd);
+			
+			
+			List<String> listDate = new ArrayList<String>();
+    		
+    		int startYear = Integer.parseInt(searchStart.substring(0,4));
+    		int startMonth = Integer.parseInt(searchStart.substring(5,7));
+    		int endYear = Integer.parseInt(searchEnd.substring(0,4));
+    		int endMonth = Integer.parseInt(searchEnd.substring(5,7));
+    		int monthDiff = (endYear-startYear)*12 + (endMonth-startMonth) + 1;
+    		
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+    		Date date = df.parse(searchStart);
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(date);
+    		for(int i=0; i<monthDiff; i++) {
+    			listDate.add(df.format(cal.getTime()));
+    			cal.add(Calendar.MONTH, 1);
+    		}
+    		model.addAttribute("listDate", listDate);
 			
 		} catch(Exception e) {
 			logger.error("[/smart/stock/SmartStockHistData.do] Exception :: " + e.toString());
