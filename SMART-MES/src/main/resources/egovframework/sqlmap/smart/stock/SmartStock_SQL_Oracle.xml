@@ -179,4 +179,16 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapToolHistData" class="java.util.HashMap">
+		<parameter property="startDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="endDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getToolHistData" parameterMap="paramMapToolHistData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_STOCK.getToolHistData_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
 </sqlMap>

@@ -54,6 +54,12 @@ public class SmartBusinessController {
 			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
 			model.addAttribute("resultAlarm", resultAlarm);		
 			
+			List<HashMap> resultUser = SmartCommonDAO.commonDataProc("getUserList");
+			model.addAttribute("resultUser", resultUser);
+			
+			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getBasicData");
+			model.addAttribute("resultBasic", resultBasic);
+			
 		} catch(Exception e) {
 			logger.error("[/smart/business/SmartBusiness.do] Exception :: " + e.toString());
 		}
@@ -87,51 +93,29 @@ public class SmartBusinessController {
 	
 	
 	@RequestMapping("/smart/business/SmartBusinessView.do")
-	public String SmartBusinessView(
-			@RequestParam(value="gubun", required=false) String gubun,
+	@ResponseBody
+	public List<HashMap> SmartBusinessView(
 			@RequestParam(value="modelid", required=false) String modelid,
 			ModelMap model) throws Exception {
 		
+		List<HashMap> result = null;
+		
 		try {
-			
-			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-			model.addAttribute("userid", loginVO.getId());
-			
-			List<HashMap> resultUser = SmartCommonDAO.commonDataProc("getUserList");
-			model.addAttribute("resultUser", resultUser);
-			
-			List<HashMap> resultBasic = SmartCommonDAO.commonDataProc("getBasicData");
-			model.addAttribute("resultBasic", resultBasic);
 			
 			HashMap<String,String> hp = new HashMap<String,String>();
 			hp.put("modelid", modelid);
-			List<HashMap> result = SmartCommonDAO.commonDataProc("getBusinessViewData", hp);
-			if(result != null && result.size() > 0) {
-				model.addAttribute("MODEL_NO", result.get(0).get("MODEL_NO"));
-				model.addAttribute("PRODUCT_NO", result.get(0).get("PRODUCT_NO"));
-				model.addAttribute("PRODUCT_NAME", result.get(0).get("PRODUCT_NAME"));
-				model.addAttribute("PRODUCT_GROUP", result.get(0).get("PRODUCT_GROUP"));
-				model.addAttribute("ORDER_DATE", result.get(0).get("ORDER_DATE"));
-				model.addAttribute("DUE_DATE", result.get(0).get("DUE_DATE"));
-				model.addAttribute("END_DATE", result.get(0).get("END_DATE"));
-				model.addAttribute("VENDOR", result.get(0).get("VENDOR"));
-				model.addAttribute("BUSINESS_WORKER", result.get(0).get("BUSINESS_WORKER"));
-				model.addAttribute("CAD_WORKER", result.get(0).get("CAD_WORKER"));
-				model.addAttribute("ASSEMBLY_WORKER", result.get(0).get("ASSEMBLY_WORKER"));
-				model.addAttribute("ASSEMBLY_END_DATE", result.get(0).get("ASSEMBLY_END_DATE"));
-			}
-			model.addAttribute("MODEL_ID", modelid);
-			model.addAttribute("gubun", gubun);
+			result = SmartCommonDAO.commonDataProc("getBusinessViewData", hp);
 			
 		} catch(Exception e) {
 			logger.error("[/smart/business/SmartBusinessView.do] Exception :: " + e.toString());
 		}
 		
-		return "smart/business/SmartBusinessView";
+		return result;
 	}
 	
 	
 	@RequestMapping("/smart/business/SmartBusinessSave.do")
+	@ResponseBody
 	public String SmartBusinessSave(
 			@RequestParam(value="gubun", required=false) String gubun,
 			@RequestParam(value="modelid", required=false) String modelid,
@@ -143,9 +127,12 @@ public class SmartBusinessController {
 			@RequestParam(value="businessworker", required=false) String businessworker,
 			@RequestParam(value="orderdate", required=false) String orderdate,
 			@RequestParam(value="duedate", required=false) String duedate,
+			@RequestParam(value="enddate", required=false) String enddate,
 			@RequestParam(value="cadworker", required=false) String cadworker,
 			@RequestParam(value="assemblyworker", required=false) String assemblyworker,
 			ModelMap model) throws Exception {
+		
+		String actionresult = "";
 		
 		try {
 			
@@ -160,20 +147,21 @@ public class SmartBusinessController {
 			hp.put("businessworker", businessworker);
 			hp.put("orderdate", orderdate);
 			hp.put("duedate", duedate);
+			hp.put("enddate", enddate);
 			hp.put("cadworker", cadworker);
 			hp.put("assemblyworker", assemblyworker);
 			
 			List<HashMap> result = SmartCommonDAO.commonDataProc("setBusinessDataSave", hp);
 			
 			if(result != null && result.size() > 0) {
-				model.addAttribute("actionresult", result.get(0).get("ACTION_RESULT"));
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
 			}
 			
 		} catch(Exception e) {
 			logger.error("[smart/business/SmartBusinessSave.do] Excption :: " + e.toString());
 		}
 		
-		return "smart/business/SmartBusinessSave";
+		return actionresult;
 	}
 	
 	

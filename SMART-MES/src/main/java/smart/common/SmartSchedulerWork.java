@@ -36,11 +36,10 @@ public class SmartSchedulerWork
 	@Resource(name = "propertiesService")
     protected EgovPropertyService propertyService;
     
+//	@Scheduled(cron="*/30 * * * * *")//30초 마다 실행
 	
 	
-	
-	@Scheduled(cron="0 45 1 * * ?")//매일 새벽 1시 45분에 실행
-//  @Scheduled(cron="*/30 * * * * *")//30초 마다 실행
+//	@Scheduled(cron="0 45 1 * * ?")//매일 새벽 1시 45분에 실행
 	public void DailyDataSummary()
 	{
 		String yesterday = "";
@@ -73,8 +72,7 @@ public class SmartSchedulerWork
 	
 	
 	
-	@Scheduled(cron="0 15 2 * * ?")//매일 새벽 2시 10분에 실행
-//  @Scheduled(cron="*/30 * * * * *")//30초 마다 실행
+//	@Scheduled(cron="0 15 2 * * ?")//매일 새벽 2시 10분에 실행
 	public void DeleteLogFile() throws IOException
 	{
 		StringBuffer output = new StringBuffer();
@@ -143,8 +141,7 @@ public class SmartSchedulerWork
 	
 	
 	//10분 마다 설비 작동 이력을 DB에 넣어 준다
-	@Scheduled(cron="0 0/10 * * * ?")//매 10분 마다 실행
-    //@Scheduled(cron="*/30 * * * * *")//30초 마다 실행
+//	@Scheduled(cron="0 0/10 * * * ?")//매 10분 마다 실행
 	public void WorkDataInsert()
 	{
 		//10분 마다 데이터 DB에 수집

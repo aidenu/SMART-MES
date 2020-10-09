@@ -53,6 +53,19 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapChgPassword" class="java.util.HashMap">
+		<parameter property="uniqid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="currentEncryptPass" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="newEncryptPass" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="confirmEncryptPass" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setChgPassword" parameterMap="paramMapChgPassword" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_COMMON.setChgPassword_Pro(?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
 	
 	<parameterMap id="paramMapLogInfoListTotalCnt" class="java.util.HashMap">
 		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
@@ -79,6 +92,7 @@
         	{call SPC_Q_COMMON.getLogInfoList_Pro(?, ?, ?, ?)}
         ]]>
 	</procedure>
+	
 	
 	
 </sqlMap>

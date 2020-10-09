@@ -512,4 +512,77 @@ public class SmartStockController {
 		return actionresult;
 	}
 	
+	@RequestMapping(value="/smart/stock/SmartToolHist.do")
+	public String SmartToolHist(
+			
+			ModelMap model) throws Exception {
+		
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
+			model.addAttribute("useremail", loginVO.getEmail());
+			
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/stock/SmartToolHist.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/stock/SmartToolHist";
+	}
+	
+	
+	
+	@RequestMapping(value="/smart/stock/SmartToolHistData.do")
+	public String SmartToolHistData(
+			@RequestParam(value="searchStart", required=false) String searchStart,
+			@RequestParam(value="searchEnd", required=false) String searchEnd,
+			ModelMap model) throws Exception {
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("startDate", searchStart);
+			hp.put("endDate", searchEnd);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getToolHistData", hp);
+			model.addAttribute("result", result);
+			
+			model.addAttribute("startDate", searchStart);
+			model.addAttribute("endDate", searchEnd);
+			
+			
+			List<String> listDate = new ArrayList<String>();
+    		
+    		int startYear = Integer.parseInt(searchStart.substring(0,4));
+    		int startMonth = Integer.parseInt(searchStart.substring(5,7));
+    		int endYear = Integer.parseInt(searchEnd.substring(0,4));
+    		int endMonth = Integer.parseInt(searchEnd.substring(5,7));
+    		int monthDiff = (endYear-startYear)*12 + (endMonth-startMonth) + 1;
+    		
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+    		Date date = df.parse(searchStart);
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(date);
+    		for(int i=0; i<monthDiff; i++) {
+    			listDate.add(df.format(cal.getTime()));
+    			cal.add(Calendar.MONTH, 1);
+    		}
+    		model.addAttribute("listDate", listDate);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/stock/SmartToolHistData.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/stock/SmartToolHistData";
+	}
+	
 }

@@ -18,6 +18,46 @@ $(document).ready(function() {
 		window.open("<c:url value='/smart/common/SmartAlarmList.do'/>", "alarmListPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1000,height=738");
 		
 	});
+	
+	$('#accountModalLayer').on('shown.bs.modal', function () {
+	   $('#currentPassword').focus();
+	});
+	
+	
+	$("#btn_chgpw").click(function() {
+		
+		var currentPassword = $("#currentPassword").val();
+		var newPassword = $("#newPassword").val();
+		var confirmPassword = $("#confirmPassword").val();
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/common/SmartChangePassword.do",
+			data : {"currentPassword":currentPassword, "newPassword":newPassword, "confirmPassword":confirmPassword},
+			type : "POST",
+			datatype : "text",
+			success : function(data) {
+				if(data == "CURRENTPASSWORD_INVALID") {
+					alert("<spring:message code="smart.manage.user.alert.current.passwd.invalid" />");
+				} else if(data == "CONFIRMPASSWORD_INVALID") {
+					alert("<spring:message code="smart.manage.user.alert.confirm.passwd.invalid" />");
+				} else {
+					alert("<spring:message code="smart.manage.user.alert.change.passwd.valid" />");
+
+					$("#currentPassword").val("");
+					$("#newPassword").val("");
+					$("#confirmPassword").val("");
+
+					$('#accountModalLayer').modal("hide");
+				}
+				
+			}	//success
+			
+			
+		});	//$.ajax
+		
+	});	//$("#btn_save")
+	
 });
 	
 </script>
@@ -67,7 +107,7 @@ $(document).ready(function() {
 							</div>
 						</h6>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#!">
+						<a class="dropdown-item" href="#!" data-toggle="modal" data-target="#accountModalLayer">
 							<div class="dropdown-item-icon"><i data-feather="settings"></i></div>
 							Account
 						</a>
@@ -82,3 +122,37 @@ $(document).ready(function() {
 			</ul>
 		</nav>
 		<!-- 	==============	Haeder Navigation ======================= -->
+		
+		<!-- Modal -->
+		<div class="modal fade" id="accountModalLayer" tabindex="-1" role="dialog" aria-labelledby="accountModalLayerTitle" aria-hidden="true">
+		    <div class="modal-dialog modal-dialog-centered" role="document">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="accountModalLayerTitle"><spring:message code="smart.manage.user.changepassword.title" /></h5>
+		                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+		            </div>
+		            <div class="modal-body">
+		                <div class="form-group">
+                             <label class="small mb-1" for="currentPassword">Current Password</label>
+                             <input class="form-control" id="currentPassword" type="password" placeholder="Enter current password" />
+                         </div>
+                         <!-- Form Group (new password)-->
+                         <div class="form-group">
+                             <label class="small mb-1" for="newPassword">New Password</label>
+                             <input class="form-control" id="newPassword" type="password" placeholder="Enter new password" />
+                         </div>
+                         <!-- Form Group (confirm password)-->
+                         <div class="form-group">
+                             <label class="small mb-1" for="confirmPassword">Confirm Password</label>
+                             <input class="form-control" id="confirmPassword" type="password" placeholder="Confirm new password" />
+                         </div>
+		            </div>
+		            <div class="modal-footer">
+		            	<div class="btn btn-secondary" data-dismiss="modal">닫기</div>
+		            	<div class="btn btn-primary" id="btn_chgpw">저장</div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<!-- Modal -->
+		

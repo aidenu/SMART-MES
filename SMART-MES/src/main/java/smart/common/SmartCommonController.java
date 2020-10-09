@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.cmm.LoginVO;
+import egovframework.let.uss.umt.service.EgovUserManageService;
+import egovframework.let.uss.umt.service.UserManageVO;
+import egovframework.let.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
@@ -37,6 +40,10 @@ public class SmartCommonController {
 	
 	@Resource(name="smartGcmSender")
 	private SmartGcmSender smartGcmSender; 
+	
+	/** userManageService */
+    @Resource(name = "userManageService")
+    private EgovUserManageService userManageService;
 	
 	
 	@RequestMapping(value = "/smart/common/SmartDashBoard.do")
@@ -275,52 +282,44 @@ public class SmartCommonController {
 	}
 	
 	
-	
-	@RequestMapping("/smart/common/SmartLogInfo.do")
-    public String SmartLogInfo(
-    		ModelMap model
-    		)throws Exception {
-
-		return "smart/common/SmartLogInfo";
-    }
-	
-	
-	
-	@RequestMapping("/smart/common/SmartLogInfoList.do")
-    public String SmartLogInfoList(
-    		@RequestParam(value="startDateField", required=false) String startDateField,
-    		@RequestParam(value="endDateField", required=false) String endDateField,
-    		@RequestParam(value="pageno", required=false) int pageno,
-    		ModelMap model
-    		)throws Exception {
-
-		try{
+	@RequestMapping(value="/smart/common/SmartChangePassword.do")
+	@ResponseBody
+	public String SmartChangePassword(
+			@RequestParam(value="currentPassword", required=false) String currentPassword,
+			@RequestParam(value="newPassword", required=false) String newPassword,
+			@RequestParam(value="confirmPassword", required=false) String confirmPassword,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			String userid = loginVO.getId();
+			String uniqid = loginVO.getUniqId();
+			//Password 암호화
+			String currentEncryptPass = EgovFileScrty.encryptPassword(currentPassword, loginVO.getId());
+			String newEncryptPass = EgovFileScrty.encryptPassword(newPassword, loginVO.getId());
+			String confirmEncryptPass = EgovFileScrty.encryptPassword(confirmPassword, loginVO.getId());
 			
 			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("uniqid", uniqid);
+			hp.put("currentEncryptPass", currentEncryptPass);
+			hp.put("newEncryptPass", newEncryptPass);
+			hp.put("confirmEncryptPass", confirmEncryptPass);
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setChgPassword", hp);
 			
-			hp.put("startdate", startDateField);
-			hp.put("enddate", endDateField);
-			
-			List<HashMap> resultTotalCnt = SmartCommonDAO.commonDataProc("getLogInfoListTotalCntProc",hp);
-			
-			hp.put("pageno", String.valueOf(pageno));
-			
-			List<HashMap> result = SmartCommonDAO.commonDataProc("getLogInfoList",hp);
-			
-			model.addAttribute("result", result);
-			
-			if(resultTotalCnt != null && resultTotalCnt.size()>0)
-			{
-				SmartPagingMgr smartPagingMgr = new SmartPagingMgr(pageno,20,20,Integer.parseInt(resultTotalCnt.get(0).get("TOTAL_CNT").toString()));//현재페이지번호,페이지당출력갯수,페이지번호갯수,전체갯수
-				model.addAttribute("paginationInfo", smartPagingMgr.print());
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
 			}
-		}
-		catch(Exception e){
-			logger.error("[/smart/common/SmartLogInfoList.do] Exception :: " + e.toString());
+			
+		} catch(Exception e) {
+			logger.error("[/smart/common/SmartChangePassword.do] Exception :: " + e.toString());
 		}
 		
-		return "smart/common/SmartLogInfoList";
-    }
+		return actionresult;
+	}
 	
 	
 	

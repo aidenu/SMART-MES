@@ -40,6 +40,7 @@
 		<parameter property="businessworker" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="orderdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="duedate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="cadworker" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="assemblyworker" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
@@ -47,7 +48,7 @@
 	
 	<procedure id="setBusinessDataSave" parameterMap="paramMapBusinessDataSave" resultClass="java.util.HashMap" remapResults="true">
 		<![CDATA[
-        	{call PKG_Q_BUSINESS.setBusinessDataSave_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+        	{call PKG_Q_BUSINESS.setBusinessDataSave_Pro(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
         ]]>
 	</procedure>
 	
