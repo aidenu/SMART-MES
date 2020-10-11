@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SmartResult">
+	
+	
+	<parameterMap id="paramMapResultWorkTimeData" class="java.util.HashMap">
+		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getResultWorkTimeData" parameterMap="paramMapResultWorkTimeData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_RESULT.getResultWorkTimeData_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+</sqlMap>

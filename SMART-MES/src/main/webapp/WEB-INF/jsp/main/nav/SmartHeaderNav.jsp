@@ -23,6 +23,12 @@ $(document).ready(function() {
 	   $('#currentPassword').focus();
 	});
 	
+	$('#accountModalLayer').on('hide.bs.modal', function () {
+		$("#currentPassword").val("");
+		$("#newPassword").val("");
+		$("#confirmPassword").val("");
+	});
+	
 	
 	$("#btn_chgpw").click(function() {
 		
@@ -39,8 +45,10 @@ $(document).ready(function() {
 			success : function(data) {
 				if(data == "CURRENTPASSWORD_INVALID") {
 					alert("<spring:message code="smart.manage.user.alert.current.passwd.invalid" />");
+					$("#currentPassword").focus();
 				} else if(data == "CONFIRMPASSWORD_INVALID") {
 					alert("<spring:message code="smart.manage.user.alert.confirm.passwd.invalid" />");
+					$("#newPassword").focus();
 				} else {
 					alert("<spring:message code="smart.manage.user.alert.change.passwd.valid" />");
 

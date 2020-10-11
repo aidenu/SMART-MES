@@ -94,12 +94,34 @@
 		$('#addModalLayer').on('shown.bs.modal', function () {
 		   $('#add_modelno').focus();
 		});
-		
 
+		$('#addModalLayer').on('hide.bs.modal', function () {
+			$("#add_modelno").val("");
+			$("#add_productno").val("");
+			$("#add_productname").val("");
+			$("#add_productgroup").val("");
+			$("#add_vendor").val("");
+			$("#add_businessworker").val("");
+			$("#add_cadworker").val("");
+			$("#add_assemblyworker").val("");
+		});
+		
+		
 		$('#modifyModalLayer').on('shown.bs.modal', function () {
 		   $('#modify_modelno').focus();
 		});
-	
+
+		$('#modifyModalLayer').on('hide.bs.modal', function () {
+			$("#modify_modelno").val("");
+			$("#modify_productno").val("");
+			$("#modify_productname").val("");
+			$("#modify_productgroup").val("");
+			$("#modify_vendor").val("");
+			$("#modify_businessworker").val("");
+			$("#modify_cadworker").val("");
+			$("#modify_assemblyworker").val("");
+		});
+		
 		/**
 			.신규 등록 버튼 클릭
 			.parameter
