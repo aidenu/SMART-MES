@@ -1,9 +1,11 @@
 package smart.eqp;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -94,6 +96,158 @@ public class SmartEqpController {
 		}
 		
 		return "smart/eqp/SmartPatLite";
+	}
+	
+	
+	
+	@RequestMapping(value="/smart/eqp/SmartSodicEqp.do")
+	public String SmartSodicEqp(
+			ModelMap model) throws Exception {
+		
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
+			model.addAttribute("useremail", loginVO.getEmail());
+			
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);		
+			
+		} catch(Exception e) {
+			logger.error("[/smart/smes/SmartSodicEqp.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/eqp/SmartSodicEqp";
+	}
+	
+	
+	@RequestMapping(value="/smart/eqp/SmartSodicEqpData.do")
+	public String SmartSodicEqpData(
+			ModelMap model) throws Exception {
+		
+		
+		try {
+			
+			List<HashMap> resultLocate = SmartCommonDAO.commonDataProc("getSodicLocate");
+			if(resultLocate != null && resultLocate.size() > 0) 
+			{
+				model.addAttribute("filelocation", resultLocate.get(0).get("FILE_LOCATE"));
+			}
+			
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getSodicEqpData");
+			model.addAttribute("result", result);
+			
+			List<HashMap> resultStack = SmartCommonDAO.commonDataProc("getSodicEqpDailyStack");
+			model.addAttribute("resultStack", resultStack);
+			
+			List<HashMap> resultTimeline = SmartCommonDAO.commonDataProc("getSodicEqpDailyTimeline");
+			model.addAttribute("resultTimeline", resultTimeline);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/eqp/SmartSodicEqpData.do] Exception :: " + e.toString());
+		}
+		return "smart/eqp/SmartSodicEqpData";
+	}
+	
+	
+	@RequestMapping(value="/smart/eqp/SmartPxEqp.do")
+	public String SmartPxEqp(
+			ModelMap model) throws Exception {
+		
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
+			model.addAttribute("useremail", loginVO.getEmail());
+			
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/eqp/SmartPxEqp.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/eqp/SmartPxEqp";
+	}
+	
+	
+	@RequestMapping(value="/smart/eqp/SmartPxEqpData.do")
+	public String SmartPxEqpData(ModelMap model) throws Exception {
+		
+		try {
+			
+			String fileLocate = "";
+			
+			List<HashMap> resultLocate = SmartCommonDAO.commonDataProc("getPxFileLocate");
+			
+			if(resultLocate != null && resultLocate.size() > 0)
+			{
+				fileLocate = resultLocate.get(0).get("FILE_LOCATE").toString();
+				model.addAttribute("fileLocate", fileLocate);
+			}
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getPxEqpInfo");
+			
+			HashMap<String,String> status = null;
+			
+			File pxFile = null;
+			File pxImgFile = null;
+			BufferedReader filereader;
+			String line = "";
+			
+			if(result != null && result.size() > 0)
+			{
+				for(int i=0; i<result.size(); i++)
+				{
+					String os = System.getProperty("os.name").toLowerCase();
+					if (os.contains("mac")) { 
+						pxFile = new File(fileLocate +"/" + result.get(i).get("FOLDER_NAME") + "/STATUS.dat");
+					} else { 
+						pxFile = new File(fileLocate +"\\" + result.get(i).get("FOLDER_NAME") + "\\STATUS.dat");
+					}
+					
+					
+					if(pxFile.exists())
+					{
+						filereader = new BufferedReader(new FileReader(pxFile));
+						
+						//첫번째 줄의 데이터만 출력
+						while((line = filereader.readLine()) != null)
+						{
+							String[] lineData = line.split("\\t");
+//							System.out.println(result.get(i).get("FOLDER_NAME") +"::"+ line);
+							result.get(i).put("EQP_FLAG", lineData[0]);
+							result.get(i).put("EQP_STATUS", lineData[1]);
+							break;
+						}
+						
+						filereader.close();
+					}
+				}
+			}
+			
+			model.addAttribute("result", result);
+			
+			System.out.println(result);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/eqp/SmartPxEqpData.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/eqp/SmartPxEqpData";
 	}
 	
 	

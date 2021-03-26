@@ -200,7 +200,7 @@
 								strHtml += "	</td>";
 								strHtml += "	<td>";
 								strHtml += "		<input type='hidden' id='"+value.PART_GROUP_ID+"_partgroupid' name='"+value.PART_GROUP_ID+"_partgroupid' value='"+value.PART_GROUP_ID+"'>";
-								strHtml += "		<input class='form-control' id='"+value.PART_GROUP_ID+"_orderprice' name='"+value.PART_GROUP_ID+"_orderprice' value='"+value.PART_GROUP_ID+"' onkeyup='onlyNum(this);this.value=this.value.comma();'>";
+								strHtml += "		<input class='form-control' id='"+value.PART_GROUP_ID+"_orderprice' name='"+value.PART_GROUP_ID+"_orderprice' value='"+value.ORDER_PRICE+"' onkeyup='onlyNum(this);this.value=this.value.comma();'>";
 								strHtml += "	</td>";
 								strHtml += "	<td>"+value.REG_DATE+"</td>";
 								strHtml += "</tr>";

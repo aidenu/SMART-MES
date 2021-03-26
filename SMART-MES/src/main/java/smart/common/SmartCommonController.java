@@ -115,6 +115,24 @@ public class SmartCommonController {
 		return result;
 	}
 	
+	@RequestMapping(value="/smart/common/SmartDashBoardSodicStatus.do")
+	@ResponseBody
+	public List<HashMap> SmartDashBoardSodicStatus(ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			result = SmartCommonDAO.commonDataProc("getSodicEqpData");
+			model.addAttribute("result", result);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/common/SmartDashBoardSodicStatus.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
 	
 	@RequestMapping(value = "/smart/common/SmartBasicData.do")
 	public String SmartBasicData(ModelMap model) throws Exception {

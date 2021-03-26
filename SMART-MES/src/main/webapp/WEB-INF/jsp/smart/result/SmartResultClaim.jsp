@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title><spring:message code="smart.result.worktime.title" /></title>
+<title><spring:message code="smart.result.claim.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
@@ -30,16 +30,16 @@
 			
 			var startDate = $("#startDate").val();
 			var endDate = $("#endDate").val();
-			var avgWorkTime = 0;
-			var totalWorkTime = 0;
-			var rowCnt = 0;
+			var totalModifyCnt = 0;
+			var totalModifyPrice = 0;
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/result/SmartResultWorkTimeData.do",
+				url : "${pageContext.request.contextPath}/smart/result/SmartResultClaimData.do",
 				data : {"startDate":startDate, "endDate":endDate},
 				type : "POST",
 				datatype : "json",
 				success : function(data) {
+					
 					$('#dataTable').dataTable().fnClearTable();
 					$('#dataTable').dataTable().fnDestroy();
 					
@@ -49,28 +49,26 @@
 						
 						strHtml += "<tr>";
 						strHtml += "		<td>"+value.MODEL_NO+"</td>";
-						strHtml += "		<td>"+value.PRODUCT_NO+"</td>";
-						strHtml += "		<td>"+value.PRODUCT_NAME+"</td>";
-						strHtml += "		<td>"+value.ORDER_DATE+"</td>";
-						strHtml += "		<td>"+value.DUE_DATE+"</td>";
-						strHtml += "		<td>"+value.END_DATE+"</td>";
-						strHtml += "		<td>"+value.WORK_TIME+"일</td>";
+						strHtml += "		<td>"+value.PART_GROUP_NO+"</td>";
+						strHtml += "		<td>"+value.PART_GROUP_NAME+"</td>";
+						strHtml += "		<td>"+value.WORK_NAME+"</td>";
+						strHtml += "		<td>"+value.USER_NM+"</td>";
+						strHtml += "		<td>"+value.WORK_END_DATE+"</td>";
+						strHtml += "		<td>"+value.MODIFY_PRICE+"</td>";
 						strHtml += "</tr>";
 						
-						rowCnt++;
-						totalWorkTime += Number(value.WORK_TIME);
+						totalModifyCnt++;
+						totalModifyPrice = Number(totalModifyPrice) + Number(value.MODIFY_PRICE_NUM);
 						
-					});	//$.each
-
+					});
+					
 					$("#data_table_tbody").append(strHtml);
 					$('#dataTable').DataTable();	//jquery dataTable Plugin reload
 					feather.replace();	//data-feather reload
 					
-					if(rowCnt > 0) {
-						avgWorkTime =  totalWorkTime/rowCnt;
-					}
-					$("#avgWorkTime").empty();
-					$("#avgWorkTime").append(avgWorkTime+"일");
+					$("#totalModify").empty();
+					$("#totalModify").append(totalModifyCnt+"건, "+totalModifyPrice.toLocaleString()+"원");
+					
 					
 				}	//success
 			});	//$.ajax
@@ -97,7 +95,7 @@
 								<div class="col-auto mt-4">
 									<h1 class="page-header-title">
 										<div class="page-header-icon"><i data-feather="database"></i></div>
-										<span><spring:message code="smart.result.worktime.title" /></span>
+										<span><spring:message code="smart.result.claim.title" /></span>
 									</h1>
 								</div>
 							</div>
@@ -124,8 +122,8 @@
 									</div>
 									&nbsp;
 									<div>
-										평균제작소요일 :
-										<span id="avgWorkTime"></span>
+										Total :
+										<span id="totalModify"></span>
 									</div>
 								</div>
 								<div class="card-body">
@@ -143,23 +141,23 @@
 											<thead>
 												<tr>
 													<th scope="col"><spring:message code="smart.business.modelno" /></th>
-													<th scope="col"><spring:message code="smart.business.productno" /></th>
-													<th scope="col"><spring:message code="smart.business.productname" /></th>
-													<th scope="col"><spring:message code="smart.business.orderdate" /></th>
-													<th scope="col"><spring:message code="smart.business.duedate" /></th>
-													<th scope="col"><spring:message code="smart.business.enddate" /></th>
-													<th scope="col"><spring:message code="smart.result.worktime" /></th>
+													<th scope="col"><spring:message code="smart.cad.partlist.partgroupno" /></th>
+													<th scope="col"><spring:message code="smart.cad.partlist.partgroupname" /></th>
+													<th scope="col">공정</th>
+													<th scope="col">작업자</th>
+													<th scope="col">작업일시</th>
+													<th scope="col">수/개조 비용</th>
 												</tr>
 											</thead>
 											<tfoot>
 												<tr>
 													<th scope="col"><spring:message code="smart.business.modelno" /></th>
-													<th scope="col"><spring:message code="smart.business.productno" /></th>
-													<th scope="col"><spring:message code="smart.business.productname" /></th>
-													<th scope="col"><spring:message code="smart.business.orderdate" /></th>
-													<th scope="col"><spring:message code="smart.business.duedate" /></th>
-													<th scope="col"><spring:message code="smart.business.enddate" /></th>
-													<th scope="col"><spring:message code="smart.result.worktime" /></th>
+													<th scope="col"><spring:message code="smart.cad.partlist.partgroupno" /></th>
+													<th scope="col"><spring:message code="smart.cad.partlist.partgroupname" /></th>
+													<th scope="col">공정</th>
+													<th scope="col">작업자</th>
+													<th scope="col">작업일시</th>
+													<th scope="col">수/개조 비용</th>
 												</tr>
 		                                    </tfoot>
 		                                    <tbody id="data_table_tbody">

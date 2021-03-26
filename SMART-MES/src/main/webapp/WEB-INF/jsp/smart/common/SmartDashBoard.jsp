@@ -43,6 +43,8 @@
 		//Summary Model Status
 		getModelSummaryData();
 		
+		//Sodic Eqp Status
+		getSodicStatusData();
 		
 	});
 	
@@ -236,6 +238,57 @@
 	}
 	
 	
+	function getSodicStatusData() {
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/common/SmartDashBoardSodicStatus.do",
+			type : "POST",
+			data : "",
+			datatype : "json",
+			async : false,
+			success : function(data) {
+				$("#eqpStatus").empty();
+				console.log("STEP1 :: " + data);
+				var strHtml = "";
+				
+				strHtml += "<div class='nav nav-pills nav-justified flex-column flex-xl-row nav-wizard' id='cardTab' role='tablist'>";
+				$.each(data, function(index, value){
+					
+					if(index == 0) {
+						strHtml += "		<a class='nav-item nav-link active' id='"+value.EQP_NAME+"-tab' href='#"+value.EQP_NAME+"' data-toggle='tab' role='tab' aria-controls='wizard1' aria-selected='true'>";
+					} else {
+						strHtml += "		<a class='nav-item nav-link' id='"+value.EQP_NAME+"-tab' href='#"+value.EQP_NAME+"' data-toggle='tab' role='tab' aria-controls='wizard1' aria-selected='true'>";
+					}
+					
+					if(value.EQP_STATUS == "ACTIVE") {
+						strHtml += "			<i class='fas fa-circle fa-2x mr-1 text-green'></i>";
+					} else if(value.EQP_STATUS == "READY") {
+						strHtml += "			<i class='fas fa-circle fa-2x mr-1 text-yellow'></i>";
+					} else if(value.EQP_STATUS == "ERROR") {
+						strHtml += "			<i class='fas fa-circle fa-2x mr-1 text-red'></i>";
+					} else {
+						strHtml += "			<i class='fas fa-circle fa-2x mr-1 text-gray'></i>";
+					}
+					
+					strHtml += "			<div class='wizard-step-text'>";
+					strHtml += "				<div class='wizard-step-text-name'>"+value.EQP_NAME+"</div>";
+					strHtml += "				<div class='wizard-step-text-details'>"+value.EQP_PROGRAM+"</div>";
+					strHtml += "			</div>";
+					strHtml += "		</a>";
+					
+				});	//$.each(data)
+				strHtml += "</div>";
+				console.log("STEP2 :: " + strHtml);
+				$("#eqpStatus").append(strHtml);
+			}	//success
+			
+		});	//$.ajax
+		
+		
+	}
+	
+	
 	/**
 		.Work Progress Bar Click
 		.parameter
@@ -286,7 +339,7 @@
                                 <div class="card mb-4">
                                     <div class="card-header"><spring:message code="smart.dashboard.eqp.status" /></div>
                                     <div class="card-body">
-                                        <div class="chart-area"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
+                                        <div class="eqpStatus" id="eqpStatus"></div>
                                     </div>
                                 </div>
                             </div>
