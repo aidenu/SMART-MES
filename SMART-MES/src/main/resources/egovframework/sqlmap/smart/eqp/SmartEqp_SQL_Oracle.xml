@@ -273,5 +273,27 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapPxEqpDailyStack" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getPxEqpDailyStack" parameterMap="paramMapPxEqpDailyStack" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_EQP.getPxEqpDailyStack_Pro(?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
+	<parameterMap id="paramMapPxEqpDailyTimeline" class="java.util.HashMap">
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getPxEqpDailyTimeline" parameterMap="paramMapPxEqpDailyTimeline" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_EQP.getPxEqpDailyTimeline_Pro(?)}
+        ]]>
+	</procedure>
 	
 </sqlMap>

@@ -37,6 +37,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -184,8 +185,11 @@ public class SmartEqpController {
 	}
 	
 	
-	@RequestMapping(value="/smart/eqp/SmartPxEqpData.do")
-	public String SmartPxEqpData(ModelMap model) throws Exception {
+	@RequestMapping(value="/smart/eqp/SmartPxEqpHeaderData.do")
+	@ResponseBody
+	public List<HashMap> SmartPxEqpHeaderData(ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
 		
 		try {
 			
@@ -199,7 +203,7 @@ public class SmartEqpController {
 				model.addAttribute("fileLocate", fileLocate);
 			}
 			
-			List<HashMap> result = SmartCommonDAO.commonDataProc("getPxEqpInfo");
+			result = SmartCommonDAO.commonDataProc("getPxEqpInfo");
 			
 			HashMap<String,String> status = null;
 			
@@ -238,16 +242,61 @@ public class SmartEqpController {
 					}
 				}
 			}
-			
 			model.addAttribute("result", result);
 			
-			System.out.println(result);
+//			List<HashMap> resultStack = SmartCommonDAO.commonDataProc("getPxEqpDailyStack");
+//			model.addAttribute("resultStack", resultStack);
+			
+
+//			List<HashMap> resultTimeline = SmartCommonDAO.commonDataProc("getPxEqpDailyTimeline");
+//			model.addAttribute("resultTimeline", resultTimeline);
+			
 			
 		} catch(Exception e) {
-			logger.error("[/smart/eqp/SmartPxEqpData.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartPxEqpHeaderData.do] Exception :: " + e.toString());
 		}
 		
-		return "smart/eqp/SmartPxEqpData";
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/smart/eqp/SmartPxEqpStackData.do")
+	@ResponseBody
+	public List<HashMap> SmartPxEqpStackData(
+			ModelMap model) throws Exception {
+		
+		List<HashMap> resultStack = null;
+		
+		try {
+
+			resultStack = SmartCommonDAO.commonDataProc("getPxEqpDailyStack");
+			model.addAttribute("resultStack", resultStack);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/eqp/SmartPxEqpStackData.do] Exception :: " + e.toString());
+		}
+		
+		return resultStack;
+	}
+	
+	
+	@RequestMapping(value="/smart/eqp/SmartPxEqpTimelinekData.do")
+	@ResponseBody
+	public List<HashMap> SmartPxEqpTimelinekData(
+			ModelMap model) throws Exception {
+		
+		List<HashMap> resultTimeline = null;
+		
+		try {
+			
+			resultTimeline = SmartCommonDAO.commonDataProc("getPxEqpDailyTimeline");
+			model.addAttribute("resultTimeline", resultTimeline);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/eqp/SmartPxEqpTimelinekData.do] Exception :: " + e.toString());
+		}
+		
+		return resultTimeline;
 	}
 	
 	
