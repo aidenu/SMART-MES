@@ -73,8 +73,13 @@
 
 /* Custom CSS */
 .header-toggled {
-	transform: translateY(-10rem);
+	transform: translateY(-9rem);
 } 
+
+.header-toggled .chart-area {
+	height: calc(28.5rem + 9rem) !important;
+}
+
 
 *,
 *::before,
@@ -18437,7 +18442,7 @@ body {
 
 .page-header .page-header-content {
   padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-bottom: 2rem;
 }
 .page-header .page-header-content .page-header-title {
   line-height: normal;
@@ -20216,7 +20221,7 @@ i-feather svg {
 }
 @media (min-width: 768px) {
   .chart-area {
-    height: 15rem;
+    height: 28.5rem;
   }
 }
 

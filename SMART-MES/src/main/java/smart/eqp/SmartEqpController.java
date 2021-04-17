@@ -244,14 +244,6 @@ public class SmartEqpController {
 			}
 			model.addAttribute("result", result);
 			
-//			List<HashMap> resultStack = SmartCommonDAO.commonDataProc("getPxEqpDailyStack");
-//			model.addAttribute("resultStack", resultStack);
-			
-
-//			List<HashMap> resultTimeline = SmartCommonDAO.commonDataProc("getPxEqpDailyTimeline");
-//			model.addAttribute("resultTimeline", resultTimeline);
-			
-			
 		} catch(Exception e) {
 			logger.error("[/smart/eqp/SmartPxEqpHeaderData.do] Exception :: " + e.toString());
 		}
@@ -299,5 +291,58 @@ public class SmartEqpController {
 		return resultTimeline;
 	}
 	
+	
+	@RequestMapping(value="/smart/eqp/SmartPxEqpRatio.do")
+	public String SmartPxEqpRatio(
+			ModelMap model) throws Exception {
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
+			model.addAttribute("useremail", loginVO.getEmail());
+			
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);
+			
+			List<HashMap> resultEqpInfo = SmartCommonDAO.commonDataProc("getPxEqpInfo");
+			model.addAttribute("resultEqpInfo", resultEqpInfo);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/eqp/SmartPxEqpRatio.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/eqp/SmartPxEqpRatio";
+	}
+	
+	
+	@RequestMapping(value="/smart/eqp/SmartPxEqpRatioData.do")
+	@ResponseBody
+	public List<HashMap> SmartPxEqpRatioData(
+			@RequestParam(value="startDate", required=false) String startDate,
+			@RequestParam(value="endDate", required=false) String endDate,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("startDate", startDate);
+			hp.put("endDate",endDate);
+			
+			result = SmartCommonDAO.commonDataProc("getPxEqpRatioLine", hp);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/eqp/SmartPxEqpRatioData.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
 	
 }

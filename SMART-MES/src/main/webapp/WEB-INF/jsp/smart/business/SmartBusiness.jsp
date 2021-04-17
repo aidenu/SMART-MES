@@ -684,7 +684,7 @@
 					</form>
 				</div>
 			</main>
-			<footer class="footer mt-auto footer-light">
+			<footer class="footer footer-light">
 				<div class="container-fluid">
 					<div class="row">
 						<c:import url="/EgovPageLink.do?link=main/nav/SmartFooter" />

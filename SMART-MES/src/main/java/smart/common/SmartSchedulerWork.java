@@ -1169,7 +1169,8 @@ public class SmartSchedulerWork
 	}
 	
 	
-//	@Scheduled(cron="0 30 2 * * ?")//매일 새벽 2시30분에 실행
+	@Scheduled(cron="0 30 2 * * ?")//매일 새벽 2시30분에 실행
+//	@Scheduled(cron="0 0/1 * * * *")//1분 마다 실행
 	public void SpacePxDataSummary() throws Exception {
 		//매일 전일 데이터를 가동시간, 대기시간, 에러시간별로 나누어 취합한다.
 		try {

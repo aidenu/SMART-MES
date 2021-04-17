@@ -1,5 +1,8 @@
 package smart.common;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.List;
 
@@ -128,6 +131,90 @@ public class SmartCommonController {
 			
 		} catch(Exception e) {
 			logger.error("[/smart/common/SmartDashBoardSodicStatus.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/smart/common/SmartDashBoardPxStatus.do")
+	@ResponseBody
+	public List<HashMap> SmartDashBoardPxStatus(ModelMap model) throws Exception {
+		
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			String fileLocate = "";
+			
+			List<HashMap> resultLocate = SmartCommonDAO.commonDataProc("getPxFileLocate");
+			
+			if(resultLocate != null && resultLocate.size() > 0)
+			{
+				fileLocate = resultLocate.get(0).get("FILE_LOCATE").toString();
+				model.addAttribute("fileLocate", fileLocate);
+			}
+			
+			result = SmartCommonDAO.commonDataProc("getPxEqpInfo");
+			
+			HashMap<String,String> status = null;
+			
+			File pxFile = null;
+			BufferedReader filereader;
+			String line = "";
+			
+			if(result != null && result.size() > 0)
+			{
+				for(int i=0; i<result.size(); i++)
+				{
+					String os = System.getProperty("os.name").toLowerCase();
+					if (os.contains("mac")) { 
+						pxFile = new File(fileLocate +"/" + result.get(i).get("FOLDER_NAME") + "/STATUS.dat");
+					} else { 
+						pxFile = new File(fileLocate +"\\" + result.get(i).get("FOLDER_NAME") + "\\STATUS.dat");
+					}
+					
+					
+					if(pxFile.exists())
+					{
+						filereader = new BufferedReader(new FileReader(pxFile));
+						
+						//첫번째 줄의 데이터만 출력
+						while((line = filereader.readLine()) != null)
+						{
+							String[] lineData = line.split("\\t");
+//							System.out.println(result.get(i).get("FOLDER_NAME") +"::"+ line);
+							result.get(i).put("EQP_FLAG", lineData[0]);
+							result.get(i).put("EQP_STATUS", lineData[1]);
+							break;
+						}
+						
+						filereader.close();
+					}
+				}
+			}
+			
+		} catch(Exception e) {
+			logger.error("[/smart/common/SmartDashBoardPxStatus.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/smart/common/SmartDashBoardPxTimeline.do")
+	@ResponseBody
+	public List<HashMap> SmartDashBoardPxTimeline(ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			result = SmartCommonDAO.commonDataProc("getPxEqpDailyTimeline");
+
+		} catch(Exception e) {
+			logger.error("[/smart/common/SmartDashBoardPxTimeline.do] Exception :: " + e.toString());
 		}
 		
 		return result;

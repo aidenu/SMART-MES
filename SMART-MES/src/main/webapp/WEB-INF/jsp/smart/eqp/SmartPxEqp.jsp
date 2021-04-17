@@ -20,7 +20,6 @@
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smart/smartvalidate.js'/>"></script>
-<script type="text/javascript" src="<c:url value="/js/jquery/Chart.js"/>"/></script>
 <script type="text/javascript" src="<c:url value="/js/amcharts/core.js"/>"/></script>
 <script type="text/javascript" src="<c:url value="/js/amcharts/charts.js"/>"/></script>
 <script type="text/javascript" src="<c:url value="/js/amcharts/amtheme/animated.js"/>"/></script>
@@ -34,15 +33,13 @@
 </style>
 
 <script>
-
+	
 	var stopFlag = ["0"];
 	var activeFlag = ["3"];
 	//var readyFlag = ["1", "4", "5", "6", "7", "20", "21", "30", "90"];		//active, error 상태 외에는 전부 ready
 	var errorFlag = ["2"];
 	
 	var eqpArray = new Array();
-	var eqpCnt = 0;
-	var stackCnt = 0;
 	
 	var headerHtml = "";
 	var bodyHtml = "";
@@ -80,7 +77,6 @@
 					headerHtml += "			</div>";
 					headerHtml += "		</a>";
 					
-					eqpCnt++;
 					eqpArray.push(value.EQP_NAME);
 					
 				});	//$.each
@@ -96,7 +92,7 @@
 					
 					bodyHtml += "	<div class='eqp-tab-cls tab-pane py-5 py-xl-10 fade show active' id='"+value.EQP_NAME+"' role='tabpanel' aria-labelledby='"+value.EQP_NAME+"-tab'>";
 					bodyHtml += "	    <div class='row justify-content-center'>";
-					bodyHtml += "	        <div class='col-xxl-6 col-xl-12'>";
+					bodyHtml += "	        <div class='col-xxl-11 col-xl-12'>";
 					bodyHtml += "				<h3 class='text-primary'>"+value.EQP_NAME+"</h3>";
 					bodyHtml += "				<div class='row'>";
 
@@ -104,7 +100,7 @@
 		            bodyHtml += "						<div class='card mb-4'>";
 		       		bodyHtml += "							<div class='card-header'><spring:message code="smart.eqp.status.pie.title" /></div>";
 					bodyHtml += "							<div class='card-body'>";
-					bodyHtml += "								<div class='chart-pie'><canvas id='"+value.EQP_NAME+"_pie' width='100%' height='50'></canvas></div>";
+					bodyHtml += "								<div class='chart-pie' id='"+value.EQP_NAME+"_pie'></div>";
 					bodyHtml += "							</div>";
 					bodyHtml += "							<div class='card-footer small text-muted'></div>";
 					bodyHtml += "						</div>";
@@ -114,10 +110,7 @@
 					bodyHtml += "						<div class='card mb-4'>";
 		       		bodyHtml += "							<div class='card-header'><spring:message code="smart.eqp.status.timeline.title" /></div>";
 					bodyHtml += "							<div class='card-body'>";
-					
-//		 			bodyHtml += "								<div class='chart-bar'><canvas id='${result.EQP_NAME}_timeline' width='100%' height='38'></canvas></div>";
 					bodyHtml += "								<div class='chart-bar' id='"+value.EQP_NAME+"_timeline'></div>";
-					
 					bodyHtml += "							</div>";
 					bodyHtml += "							<div class='card-footer small text-muted'></div>";
 					bodyHtml += "						</div>";
@@ -152,51 +145,117 @@
 			datatype : "json",
 			success : function(data) {
 				
-				$.each(data, function(index, value){
+				
+				for(var i=0; i<eqpArray.length; i++) {
 					
-					new Chart(document.getElementById(value.EQP_NAME_VIEW+"_pie"), {
-					    type: "doughnut",
-					    data: {
-					        labels: ["ACTIVE", "READY", "ERROR", "STOP"],
-					        datasets: [{
-					            data: [value.ACTIVE_TIME, value.READY_TIME, value.ERROR_TIME, value.STOP_TIME],
-					            backgroundColor: [
-					                "#00AC69",
-					                "#F4A100",
-					                "#E81500",
-					                "#687281"
-					            ],
-					            hoverBackgroundColor: [
-					            	"#00AC69",
-					                "#F4A100",
-					                "#E81500",
-					                "#687281"
-					            ],
-					            hoverBorderColor: "rgba(234, 236, 244, 1)"
-					        }]
-					    },
-					    options: {
-					        maintainAspectRatio: false,
-					        tooltips: {
-					            backgroundColor: "rgb(255,255,255)",
-					            bodyFontColor: "#858796",
-					            borderColor: "#dddfeb",
-					            borderWidth: 1,
-					            xPadding: 15,
-					            yPadding: 15,
-					            displayColors: false,
-					            caretPadding: 10
-					        },
-					        legend: {
-					            display: false
-					        },
-					        cutoutPercentage: 80
+					// Themes begin
+					am4core.useTheme(am4themes_animated);
+					// Themes end
+
+					// Create chart instance
+					var chart = am4core.create(eqpArray[i]+"_pie", am4charts.PieChart);
+					
+					//chart.data json 형태로 변환
+					var chartData = [];
+					$.each(data, function(index, value){
+						
+						if(eqpArray[i] == value.EQP_NAME_VIEW) {
+							
+							if(value.ACTIVE_TIME != 0) {
+								chartData.push({
+									"STATUS": "ACTIVE",
+			 					    "TIME": value.ACTIVE_TIME,
+			 					    "color": "#00AC69"
+								});
+							}
+							
+							if(value.READY_TIME != 0) {
+								chartData.push({
+									"STATUS": "READY",
+			 					    "TIME": value.READY_TIME,
+			 					    "color": "#F4A100"
+								});
+							}
+							
+							if(value.ERROR_TIME != 0) {
+								chartData.push({
+									"STATUS": "ERROR",
+			 					    "TIME": value.ERROR_TIME,
+			 					    "color": "#E81500"
+								});
+							}
+							
+							if(value.STOP_TIME != 0) {
+								chartData.push({
+									"STATUS": "STOPPED",
+			 					    "TIME": value.STOP_TIME,
+			 					    "color": "#687281"
+								});
+							}
+							
+						}
+					});
+					chart.data = chartData;
+					
+					// Add and configure Series
+					var pieSeries = chart.series.push(new am4charts.PieSeries());
+					pieSeries.dataFields.value = "TIME";
+					pieSeries.dataFields.category = "STATUS";
+					pieSeries.slices.template.propertyFields.fill = "color";
+
+					// Let's cut a hole in our Pie chart the size of 30% the radius
+					chart.innerRadius = am4core.percent(30);
+
+					// Put a thick white border around each Slice
+					pieSeries.slices.template.stroke = am4core.color("#fff");
+					pieSeries.slices.template.strokeWidth = 2;
+					pieSeries.slices.template.strokeOpacity = 1;
+					pieSeries.slices.template
+					  // change the cursor on hover to make it apparent the object can be interacted with
+					  .cursorOverStyle = [
+					    {
+					      "property": "cursor",
+					      "value": "pointer"
 					    }
+					  ];
+					
+					
+					pieSeries.ticks.template.disabled = true;
+					pieSeries.alignLabels = false;
+					pieSeries.labels.template.text = "{value.value}H";
+					pieSeries.labels.template.radius = am4core.percent(-40);
+					pieSeries.labels.template.fill = "#FFFFFF";
+
+					pieSeries.labels.template.adapter.add("radius", function(radius, target) {
+					  if (target.dataItem && (target.dataItem.values.value.percent < 10)) {
+					    return 0;
+					  }
+					  return radius;
+					});
+
+					pieSeries.labels.template.adapter.add("fill", function(color, target) {
+					  if (target.dataItem && (target.dataItem.values.value.percent < 10)) {
+					    return am4core.color("#000000");
+					  }
+					  return color;
 					});
 					
-					stackCnt++;
-				});	//$.each
-				
+					// Create a base filter effect (as if it's not there) for the hover to return to
+					var shadow = pieSeries.slices.template.filters.push(new am4core.DropShadowFilter);
+					shadow.opacity = 0;
+
+					// Create hover state
+					var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+
+					// Slightly shift the shadow and make it more prominent on hover
+					var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter);
+					hoverShadow.opacity = 0.7;
+					hoverShadow.blur = 5;
+
+					// Add a legend
+// 					chart.legend = new am4charts.Legend();
+
+				}	//for(var i=0; i<eqpArray.length; i++)
 				
 			},	//success
 			complete : function() {
@@ -215,44 +274,107 @@
 			type : "POST",
 			datatype : "json",
 			success : function(data) {
+				var today = new Date();
+				var year = today.getFullYear();
+				var month = today.getMonth();
+				var day = today.getDate();
 				
 				for(var i=0; i<eqpArray.length; i++) {
+
+					var activeCnt = 0;
+					var readyCnt = 0;
+					var errorCnt = 0;
+					var stopCnt = 0;
 					
 					//chart.data json 형태로 변환
-					var dataArray = new Array();
+					var colorSet = new am4core.ColorSet();
+					colorSet.saturation = 0.4;
+					
+					var chartData = [];
 					$.each(data, function(index, value){
 						
 						if(eqpArray[i] == value.EQP_NAME) {
 							
-
-							var colorSet = new am4core.ColorSet();
-							colorSet.saturation = 0.4;
-							
-							var dataObj = new Object();
-							dataObj.name = value.EQP_STATUS;
-							dataObj.fromDate = value.BEFORE_EVENT_TIME;
-							dataObj.toDate = value.EVENT_TIME;
-							dataObj.color = colorSet.getIndex(0).brighten(0);
-							
-// 							if(value.EQP_STATUS == "ACTIVE") {
-// 								dataObj.color = "#00AC69";
-// 							} else if(value.EQP_STATUS == "READY") {
-// 								dataObj.color = "#F4A100";
-// 							} else if(value.EQP_STATUS == "ERROR") {
-// 								dataObj.color = "#E81500";
-// 							} else if(value.EQP_STATUS == "STOP") {
-// 								dataObj.color = "#687281";
-// 							} else {
-// 								dataObj.color = "#FFFFFF";
-// 							}
-							dataArray.push(dataObj);
+							if(value.EQP_STATUS == "ACTIVE") {
+								chartData.push({
+									"name": value.EQP_STATUS,
+			 					    "fromDate": value.BEFORE_EVENT_TIME,
+			 					    "toDate": value.EVENT_TIME,
+									"color": "#00AC69"
+								});
+								activeCnt++;
+							} else if(value.EQP_STATUS == "READY") {
+								chartData.push({
+									"name": value.EQP_STATUS,
+			 					    "fromDate": value.BEFORE_EVENT_TIME,
+			 					    "toDate": value.EVENT_TIME,
+									"color": "#F4A100"
+								});
+								readyCnt++;
+							} else if(value.EQP_STATUS == "ERROR") {
+								chartData.push({
+									"name": value.EQP_STATUS,
+			 					    "fromDate": value.BEFORE_EVENT_TIME,
+			 					    "toDate": value.EVENT_TIME,
+									"color": "#E81500"
+								});
+								errorCnt++;
+							} else if(value.EQP_STATUS == "STOPPED") {
+								chartData.push({
+									"name": value.EQP_STATUS,
+			 					    "fromDate": value.BEFORE_EVENT_TIME,
+			 					    "toDate": value.EVENT_TIME,
+									"color": "#687281"
+								});
+								stopCnt++;
+							} else {
+								chartData.push({
+									"name": value.EQP_STATUS,
+			 					    "fromDate": value.BEFORE_EVENT_TIME,
+			 					    "toDate": value.EVENT_TIME,
+									"color": "#FFFFFF"
+								});
+							}
 							
 						}
 						
 					});
-					var dataJson = JSON.stringify(dataArray);
-					console.log(dataJson);
+
+					if(activeCnt == 0) {
+						chartData.push({
+							"name": "ACTIVE",
+	 					    "fromDate": year+"-"+(month+1)+"-"+day+" 00:00",
+	 					    "toDate": year+"-"+(month+1)+"-"+day+" 00:00",
+							"color": "#00AC69"
+						});
+					}
 					
+					if(readyCnt == 0) {
+						chartData.push({
+							"name": "READY",
+	 					    "fromDate": year+"-"+(month+1)+"-"+day+" 00:00",
+	 					    "toDate": year+"-"+(month+1)+"-"+day+" 00:00",
+							"color": "#F4A100"
+						});
+					}
+					
+					if(errorCnt == 0) {
+						chartData.push({
+							"name": "ERROR",
+	 					    "fromDate": year+"-"+(month+1)+"-"+day+" 00:00",
+	 					    "toDate": year+"-"+(month+1)+"-"+day+" 00:00",
+							"color": "#E81500"
+						});
+					}
+					
+					if(stopCnt == 0) {
+						chartData.push({
+							"name": "STOPPED",
+	 					    "fromDate": year+"-"+(month+1)+"-"+day+" 00:00",
+	 					    "toDate": year+"-"+(month+1)+"-"+day+" 00:00",
+							"color": "#687281"
+						});
+					}
 					
 					am4core.useTheme(am4themes_animated);
 
@@ -261,88 +383,29 @@
 
 					chart.paddingRight = 30;
 					chart.dateFormatter.inputDateFormat = "yyyy-MM-dd HH:mm";
-
-					var colorSet = new am4core.ColorSet();
-					colorSet.saturation = 0.4;
 					
-// 					chart.data = dataJson;
-					chart.data = [
-					  {
-					    name: "ACTIVE",
-					    fromDate: "2021-04-01 08:00",
-					    toDate: "2021-04-01 10:30",
-					    color: "#00AC69"
-					  },
-					  {
-					    name: "ACTIVE",
-					    fromDate: "2021-04-01 12:00",
-					    toDate: "2021-04-01 15:00",
-					    color: "#00AC69"
-					  },
-					  {
-					    name: "ACTIVE",
-					    fromDate: "2021-04-01 15:30",
-					    toDate: "2021-04-01 21:30",
-					    color: "#00AC69"
-					  },
+					chart.data = chartData;
 					
-					  {
-					    name: "READY",
-					    fromDate: "2021-04-01 09:00",
-					    toDate: "2021-04-01 12:00",
-					    color: colorSet.getIndex(2).brighten(0)
-					  },
-					  {
-					    name: "READY",
-					    fromDate: "2021-04-01 13:00",
-					    toDate: "2021-04-01 17:00",
-					    color: colorSet.getIndex(2).brighten(0.4)
-					  },
-					
-					  {
-					    name: "ERROR",
-					    fromDate: "2021-04-01 11:00",
-					    toDate: "2021-04-01 16:00",
-					    color: colorSet.getIndex(4).brighten(0)
-					  },
-					  {
-					    name: "ERROR",
-					    fromDate: "2021-04-01 16:00",
-					    toDate: "2021-04-01 19:00",
-					    color: colorSet.getIndex(4).brighten(0.4)
-					  },
-					
-					  {
-					    name: "STOP",
-					    fromDate: "2021-04-01 16:00",
-					    toDate: "2021-04-01 20:00",
-					    color: colorSet.getIndex(6).brighten(0)
-					  },
-					  {
-					    name: "STOP",
-					    fromDate: "2021-04-01 20:30",
-					    toDate: "2021-04-01 24:00",
-					    color: colorSet.getIndex(6).brighten(0.4)
-					  }
-					];
-					
+					//Y Axis
 					var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
 					categoryAxis.dataFields.category = "name";
 					categoryAxis.renderer.grid.template.location = 0;
+					categoryAxis.renderer.labels.template.disabled = true;
 					categoryAxis.renderer.inversed = true;
-
+					
+					//X Axis
 					var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 					dateAxis.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm";
-					dateAxis.renderer.minGridDistance = 70;
+					dateAxis.renderer.minGridDistance = 80;
 					dateAxis.baseInterval = { count: 30, timeUnit: "minute" };
-					dateAxis.max = new Date(2021, 3, 1, 24, 0, 0, 0).getTime();
+					dateAxis.max = new Date(year, month, day, 24, 0, 0, 0).getTime();
 					dateAxis.strictMinMax = true;
 					dateAxis.renderer.tooltipLocation = 0;
-
+					
+					//
 					var series1 = chart.series.push(new am4charts.ColumnSeries());
 					series1.columns.template.width = am4core.percent(80);
 					series1.columns.template.tooltipText = "{name}: {openDateX} - {dateX}";
-
 					series1.dataFields.openDateX = "fromDate";
 					series1.dataFields.dateX = "toDate";
 					series1.dataFields.categoryY = "name";
@@ -350,33 +413,22 @@
 					series1.columns.template.propertyFields.stroke = "color";
 					series1.columns.template.strokeOpacity = 1;
 
-					chart.scrollbarX = new am4core.Scrollbar();
-					
-					stackCnt++;
-					
 				}
-// 				if((eqpCnt*2) == stackCnt) {
-// 					$.each(data, function(index, value){ 
-// 						if(index != 0) {
-// 							$("#"+value.EQP_NAME).removeClass("show");
-// 							$("#"+value.EQP_NAME).removeClass("active");
-// 						}
-// 					});
-// 				}
-				
+				removeTab();
 			}	//success
 		});	//$.ajax
 		
 	}
-	/*
-	function getData() {
-		
-		document.dataForm.action="${pageContext.request.contextPath}/smart/eqp/SmartPxEqpData.do";
-		document.dataForm.target = "dataFrame";
-		document.dataForm.submit();
-		
+
+	function removeTab(){
+		for(var i=0; i<eqpArray.length; i++) {
+			if(i != 0) {
+				$("#"+eqpArray[i]).removeClass("show");
+				$("#"+eqpArray[i]).removeClass("active");
+			}
+		}
 	}
-	*/
+	
 </script>
 
 </head>
@@ -448,13 +500,13 @@
 <script>
 	$(document).ready(function() {
 		getHeaderData();
-// 		setInterval(function() {
-// 			reloadTimer();
-// 		  }, 1000);
+		setInterval(function() {
+			reloadTimer();
+		  }, 1000);
 	})
 	
-	var startTimer = 30;
-	var timer = 30;
+	var startTimer = 60;
+	var timer = 60;
 	
 	function reloadTimer() {
 		

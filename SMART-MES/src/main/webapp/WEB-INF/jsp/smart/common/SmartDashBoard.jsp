@@ -19,6 +19,9 @@
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
 <script src="<c:url value='/js/smart/smartvalidate.js'/>"></script>
+<script type="text/javascript" src="<c:url value="/js/amcharts/core.js"/>"/></script>
+<script type="text/javascript" src="<c:url value="/js/amcharts/charts.js"/>"/></script>
+<script type="text/javascript" src="<c:url value="/js/amcharts/amtheme/animated.js"/>"/></script>
 <style>
 	.progress {
 		cursor: pointer;
@@ -36,7 +39,8 @@
 	}
 </style>
 <script>
-	$(document).ready(function() {
+	
+	function getData() {
 		//MODEL STATUS
 		getModelStatusData();
 		
@@ -44,10 +48,14 @@
 		getModelSummaryData();
 		
 		//Sodic Eqp Status
-		getSodicStatusData();
+// 		getSodicStatusData();
 		
-	});
-	
+		//Tiz(Px) Eqp Status
+		getPxStatusData();
+		
+		//Tiz(Px) Eqp Stack
+		getPxStackData();
+	}
 	
 	/**
 		.금형 진행 상태 Summary
@@ -61,7 +69,6 @@
 			type : "POST",
 			data : "",
 			datatype : "json",
-			async : false,
 			success : function(data) {
 				$("#ingModelCount").empty();
 				$("#delayModelCount").empty();
@@ -99,7 +106,6 @@
 			data : {"startDate":"", "endDate":"", "gubun":"DASHBOARD"},
 			type : "POST",
 			datatype: "json",
-			async : false,
 			success : function(data) {
 				$('#dataTable').dataTable().fnClearTable();		//가공작업 상세 페이지 Span으로 인해 처리 안됨
 				$('#dataTable').dataTable().fnDestroy();
@@ -246,7 +252,6 @@
 			type : "POST",
 			data : "",
 			datatype : "json",
-			async : false,
 			success : function(data) {
 				$("#eqpStatus").empty();
 				console.log("STEP1 :: " + data);
@@ -279,12 +284,160 @@
 					
 				});	//$.each(data)
 				strHtml += "</div>";
-				console.log("STEP2 :: " + strHtml);
 				$("#eqpStatus").append(strHtml);
 			}	//success
 			
 		});	//$.ajax
 		
+		
+	}
+	
+	var stopFlag = ["0"];
+	var activeFlag = ["3"];
+	//var readyFlag = ["1", "4", "5", "6", "7", "20", "21", "30", "90"];		//active, error 상태 외에는 전부 ready
+	var errorFlag = ["2"];
+	function getPxStatusData() {
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/common/SmartDashBoardPxStatus.do",
+			type : "POST",
+			data : "",
+			datatype : "json",
+			success : function(data) {
+				$("#eqpStatus").empty();
+
+				var strHtml = "";
+				
+				strHtml += "<div class='nav nav-pills nav-justified flex-column flex-xl-row nav-wizard' id='cardTab' role='tablist'>";
+				$.each(data, function(index, value){
+					
+					strHtml += "		<a class='nav-item nav-link' id='"+value.EQP_NAME+"-tab'>";
+					
+					if(activeFlag.indexOf(value.EQP_FLAG) > -1) {
+						strHtml += "			<i class='fas fa-circle fa-2x mr-1 text-green'></i>";
+					} else if(errorFlag.indexOf(value.EQP_FLAG) > -1) {
+						strHtml += "			<i class='fas fa-circle fa-2x mr-1 text-red'></i>";
+					} else if(stopFlag.indexOf(value.EQP_FLAG) > -1) {
+						strHtml += "			<i class='fas fa-circle fa-2x mr-1 text-gray'></i>";
+					} else{
+						strHtml += "			<i class='fas fa-circle fa-2x mr-1 text-yellow'></i>";
+					}
+					
+					strHtml += "			<div class='wizard-step-text'>";
+					strHtml += "				<div class='wizard-step-text-name'>"+value.EQP_NAME+"</div>";
+					strHtml += "			</div>";
+					strHtml += "		</a>";
+					
+				});	//$.each(data)
+				strHtml += "</div>";
+				$("#eqpStatus").append(strHtml);
+			}	//success
+			
+		});	//$.ajax
+		
+	}
+	
+	
+	function getPxStackData() {
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/common/SmartDashBoardPxTimeline.do",
+			type : "POST",
+			data : "",
+			datatype : "json",
+			success : function(data) {
+				var today = new Date();
+				var year = today.getFullYear();
+				var month = today.getMonth();
+				var day = today.getDate();
+				var chartData = [];
+				
+				$.each(data, function(index, value) {
+					
+					if(value.EQP_STATUS == "ACTIVE") {
+						chartData.push({
+							"name": value.EQP_NAME,
+							  "fromDate": value.BEFORE_EVENT_TIME,
+							  "toDate": value.EVENT_TIME,
+							  "color": "#00AC69",
+							  "task": "ACTIVE"
+						});
+					} else if(value.EQP_STATUS == "READY") {
+						chartData.push({
+							"name": value.EQP_NAME,
+							  "fromDate": value.BEFORE_EVENT_TIME,
+							  "toDate": value.EVENT_TIME,
+							  "color": "#F4A100",
+							  "task": "READY"
+						});
+					} else if(value.EQP_STATUS == "ERROR") {
+						chartData.push({
+							"name": value.EQP_NAME,
+							  "fromDate": value.BEFORE_EVENT_TIME,
+							  "toDate": value.EVENT_TIME,
+							  "color": "#E81500",
+							  "task": "ERROR"
+						});
+					} else if(value.EQP_STATUS == "STOPPED") {
+						chartData.push({
+							"name": value.EQP_NAME,
+							  "fromDate": value.BEFORE_EVENT_TIME,
+							  "toDate": value.EVENT_TIME,
+							  "color": "#687281",
+							  "task": "STOPPED"
+						});
+					} else {
+						chartData.push({
+							"name": value.EQP_NAME,
+							  "fromDate": value.BEFORE_EVENT_TIME,
+							  "toDate": value.EVENT_TIME,
+							  "color": "#FFFFFF",
+							  "task": ""
+						});
+					}
+					
+				});
+				
+				// Themes begin
+				am4core.useTheme(am4themes_animated);
+				// Themes end
+				
+				var chart = am4core.create("eqpStack", am4charts.XYChart);
+				chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+				chart.paddingRight = 30;
+				chart.dateFormatter.inputDateFormat = "yyyy-MM-dd HH:mm";
+
+				chart.data = chartData;
+
+				var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+				categoryAxis.dataFields.category = "name";
+				categoryAxis.renderer.grid.template.location = 0;
+				categoryAxis.renderer.inversed = true;
+
+				var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+				dateAxis.dateFormatter.dateFormat = "yyyy-MM-dd HH:mm";
+				dateAxis.renderer.minGridDistance = 80;
+				dateAxis.baseInterval = { count: 30, timeUnit: "minute" };
+				dateAxis.max = new Date(year, month, day, 24, 0, 0, 0).getTime();
+				dateAxis.strictMinMax = true;
+				dateAxis.renderer.tooltipLocation = 0;
+
+				var series1 = chart.series.push(new am4charts.ColumnSeries());
+				series1.columns.template.height = am4core.percent(80);
+				series1.columns.template.tooltipText = "{task}: [bold]{openDateX}[/] - [bold]{dateX}[/]";
+
+				series1.dataFields.openDateX = "fromDate";
+				series1.dataFields.dateX = "toDate";
+				series1.dataFields.categoryY = "name";
+				series1.columns.template.propertyFields.fill = "color"; // get color from data
+				series1.columns.template.propertyFields.stroke = "color";
+				series1.columns.template.strokeOpacity = 1;
+			}	//success
+			
+		});	//$.ajax
 		
 	}
 	
@@ -330,6 +483,8 @@
                                     <div class="page-header-icon"><i data-feather="activity"></i></div>
                                     <span><spring:message code="smart.dashboard.title" /></span>
                                 </h1>
+                                &nbsp; &nbsp; &nbsp;<img src="<c:url value='/'/>images/smart/progressdisc.gif" width="15" height="15" border="0">
+								<span id="reloadTime"></span>
                             </div>
                         </div>
                     </div>
@@ -347,7 +502,7 @@
                                 <div class="card mb-4">
                                     <div class="card-header"><spring:message code="smart.dashboard.eqp.stack" /></div>
                                     <div class="card-body">
-                                        <div class="chart-bar"><canvas id="myBarChart" width="100%" height="30"></canvas></div>
+                                        <div class="chart-bar" id="eqpStack"></div>
                                     </div>
                                 </div>
                             </div>
@@ -482,5 +637,34 @@
 <script src="<c:url value='/js/smartscripts.js'/>"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+<script>
+	
+$(document).ready(function() {
+	getData();
+	setInterval(function() {
+			reloadTimer();
+		  }, 1000);
+	})
+	
+	var startTimer = 60;
+	var timer = 60;
+	
+	function reloadTimer() {
+		
+		if(timer == 0) {
+			getData();
+			
+			timer = startTimer;
+		}
+		
+	
+		timer = timer -1;	    
+	    document.getElementById('reloadTime').innerText = timer+"s";
+		
+	}
+	
+</script>
+
 </body>
 </html>

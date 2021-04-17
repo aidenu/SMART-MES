@@ -284,8 +284,6 @@
 	</procedure>
 	
 	
-	
-	
 	<parameterMap id="paramMapPxEqpDailyTimeline" class="java.util.HashMap">
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>
@@ -295,5 +293,20 @@
         	{call PKG_Q_EQP.getPxEqpDailyTimeline_Pro(?)}
         ]]>
 	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapPxEqpRatioLine" class="java.util.HashMap">
+		<parameter property="startDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="endDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getPxEqpRatioLine" parameterMap="paramMapPxEqpRatioLine" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_EQP.getPxEqpRatioLine_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
 	
 </sqlMap>
