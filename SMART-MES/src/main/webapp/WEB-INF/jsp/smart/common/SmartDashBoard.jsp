@@ -113,14 +113,14 @@
 				
 				var strHtml = "";
 				strHtml += "<colgroup>";
-				strHtml += "	<col width='15%'>";
-				strHtml += "	<col width='15%'>";
 				strHtml += "	<col width='16%'>";
-				strHtml += "	<col width='9%'>";
-				strHtml += "	<col width='9%'>";
-				strHtml += "	<col width='10%'>";
 				strHtml += "	<col width='16%'>";
+				strHtml += "	<col width='17%'>";
 				strHtml += "	<col width='10%'>";
+				strHtml += "	<col width='10%'>";
+				strHtml += "	<col width='11%'>";
+				strHtml += "	<col width='20%'>";
+// 				strHtml += "	<col width='10%'>";
 				strHtml += "</colgroup>";
 				
 				strHtml += "<thead>";
@@ -132,7 +132,7 @@
 				strHtml += "		<th scope='col'><spring:message code="smart.business.duedate" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.cad" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.work" /></th>";
-				strHtml += "		<th scope='col'><spring:message code="smart.assembly" /></th>";
+// 				strHtml += "		<th scope='col'><spring:message code="smart.assembly" /></th>";
 				strHtml += "	</tr>";
 				strHtml += "</thead>";
 				strHtml += "<tfoot>";
@@ -144,7 +144,7 @@
 				strHtml += "		<th scope='col'><spring:message code="smart.business.duedate" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.cad" /></th>";
 				strHtml += "		<th scope='col'><spring:message code="smart.work" /></th>";
-				strHtml += "		<th scope='col'><spring:message code="smart.assembly" /></th>";
+// 				strHtml += "		<th scope='col'><spring:message code="smart.assembly" /></th>";
 				strHtml += "	</tr>";
 				strHtml += "</tfoot>";
 				strHtml += "<tbody id='data_table_tbody'>";
@@ -205,6 +205,8 @@
 					strHtml += "	</td>";
 					
 					//조립 진행상태
+					/*
+					//조립 상태 비활성
 					strHtml += "	<td>";
 					if(value.ASSEMBLY_STATUS == 'DELAY') {
 						strHtml += "		<div class='progress'><div class='progress-bar bg-red' role='progressbar' style='width: 0%;' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div></div>";
@@ -229,8 +231,8 @@
 						strHtml += "			<spring:message code="smart.status.work.plan" /> : <br>"+chknull(value.PLAN_ASSEMBLY_DATE)+"";
 						strHtml += "		</h4>";
 					}
-					
 					strHtml += "	</td>";
+					*/
 					
 					strHtml += "</tr>";
 					$("#data_table_tbody").append(strHtml);
@@ -587,8 +589,6 @@
 												<th><spring:message code="smart.business.duedate" /></th>
 												<th><spring:message code="smart.cad" /></th>
 												<th><spring:message code="smart.work" /></th>
-												<th><spring:message code="smart.assembly" /></th>
-												<th>Detail</th>
 											</tr>
 										</thead>
 										<tfoot>
@@ -600,14 +600,10 @@
 												<th><spring:message code="smart.business.duedate" /></th>
 												<th><spring:message code="smart.cad" /></th>
 												<th><spring:message code="smart.work" /></th>
-												<th><spring:message code="smart.assembly" /></th>
-												<th>Detail</th>
 											</tr>
 	                                    </tfoot>
 	                                    <tbody id="data_table_tbody">
 	                                    	<tr>
-												<td></td>
-												<td></td>
 												<td></td>
 												<td></td>
 												<td></td>

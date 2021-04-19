@@ -103,7 +103,6 @@
 			$("#add_vendor").val("");
 			$("#add_businessworker").val("");
 			$("#add_cadworker").val("");
-			$("#add_assemblyworker").val("");
 		});
 		
 		
@@ -119,14 +118,13 @@
 			$("#modify_vendor").val("");
 			$("#modify_businessworker").val("");
 			$("#modify_cadworker").val("");
-			$("#modify_assemblyworker").val("");
 		});
 		
 		/**
 			.신규 등록 버튼 클릭
 			.parameter
 			 - gubun(add), modelno, productno, productname, productgroup,
-			   vendor, businessworker, orderdate, duedate, cadworker, assemblyworker
+			   vendor, businessworker, orderdate, duedate, cadworker
 		*/
 		$("#btn_save").click(function() {
 			
@@ -140,7 +138,6 @@
 			var orderdate = $("#add_orderdate").val();
 			var duedate = $("#add_duedate").val();
 			var cadworker = $("#add_cadworker").val();
-			var assemblyworker = $("#add_assemblyworker").val();
 			
 			if(modelno == "") {
 				alert("<spring:message code="smart.business.modelno.valid" />");
@@ -156,7 +153,7 @@
 				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessSave.do",
 				type : "POST",
 				data : {"gubun":gubun, "modelno":modelno, "productno":productno, "productname":productname, "productgroup":productgroup, "vendor":vendor, 
-					"businessworker":businessworker, "orderdate":orderdate, "duedate":duedate, "cadworker":cadworker, "assemblyworker":assemblyworker},
+					"businessworker":businessworker, "orderdate":orderdate, "duedate":duedate, "cadworker":cadworker},
 				datatype : "text",
 				success : function(data) {
 					if("EXIST" == data) {
@@ -171,7 +168,6 @@
 						$("#add_vendor").val("");
 						$("#add_businessworker").val("");
 						$("#add_cadworker").val("");
-						$("#add_assemblyworker").val("");
 						
 						$('#addModalLayer').modal("hide");
 						$("#btn_search").trigger("click");
@@ -216,10 +212,7 @@
 						$("#singleDateDivmodify_orderdate span").html(value.ORDER_DATE);
 						$("#singleDateDivmodify_duedate span").html(value.DUE_DATE);
 						
-						if(value.ASSEMBLY_END_DATE == null) {
-							$("#btn_enddate").css("display", "none");
-							$("#singleDateDivmodify_enddate").css("display", "none");
-						} else if(value.END_DATE == null) {
+						if(value.END_DATE == null) {
 							$("#btn_enddate").css("display", "");
 							$("#singleDateDivmodify_enddate").css("display", "none");
 						} else {
@@ -228,7 +221,6 @@
 						}
 						
 						$("#modify_cadworker").val(value.CAD_WORKER);
-						$("#modify_assemblyworker").val(value.ASSEMBLY_WORKER);
 						
 					});	//$.each
 					
@@ -243,7 +235,7 @@
 			.수정 버튼 클릭
 			.parameter
 			 - gubun(update), modelid, modelno, productno, productname, productgroup,
-			   vendor, businessworker, orderdate, duedate, enddate, cadworker, assemblyworker
+			   vendor, businessworker, orderdate, duedate, enddate, cadworker
 		*/
 		$("#btn_modify").click(function() {
 			
@@ -259,7 +251,6 @@
 			var duedate = $("#modify_duedate").val();
 			var enddate = $("#modify_enddate").val();
 			var cadworker = $("#modify_cadworker").val();
-			var assemblyworker = $("#modify_assemblyworker").val();
 			
 			if(modelno == "") {
 				alert("<spring:message code="smart.business.modelno.valid" />");
@@ -275,7 +266,7 @@
 				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessSave.do",
 				type : "POST",
 				data : {"gubun":gubun, "modelid":modelid, "modelno":modelno, "productno":productno, "productname":productname, "productgroup":productgroup, "vendor":vendor, 
-					"businessworker":businessworker, "orderdate":orderdate, "duedate":duedate, "enddate":enddate, "cadworker":cadworker, "assemblyworker":assemblyworker},
+					"businessworker":businessworker, "orderdate":orderdate, "duedate":duedate, "enddate":enddate, "cadworker":cadworker},
 				datatype : "text",
 				success : function(data) {
 					if("EXIST" == data) {
@@ -290,7 +281,6 @@
 						$("#modify_vendor").val("");
 						$("#modify_businessworker").val("");
 						$("#modify_cadworker").val("");
-						$("#modify_assemblyworker").val("");
 						
 						$('#modifyModalLayer').modal("hide");
 						$("#btn_search").trigger("click");
@@ -501,18 +491,8 @@
 									    						</select>
 									    					</div>	
 									    				</td>
-									    				<td><spring:message code="smart.business.assemblyworker" /></td>
+									    				<td></td>
 									    				<td>
-									    					<div class="form-group" style="margin-bottom: 0px;">
-										    					<select class="form-control form-control-solid" id="add_assemblyworker" name="add_assemblyworker">
-										    						<option value=""> -- Select -- </option>
-									    							<c:forEach var="resultUser" items="${resultUser }" varStatus="status">
-									    								<c:if test="${resultUser.AUTHOR_CODE == 'ROLE_USER_ASSEMBLY'}">
-									    									<option value="${resultUser.USER_ID }">${resultUser.USER_NM }</option>
-									    								</c:if>
-									    							</c:forEach>
-									    						</select>
-									    					</div>	
 									    				</td>
 								                	</tr>
 								                </table>
@@ -654,18 +634,8 @@
 										    						</select>
 										    					</div>	
 										    				</td>
-										    				<td><spring:message code="smart.business.assemblyworker" /></td>
+										    				<td></td>
 										    				<td>
-										    					<div class="form-group" style="margin-bottom: 0px;">
-											    					<select class="form-control form-control-solid" id="modify_assemblyworker" name="modify_assemblyworker">
-											    						<option value=""> -- Select -- </option>
-										    							<c:forEach var="resultUser" items="${resultUser }" varStatus="status">
-										    								<c:if test="${resultUser.AUTHOR_CODE == 'ROLE_USER_ASSEMBLY'}">
-										    									<option value="${resultUser.USER_ID }">${resultUser.USER_NM }</option>
-										    								</c:if>
-										    							</c:forEach>
-										    						</select>
-										    					</div>	
 										    				</td>
 									                	</tr>
 									                </table>
