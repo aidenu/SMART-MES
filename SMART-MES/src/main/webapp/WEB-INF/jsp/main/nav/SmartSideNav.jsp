@@ -100,8 +100,8 @@
 		</div>
 		<div class="sidenav-footer">
 			<div class="sidenav-footer-content">
-				<div class="sidenav-footer-subtitle">SMART MES</div>
-				<div class="sidenav-footer-title">by. HJ</div>
+				<div class="sidenav-footer-title">SMART MES</div>
+				<div class="sidenav-footer-subtitle">CopyRight(c) MITech<br>All Rights Reserved</div>
 			</div>
 		</div>
 	</nav>
