@@ -98,14 +98,16 @@
 					$.each(data, function(index, value){
 						strHtml = "";
 						
+						strHtml += "	<tr>";
+						
 						if(value.CURRENT_STATUS == "DELAY") {
-							strHtml += "	<tr class='bg-orange text-white'>";
+							strHtml += "	<td class='bg-orange text-white'>"+value.MODEL_NO+"</td>";
 						} else if(value.CURRENT_STATUS == "COMPLETE") {
-							strHtml += "	<tr class='bg-blue text-white'>";
+							strHtml += "	<td class='bg-blue text-white'>"+value.MODEL_NO+"</td>";
 						} else {
-							strHtml += "	<tr>";
+							strHtml += "	<td>"+value.MODEL_NO+"</td>";
 						}
-						strHtml += "	<td>"+value.MODEL_NO+"</td>";
+						
 						strHtml += "	<td>"+value.PRODUCT_NO+"</td>";
 						strHtml += "	<td>"+value.PRODUCT_NAME+"</td>";
 						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
@@ -682,15 +684,30 @@
 			var date = new Date();
 			var today = "";
 			if(date.getMonth() < 10) {
-				today = date.getFullYear() + "-" + "0" + (date.getMonth()+1) + "-" + date.getDate();
+				
+				if(date.getDate() < 10) {
+					today = date.getFullYear() + "-" + "0" + (date.getMonth()+1) + "-" + "0" + date.getDate();
+				} else {
+					today = date.getFullYear() + "-" + "0" + (date.getMonth()+1) + "-" + date.getDate();
+				}
+				
 			} else {
-				today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+				
+				if(date.getDate() < 10) {
+					today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + "0" + date.getDate();
+				} else {
+					today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+				}
+				
 			}
+			
 			$("#singleDateDivstartdate span").html(today);
 			$("#startdate").val(today);
+			setSingleDateField("singleDateDivstartdate", today);
 			
 			$("#singleDateDivenddate span").html(today);
 			$("#enddate").val(today);
+			setSingleDateField("singleDateDivenddate", today);
 			
 			$("#addProcLayer").hide();
 		});

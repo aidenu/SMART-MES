@@ -345,4 +345,56 @@ public class SmartEqpController {
 		return result;
 	}
 	
+	
+	@RequestMapping(value="/smart/eqp/SmartPxEqpError.do")
+	public String SmartPxEqpError(
+			ModelMap model) throws Exception {
+		
+	try {
+		
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		
+		model.addAttribute("userid", loginVO.getId());
+		model.addAttribute("username", loginVO.getName());
+		model.addAttribute("useremail", loginVO.getEmail());
+		
+		
+		HashMap<String,String> hp = new HashMap<String,String>();
+		hp.put("userid", loginVO.getId());
+		List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+		model.addAttribute("resultAlarm", resultAlarm);
+		
+		List<HashMap> resultEqpInfo = SmartCommonDAO.commonDataProc("getPxEqpInfo");
+		model.addAttribute("resultEqpInfo", resultEqpInfo);
+		
+	} catch(Exception e) {
+		logger.error("[/smart/eqp/SmartPxEqpError.do] Exception :: " + e.toString());
+	}
+	
+		return "smart/eqp/SmartPxEqpError";
+	}
+	
+	@RequestMapping(value="/smart/eqp/SmartPxEqpErrorData.do")
+	@ResponseBody
+	public List<HashMap> SmartPxEqpErrorData(
+			@RequestParam(value="startDate", required=false) String startDate,
+			@RequestParam(value="endDate", required=false) String endDate,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("startDate", startDate);
+			hp.put("endDate", endDate);
+			
+			result = SmartCommonDAO.commonDataProc("getPxEqpError", hp);
+			
+		} catch(Exception e) {
+			logger.error("/smart/eqp/SmartPxEqpErrorData.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
 }

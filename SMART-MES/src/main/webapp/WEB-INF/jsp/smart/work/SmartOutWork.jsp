@@ -116,14 +116,16 @@
 						
 						strHtml = "";
 						
+						strHtml += "	<tr>";
+						
 						if(value.CURRENT_STATUS == "DELAY") {
-							strHtml += "	<tr class='bg-orange text-white'>";
+							strHtml += "	<td class='bg-orange text-white'>"+value.MODEL_NO+"</td>";
 						} else if(value.CURRENT_STATUS == "COMPLETE") {
-							strHtml += "	<tr class='bg-blue text-white'>";
+							strHtml += "	<td class='bg-blue text-white'>"+value.MODEL_NO+"</td>";
 						} else {
-							strHtml += "	<tr>";
+							strHtml += "	<td>"+value.MODEL_NO+"</td>";
 						}
-						strHtml += "	<td>"+value.MODEL_NO+"</td>";
+						
 						strHtml += "	<td>"+value.PRODUCT_NO+"</td>";
 						strHtml += "	<td>"+value.PRODUCT_NAME+"</td>";
 						strHtml += "	<td>"+value.ORDER_DATE+"</td>";

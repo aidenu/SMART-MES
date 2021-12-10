@@ -56,7 +56,7 @@
 					strHtml += "		<th><spring:message code="smart.business.productname" /></th>";
 					strHtml += "		<th><spring:message code="smart.business.orderdate" /></th>";
 					strHtml += "		<th><spring:message code="smart.business.duedate" /></th>";
-					strHtml += "		<th>Detail</th>";
+					strHtml += "		<th>발주현황조회</th>";
 					strHtml += "	</tr>";
 					strHtml += "</thead>";
 					strHtml += "<tfoot>";
@@ -66,7 +66,7 @@
 					strHtml += "		<th><spring:message code="smart.business.productname" /></th>";
 					strHtml += "		<th><spring:message code="smart.business.orderdate" /></th>";
 					strHtml += "		<th><spring:message code="smart.business.duedate" /></th>";
-					strHtml += "		<th>Detail</th>";
+					strHtml += "		<th>발주현황조회</th>";
 					strHtml += "	</tr>";
 					strHtml += "</tfoot>";
 					strHtml += "<tbody id='data_table_tbody'>";
@@ -78,14 +78,16 @@
 						
 						strHtml = "";
 						
+						strHtml += "	<tr>";
+						
 						if(value.CURRENT_STATUS == "DELAY") {
-							strHtml += "	<tr class='bg-orange text-white'>";
+							strHtml += "	<td class='bg-orange text-white'>"+value.MODEL_NO+"</td>";
 						} else if(value.CURRENT_STATUS == "COMPLETE") {
-							strHtml += "	<tr class='bg-blue text-white'>";
+							strHtml += "	<td class='bg-blue text-white'>"+value.MODEL_NO+"</td>";
 						} else {
-							strHtml += "	<tr>";
+							strHtml += "	<td>"+value.MODEL_NO+"</td>";
 						}
-						strHtml += "	<td>"+value.MODEL_NO+"</td>";
+						
 						strHtml += "	<td>"+value.PRODUCT_NO+"</td>";
 						strHtml += "	<td>"+value.PRODUCT_NAME+"</td>";
 						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
@@ -113,7 +115,7 @@
 	*/
 	$(document).on("click", "div[id$='_detail']", function(){
 		var modelid = this.id.replace("_detail", "");
-		window.open("<c:url value='/smart/purchase/SmartPurchaseView.do?modelid="+modelid+"'/>", "partListPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1400,height=850");
+		window.open("<c:url value='/smart/purchase/SmartPurchaseView.do?modelid="+modelid+"'/>", "partListPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1400,height=855");
 		
 	});
 		

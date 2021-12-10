@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title><spring:message code="smart.process.schedule.title" /></title>
+<title><spring:message code="smart.purchase.warehousing.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
@@ -18,7 +18,7 @@
 <script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
-
+<script src="<c:url value='/js/smart/smartvalidate.js'/>"></script>
 <script>
 	
 
@@ -38,16 +38,45 @@
 			var endDate = $("#endDate").val();
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/process/SmartScheduleData.do",
+				url : "${pageContext.request.contextPath}/smart/purchase/SmartWarehousingModelData.do",
 				data : {"startDate":startDate, "endDate":endDate},
 				type : "POST",
 				datatype : "json",
 				success : function(data) {
 					$('#dataTable').dataTable().fnClearTable();
 					$('#dataTable').dataTable().fnDestroy();
+					$("#dataTable").empty();
+					
+					var strHtml = "";
+					
+					strHtml += "<thead>";
+					strHtml += "	<tr>";
+					strHtml += "		<th><spring:message code="smart.business.modelno" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.productno" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.productname" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.orderdate" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.duedate" /></th>";
+					strHtml += "		<th>입고현황조회</th>";
+					strHtml += "	</tr>";
+					strHtml += "</thead>";
+					strHtml += "<tfoot>";
+					strHtml += "	<tr>";
+					strHtml += "		<th><spring:message code="smart.business.modelno" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.productno" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.productname" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.orderdate" /></th>";
+					strHtml += "		<th><spring:message code="smart.business.duedate" /></th>";
+					strHtml += "		<th>입고현황조회</th>";
+					strHtml += "	</tr>";
+					strHtml += "</tfoot>";
+					strHtml += "<tbody id='data_table_tbody'>";
+	                strHtml += "</tbody>";
+	                $("#dataTable").append(strHtml);
+	                
 					
 					$.each(data, function(index, value){
-						var strHtml = "";
+						
+						strHtml = "";
 						
 						strHtml += "	<tr>";
 						
@@ -64,8 +93,7 @@
 						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
 						strHtml += "	<td>"+value.DUE_DATE+"</td>";
 						strHtml += "	<td>";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_schedule' title='<spring:message code="smart.process.schedule.view" />'>";
-						strHtml += "			<input type='hidden' id='"+value.MODEL_ID+"_modelno' name='"+value.MODEL_ID+"_modelno' value='"+value.MODEL_NO+"'>";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail'>";
 						strHtml += "			<i data-feather='edit'></i>";
 						strHtml += "		</div>";
 						strHtml += "	</td>";
@@ -82,16 +110,15 @@
 		
 	});
 	
-	
-	$(document).on("click", "div[id$='_schedule']", function() {
-		
-		var modelid = this.id.replace("_schedule", "");
-		var modelno = $("#"+modelid+"_modelno").val();
-		window.open("<c:url value='/smart/process/SmartScheduleView.do?modelid="+modelid+"&modelno="+modelno+"'/>", "schedPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1500,height=850");
+	/**
+		. 파트리스트 상세 보기 Popup
+	*/
+	$(document).on("click", "div[id$='_detail']", function(){
+		var modelid = this.id.replace("_detail", "");
+		window.open("<c:url value='/smart/purchase/SmartWarehousingView.do?modelid="+modelid+"'/>", "partListPop", "scrollbars=yes,toolbar=no,resizable=yes,left=200,top=200,width=1400,height=850");
 		
 	});
-	
-	
+		
 	
 </script>
 
@@ -113,7 +140,7 @@
 								<div class="col-auto mt-4">
 									<h1 class="page-header-title">
 										<div class="page-header-icon"><i data-feather="database"></i></div>
-										<span><spring:message code="smart.process.schedule.title" /></span>
+										<span><spring:message code="smart.purchase.warehousing.title" /></span>
 									</h1>
 								</div>
 							</div>
@@ -123,7 +150,8 @@
 				<div class="container-fluid" id="dataContainer">
 					<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="headerHide"><i data-feather="chevrons-up"></i></div>
 					<div class="btn btn-datatable btn-icon btn-transparent-dark mr-2" id="headerView" style="display:none;"><i data-feather="chevrons-down"></i></div>
-					<form name="dataForm" id="dataForm" method="post" enctype="multipart/form-data">
+					<form name="dataForm" method="post">
+						<input type="hidden" name="modelid" id="modelid">
 						<div class="card mb-4">
 							<div class="card-header">
 								<div class="btn btn-light btn-sm line-height-normal p-3" id="dateRange">
@@ -201,7 +229,7 @@
 <script>
 	$(document).ready(function() {
 		$("#btn_search").trigger("click");
-	});
+	})
 </script>
 
 </body>

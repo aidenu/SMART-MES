@@ -44,5 +44,42 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapResultOutPriceData" class="java.util.HashMap">
+		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getResultOutPriceData" parameterMap="paramMapResultOutPriceData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_RESULT.getResultOutPriceData_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapResultOutPriceDetail" class="java.util.HashMap">
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getResultOutPriceDetail" parameterMap="paramMapResultOutPriceDetail" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_RESULT.getResultOutPriceDetail_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapResultDeaeLineData" class="java.util.HashMap">
+		<parameter property="year" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getResultDeaeLineData" parameterMap="paramMapResultDeaeLineData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_RESULT.getResultDeaeLineData_Pro(?, ?)}
+        ]]>
+	</procedure>
 	
 </sqlMap>

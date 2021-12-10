@@ -5,8 +5,8 @@
 			<PatternLayout pattern="%d %5p [%c] %m%n" />
 		</Console>
 		 <RollingFile name="db"
-			fileName="/Users/HeeJun/work/user/logs/db.log"
-			filePattern="/user/logs/db.log.%d{yyyy-MM-dd}">
+			fileName="C:/user/logs/db.log"
+			filePattern="C:/user/logs/db.log.%d{yyyy-MM-dd}">
 			<PatternLayout pattern="%d %5p [%c] %m%n" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="30MB" />
@@ -14,8 +14,8 @@
 			<DefaultRolloverStrategy max="10" fileIndex="min" />
 		</RollingFile>
 		<RollingFile name="db_result"
-			fileName="/Users/HeeJun/work/user/logs/db_result.log"
-			filePattern="/user/logs/db_result.log.%d{yyyy-MM-dd}">
+			fileName="C:/user/logs/db_result.log"
+			filePattern="C:/user/logs/db_result.log.%d{yyyy-MM-dd}">
 			<PatternLayout pattern="%d %5p [%c] %m%n" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="30MB" />
@@ -23,8 +23,8 @@
 			<DefaultRolloverStrategy max="10" fileIndex="min" />
 		</RollingFile>
 		<RollingFile name="db_procedure"
-			fileName="/Users/HeeJun/work/user/logs/db_procedure.log"
-			filePattern="/user/logs/db_procedure.log.%d{yyyy-MM-dd}">
+			fileName="C:/user/logs/db_procedure.log"
+			filePattern="C:/user/logs/db_procedure.log.%d{yyyy-MM-dd}">
 			<PatternLayout pattern="%d %5p [%c] %m%n" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="30MB" />
@@ -32,8 +32,8 @@
 			<DefaultRolloverStrategy max="10" fileIndex="min" />
 		</RollingFile>
 		<RollingFile name="portal"
-			fileName="/Users/HeeJun/work/user/logs/portal.log"
-			filePattern="/user/logs/portal.log.%d{yyyy-MM-dd}">
+			fileName="C:/user/logs/portal.log"
+			filePattern="C:/user/logs/portal.log.%d{yyyy-MM-dd}">
 			<PatternLayout pattern="%d %5p [%c] %m%n" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="30MB" />
@@ -41,8 +41,8 @@
 			<DefaultRolloverStrategy max="10" fileIndex="min" />
 		</RollingFile>
 		<RollingFile name="error"
-			fileName="/Users/HeeJun/work/user/logs/error.log"
-			filePattern="/user/logs/error.log.%d{yyyy-MM-dd}">
+			fileName="C:/user/logs/error.log"
+			filePattern="C:/user/logs/error.log.%d{yyyy-MM-dd}">
 			<PatternLayout pattern="%d %5p [%c] %m%n" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="30MB" />

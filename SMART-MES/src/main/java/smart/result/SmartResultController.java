@@ -192,4 +192,127 @@ public class SmartResultController {
 	}
 	
 	
+	@RequestMapping(value="/smart/result/SmartResultOutPrice.do")
+	public String SmartResultOutPrice(
+			ModelMap model) throws Exception {
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
+			model.addAttribute("useremail", loginVO.getEmail());
+			
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);		
+			
+		} catch(Exception e) {
+			logger.error("[/smart/result/SmartResultOutPrice.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/result/SmartResultOutPrice";
+	}
+	
+	
+	@RequestMapping(value="/smart/result/SmartResultOutPriceData.do")
+	@ResponseBody
+	public List<HashMap> SmartResultOutPriceData(
+			@RequestParam(value="startDate", required=false) String startDate,
+			@RequestParam(value="endDate", required=false) String endDate,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("startdate", startDate);
+			hp.put("enddate", endDate);
+			
+			result = SmartCommonDAO.commonDataProc("getResultOutPriceData", hp);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/result/SmartResultOutPriceData.do] Exception :: " + e.toString());
+		}
+		
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/smart/result/SmartResultOutPriceDetail.do")
+	@ResponseBody
+	public List<HashMap> SmartResultOutPriceDetail(
+			@RequestParam(value="modelid", required=false) String modelid,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("modelid", modelid);
+			
+			result = SmartCommonDAO.commonDataProc("getResultOutPriceDetail", hp);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/result/SmartResultOutPriceDetail.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/smart/result/SmartResultDeadLineRate.do")
+	public String SmartResultDeadLineRate(
+			ModelMap model) throws Exception {
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
+			model.addAttribute("useremail", loginVO.getEmail());
+			
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);		
+			
+		} catch(Exception e) {
+			logger.error("[/smart/result/SmartResultDeadLineRate.do] Exception :: " + e.toString());
+		}
+		
+		
+		return "smart/result/SmartResultDeadLineRate";
+	}
+	
+	@RequestMapping(value="/smart/result/SmartResultDeadLineRateData.do")
+	@ResponseBody
+	public List<HashMap> SmartResultDeadLineRateData(
+			@RequestParam(value="year", required=false) String year,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("year", year);
+			
+			result = SmartCommonDAO.commonDataProc("getResultDeaeLineData", hp);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/result/SmartResultDeadLineRateData.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
 }

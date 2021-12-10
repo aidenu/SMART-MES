@@ -99,14 +99,14 @@
 						
 						strHtml = "";
 						
-						strHtml += "	<tr class='bg-blue text-white'>";
-						strHtml += "	<td>"+value.MODEL_NO+"</td>";
-						strHtml += "	<td>"+value.PRODUCT_NO+"</td>";
-						strHtml += "	<td>"+value.PRODUCT_NAME+"</td>";
-						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
-						strHtml += "	<td>"+value.DUE_DATE+"</td>";
-						strHtml += "	<td>"+value.END_DATE+"</td>";
-						strHtml += "	<td>"+value.TOTAL_PRICE+"</td>";
+						strHtml += "<tr>";
+						strHtml += "	<td class='bg-blue text-white'>"+value.MODEL_NO+"</td>";
+						strHtml += "	<td>"+chkNull(value.PRODUCT_NO)+"</td>";
+						strHtml += "	<td>"+chkNull(value.PRODUCT_NAME)+"</td>";
+						strHtml += "	<td>"+chkNull(value.ORDER_DATE)+"</td>";
+						strHtml += "	<td>"+chkNull(value.DUE_DATE)+"</td>";
+						strHtml += "	<td>"+chkNull(value.END_DATE)+"</td>";
+						strHtml += "	<td>"+chkNull(value.TOTAL_PRICE)+"</td>";
 						strHtml += "	<td>";
 						strHtml += "		<input type='hidden' id='"+value.MODEL_ID+"_detailworkingprice' value='"+value.TOTAL_WORKING_PRICE+"'>";
 						strHtml += "		<input type='hidden' id='"+value.MODEL_ID+"_detailoutprice' value='"+value.TOTAL_OUT_PRICE+"'>";
@@ -162,9 +162,9 @@
 			var outprice = $("#"+modelid+"_detailoutprice").val();
 			var orderprice = $("#"+modelid+"_detailorderprice").val();
 			
-			$("#detail_workprice").val(workingprice);
-			$("#detail_outprice").val(outprice);
-			$("#detail_orderprice").val(orderprice);
+			$("#detail_workprice").val(chkNull(workingprice));
+			$("#detail_outprice").val(chkNull(outprice));
+			$("#detail_orderprice").val(chkNull(orderprice));
 				
 		});	//_price click
 		

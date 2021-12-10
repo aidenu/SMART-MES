@@ -66,23 +66,24 @@ $(function () {
 });
 
 
-$(function () {
+$(function() {
     var date = moment();
-	
+	    
     function cb(date, id) {
-        $("#"+id+" span").html(
-            date.format("YYYY-MM-DD")
-        );
+    	
+        $("#"+id+" span").html(date.format("YYYY-MM-DD"));
+        
 		//SingleDate Picker 사용시에는 해당 div의 id의 앞에 singleDateDiv포함
 		//실제 넘어가는 데이터 영역(input hidden)에는 singleDateDiv 삭제  
 		var customid = id.replace("singleDateDiv", "");
         $("#"+customid).val(date.format("YYYY-MM-DD"));
+        
     }
 
 	$(".singleDatePicker").each(function() {
 		var id = this.id;
 		$("#"+id).daterangepicker({
-            "singleDatePicker" : true,
+	        "singleDatePicker" : true,
 			"autoApply" : true,
 			"autoUpdateInput" : false,
 			"customRangeLabel": "Custom",
@@ -114,7 +115,7 @@ $(function () {
 		        ],
 		        "firstDay": 0
 			}
-        },
+	    },
 			function(start) {
 				date = start;
 			}
@@ -127,4 +128,10 @@ $(function () {
 	    cb(date, id);
 	})
 });
+
+
+function setSingleDateField(id, val) {
+	$('#'+id).data('daterangepicker').setStartDate(val);
+	$('#'+id).data('daterangepicker').setEndDate(val);
+}
 

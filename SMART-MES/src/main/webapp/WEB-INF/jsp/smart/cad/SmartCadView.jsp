@@ -93,6 +93,8 @@
 						$("#singleDateDivstartdate span").html(data);
 						$("#singleDateDivstartdate").css("display", "");
 						$("#startdate").val(data);
+
+						setSingleDateField("singleDateDivstartdate", data);
 					}
 					
 				}
@@ -128,6 +130,8 @@
 						$("#enddate").val(data);
 						
 						$("#btn_worksave").css("display", "");
+
+						setSingleDateField("singleDateDivenddate", data);
 					}
 					
 				}
@@ -880,6 +884,8 @@
 				$("#singleDateDivstartdate").css("display", "");
 				$("#startdate").val("${CAD_START_DATE}");
 				$("#btn_worksave").css("display", "none");
+				
+				setSingleDateField("singleDateDivstartdate", "${CAD_START_DATE}");
 			</c:otherwise>
 		</c:choose>
 		
@@ -896,6 +902,8 @@
 				$("#singleDateDivenddate").css("display", "");
 				$("#enddate").val("${CAD_END_DATE}");
 				$("#btn_worksave").css("display", "");
+				
+				setSingleDateField("singleDateDivenddate", "${CAD_END_DATE}");
 			</c:otherwise>
 		</c:choose>
 	});

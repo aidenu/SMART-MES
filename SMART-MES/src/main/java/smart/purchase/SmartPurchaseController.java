@@ -142,4 +142,77 @@ public class SmartPurchaseController {
 		return actionresult;
 	}
 	
+	
+	@RequestMapping(value="/smart/purchase/SmartWarehousing.do")
+	public String SmartWarehousing(
+			ModelMap model) throws Exception {
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			model.addAttribute("userid", loginVO.getId());
+			model.addAttribute("username", loginVO.getName());
+			model.addAttribute("useremail", loginVO.getEmail());
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			List<HashMap> resultAlarm = SmartCommonDAO.commonDataProc("getAlarmList", hp);
+			model.addAttribute("resultAlarm", resultAlarm);		
+			
+		} catch(Exception e) {
+			logger.error("[/smart/purchase/SmartWarehousing.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/purchase/SmartWarehousing";
+	}
+	
+	@RequestMapping(value="/smart/purchase/SmartWarehousingModelData.do")
+	@ResponseBody
+	public List<HashMap> SmartWarehousingModelData(
+			@RequestParam(value="startDate", required=false) String startDate,
+			@RequestParam(value="endDate", required=false) String endDate,
+			ModelMap model) throws Exception {
+		
+		List<HashMap> result = null;
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("startDate", startDate);
+			hp.put("endDate", endDate);
+			
+			result = SmartCommonDAO.commonDataProc("getPurchaseModelData", hp);
+			model.addAttribute("result", result);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/purchase/SmartWarehousingModelData.do] Exception :: " + e.toString());
+		}
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/smart/purchase/SmartWarehousingView.do")
+	public String SmartWarehousingView(
+			@RequestParam(value="modelid", required=false) String modelid,
+			ModelMap model) throws Exception {
+		
+		try {
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("modelid", modelid);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("getPurchasePartData", hp);
+			
+			model.addAttribute("modelid", modelid);
+			model.addAttribute("result", result);
+			
+		} catch(Exception e) {
+			logger.error("[/smart/purchase/SmartWarehousingView.do] Exception :: " + e.toString());
+		}
+		
+		return "smart/purchase/SmartWarehousingView";
+	}
+	
 }

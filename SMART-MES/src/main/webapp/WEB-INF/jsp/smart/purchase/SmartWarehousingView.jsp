@@ -121,7 +121,7 @@
 		}
 		
 		var modelid = $("#modelid").val();
-		
+		console.log("modelid :: ", modelid);
 		$.ajax({
 			
 			url : "${pageContext.request.contextPath}/smart/cad/SmartCadPartOrderSave.do",
@@ -188,16 +188,15 @@
 									strHtml += "		<br>";
 									strHtml += "		"+value.ORDER_DATE+"";
 									strHtml += "		<br>";
-									strHtml += "		<div class='btn btn-orange btn-sm' id='"+value.PART_GROUP_ID+"_orderCancelPurchase'><spring:message code="smart.common.order.cancel" /></div>";
+// 									strHtml += "		<div class='btn btn-orange btn-sm' id='"+value.PART_GROUP_ID+"_orderCancelPurchase'><spring:message code="smart.common.order.cancel" /></div>";
 // 									strHtml += " 		/ ";
-// 									strHtml += "		<div class='btn btn-green btn-sm' id='"+value.PART_GROUP_ID+"_stockActionPurchase'><spring:message code="smart.common.stock" /></div>";
+									strHtml += "		<div class='btn btn-green btn-sm' id='"+value.PART_GROUP_ID+"_stockActionPurchase'><spring:message code="smart.common.stock" /></div>";
 								} else if(value.ORDER_DATE != null && value.STOCK_DATE != null) {
 									strHtml += "		"+value.ORDER_ORG+"";
 									strHtml += "		<br>";
 									strHtml += "		"+value.ORDER_DATE+" / "+value.STOCK_DATE+"";
 									strHtml += "		<br>";
-// 									strHtml += "		<div class='btn btn-orange btn-sm' id='"+value.PART_GROUP_ID+"_stockCancelPurchase'><spring:message code="smart.common.stock.cancel" /></div>";
-									strHtml += "		<h3><span class='badge badge-primary'><spring:message code="smart.common.stock.complete" /></span></h3>";
+									strHtml += "		<div class='btn btn-orange btn-sm' id='"+value.PART_GROUP_ID+"_stockCancelPurchase'><spring:message code="smart.common.stock.cancel" /></div>";
 								}
 								strHtml += "	</td>";
 								strHtml += "	<td>";
@@ -385,14 +384,13 @@
 						    						<c:when test="${result.ORDER_DATE ne null && result.STOCK_DATE eq null }">
 						    							${result.ORDER_ORG }<br>
 						    							${result.ORDER_DATE }<br>
-						    							<div class="btn btn-orange btn-sm" id="${result.PART_GROUP_ID }_orderCancelPurchase"><spring:message code="smart.common.order.cancel" /></div>  
-<%-- 						    							<div class="btn btn-green btn-sm" id="${result.PART_GROUP_ID }_stockActionPurchase"><spring:message code="smart.common.stock" /></div>  --%>
+<%-- 						    							<div class="btn btn-orange btn-sm" id="${result.PART_GROUP_ID }_orderCancelPurchase"><spring:message code="smart.common.order.cancel" /></div> /  --%>
+						    							<div class="btn btn-green btn-sm" id="${result.PART_GROUP_ID }_stockActionPurchase"><spring:message code="smart.common.stock" /></div> 
 						    						</c:when>
 						    						<c:when test="${result.ORDER_DATE ne null && result.STOCK_DATE ne null }">
 						    							${result.ORDER_ORG }<br>
 						    							${result.ORDER_DATE } / ${result.STOCK_DATE }<br>
-<%-- 						    							<div class="btn btn-orange btn-sm" id="${result.PART_GROUP_ID }_stockCancelPurchase"><spring:message code="smart.common.stock.cancel" /></div> --%>
-														<h3><span class="badge badge-primary"><spring:message code="smart.common.stock.complete" /></span></h3>
+						    							<div class="btn btn-orange btn-sm" id="${result.PART_GROUP_ID }_stockCancelPurchase"><spring:message code="smart.common.stock.cancel" /></div>
 						    						</c:when>
 						    					</c:choose>
 						    					

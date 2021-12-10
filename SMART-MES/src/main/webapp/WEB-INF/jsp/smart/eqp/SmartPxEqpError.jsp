@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Language" content="ko" >
-<title><spring:message code="smart.result.worktime.title" /></title>
+<title><spring:message code="smart.eqp.error.title" /></title>
 <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/assets/img/favicon.png'/>">
 <link rel="stylesheet" href="<c:url value='/css/smart/smartstyles.css'/>">
 <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
@@ -18,6 +18,7 @@
 <script type="text/javascript" src="<c:url value="/js/jquery/jquery-3.5.1.min.js"/>"/></script>
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
+
 <script>
 
 	$(document).ready(function() {
@@ -28,14 +29,11 @@
 		*/
 		$("#btn_search").click(function() {
 			
-			var startDate = $("#startDate").val();
-			var endDate = $("#endDate").val();
-			var avgWorkTime = 0;
-			var totalWorkTime = 0;
-			var rowCnt = 0;
+			const startDate = $("#startDate").val();
+			const endDate = $("#endDate").val();
 			
 			$.ajax({
-				url : "${pageContext.request.contextPath}/smart/result/SmartResultWorkTimeData.do",
+				url : "${pageContext.request.contextPath}/smart/eqp/SmartPxEqpErrorData.do",
 				data : {"startDate":startDate, "endDate":endDate},
 				type : "POST",
 				datatype : "json",
@@ -47,30 +45,23 @@
 					
 					$.each(data, function(index, value){
 						
+						let {
+							EQP_NAME : eqp_name,
+							START_TIME : start_time,
+							END_TIME : end_time
+						} = value;
+						
 						strHtml += "<tr>";
-						strHtml += "		<td class='bg-blue text-white'>"+value.MODEL_NO+"</td>";
-						strHtml += "		<td>"+value.PRODUCT_NO+"</td>";
-						strHtml += "		<td>"+value.PRODUCT_NAME+"</td>";
-						strHtml += "		<td>"+value.ORDER_DATE+"</td>";
-						strHtml += "		<td>"+value.DUE_DATE+"</td>";
-						strHtml += "		<td>"+value.END_DATE+"</td>";
-						strHtml += "		<td>"+value.WORK_TIME+"일</td>";
+						strHtml += "	<td>"+chkNull(eqp_name)+"</td>";
+						strHtml += "	<td>"+chkNull(start_time)+"</td>";
+						strHtml += "	<td>"+chkNull(end_time)+"</td>";
 						strHtml += "</tr>";
 						
-						rowCnt++;
-						totalWorkTime += Number(value.WORK_TIME);
-						
 					});	//$.each
-
+					 
 					$("#data_table_tbody").append(strHtml);
 					$('#dataTable').DataTable();	//jquery dataTable Plugin reload
 					feather.replace();	//data-feather reload
-					
-					if(rowCnt > 0) {
-						avgWorkTime =  totalWorkTime/rowCnt;
-					}
-					$("#avgWorkTime").empty();
-					$("#avgWorkTime").append(avgWorkTime+"일");
 					
 				}	//success
 			});	//$.ajax
@@ -97,7 +88,7 @@
 								<div class="col-auto mt-4">
 									<h1 class="page-header-title">
 										<div class="page-header-icon"><i data-feather="database"></i></div>
-										<span><spring:message code="smart.result.worktime.title" /></span>
+										<span><spring:message code="smart.eqp.error.title" /></span>
 									</h1>
 								</div>
 							</div>
@@ -124,50 +115,35 @@
 									</div>
 									&nbsp;
 									<div>
-										평균제작소요일 :
-										<span id="avgWorkTime"></span>
+										<span id="avgOutPrice"></span>
+										&nbsp;&nbsp;
+										<span id="totalOutPrice"></span>
 									</div>
 								</div>
 								<div class="card-body">
 									<div class="datatable table-responsive">
 										<table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 											<colgroup>
-												<col width="20%">
-												<col width="20%">
-												<col width="20%">
-												<col width="10%">
-												<col width="10%">
-												<col width="10%">
-												<col width="10%">
+												<col width="34%">
+												<col width="33%">
+												<col width="33%">
 											</colgroup>
 											<thead>
 												<tr>
-													<th scope="col"><spring:message code="smart.business.modelno" /></th>
-													<th scope="col"><spring:message code="smart.business.productno" /></th>
-													<th scope="col"><spring:message code="smart.business.productname" /></th>
-													<th scope="col"><spring:message code="smart.business.orderdate" /></th>
-													<th scope="col"><spring:message code="smart.business.duedate" /></th>
-													<th scope="col"><spring:message code="smart.business.enddate" /></th>
-													<th scope="col"><spring:message code="smart.result.worktime" /></th>
+													<th scope="col"><spring:message code="smart.eqp.name" /></th>
+													<th scope="col"><spring:message code="smart.eqp.error.start" /></th>
+													<th scope="col"><spring:message code="smart.eqp.error.end" /></th>
 												</tr>
 											</thead>
 											<tfoot>
 												<tr>
-													<th scope="col"><spring:message code="smart.business.modelno" /></th>
-													<th scope="col"><spring:message code="smart.business.productno" /></th>
-													<th scope="col"><spring:message code="smart.business.productname" /></th>
-													<th scope="col"><spring:message code="smart.business.orderdate" /></th>
-													<th scope="col"><spring:message code="smart.business.duedate" /></th>
-													<th scope="col"><spring:message code="smart.business.enddate" /></th>
-													<th scope="col"><spring:message code="smart.result.worktime" /></th>
+													<th scope="col"><spring:message code="smart.eqp.name" /></th>
+													<th scope="col"><spring:message code="smart.eqp.error.start" /></th>
+													<th scope="col"><spring:message code="smart.eqp.error.end" /></th>
 												</tr>
 		                                    </tfoot>
 		                                    <tbody id="data_table_tbody">
 	                                    		<tr>
-													<td></td>
-													<td></td>
-													<td></td>
-													<td></td>
 													<td></td>
 													<td></td>
 													<td></td>

@@ -44,7 +44,7 @@ function checkQuota(obj)
 function chkNull(val) {
 	var returnVal = "";
 	
-	if(val == null) {
+	if(val == null || val == "null") {
 		returnVal = "";
 	} else {
 		returnVal = val;

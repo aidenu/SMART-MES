@@ -65,10 +65,23 @@
 			var date = new Date();
 			var today = "";
 			if(date.getMonth() < 10) {
-				today = date.getFullYear() + "-" + "0" + (date.getMonth()+1) + "-" + date.getDate();
+				
+				if(date.getDate() < 10) {
+					today = date.getFullYear() + "-" + "0" + (date.getMonth()+1) + "-" + "0" + date.getDate();
+				} else {
+					today = date.getFullYear() + "-" + "0" + (date.getMonth()+1) + "-" + date.getDate();
+				}
+				
 			} else {
-				today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+				
+				if(date.getDate() < 10) {
+					today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + "0" + date.getDate();
+				} else {
+					today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+				}
+				
 			}
+			
 			$("#singleDateDivstartdate span").html(today);
 			$("#startdate").val(today);
 			

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SmartCheck">
+
+	<parameterMap id="paramMapCheckOutModelData" class="java.util.HashMap">
+		<parameter property="startDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="endDate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="getCheckOutModelData" parameterMap="paramMapCheckOutModelData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_CHECK.getCheckOutModelData_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMapCheckOutModelEnd" class="java.util.HashMap">
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setCheckOutModelEnd" parameterMap="paramMapCheckOutModelEnd" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_CHECK.setCheckOutModelEnd_Pro(?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	<parameterMap id="paramMapCheckOutModelSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="arraystr" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setCheckOutModelSave" parameterMap="paramMapCheckOutModelSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_CHECK.setCheckOutModelSave_Pro(?, ?, ?)}
+        ]]>
+	</procedure>
+	
+</sqlMap>

@@ -207,7 +207,6 @@
 						$("#modify_orderdate").val(value.ORDER_DATE);
 						$("#modify_duedate").val(value.DUE_DATE);
 						$("#modify_enddate").val(value.END_DATE);
-						$("#singleDateDivmodify_enddate span").html(value.END_DATE);	
 						
 						$("#singleDateDivmodify_orderdate span").html(value.ORDER_DATE);
 						$("#singleDateDivmodify_duedate span").html(value.DUE_DATE);
@@ -218,9 +217,17 @@
 						} else {
 							$("#btn_enddate").css("display", "none");
 							$("#singleDateDivmodify_enddate").css("display", "");
+							$("#singleDateDivmodify_enddate span").html(value.END_DATE);
+
+							setSingleDateField("singleDateDivmodify_enddate", value.END_DATE);
 						}
 						
 						$("#modify_cadworker").val(value.CAD_WORKER);
+						
+						setSingleDateField("singleDateDivmodify_orderdate", value.ORDER_DATE);
+						setSingleDateField("singleDateDivmodify_duedate", value.DUE_DATE);
+						
+						
 						
 					});	//$.each
 					
@@ -498,8 +505,8 @@
 								                </table>
 								            </div>
 								            <div class="modal-footer">
-								            	<div class="btn btn-secondary" data-dismiss="modal">닫기</div>
 								            	<div class="btn btn-primary" id="btn_save">저장</div>
+								            	<div class="btn btn-secondary" data-dismiss="modal">닫기</div>
 								            </div>
 								        </div>
 								    </div>
@@ -641,8 +648,8 @@
 									                </table>
 									            </div>
 									            <div class="modal-footer">
-									            	<div class="btn btn-secondary" data-dismiss="modal">닫기</div>
 									            	<div class="btn btn-primary" id="btn_modify">저장</div>
+									            	<div class="btn btn-secondary" data-dismiss="modal">닫기</div>
 									            </div>
 									        </div>
 									    </div>
