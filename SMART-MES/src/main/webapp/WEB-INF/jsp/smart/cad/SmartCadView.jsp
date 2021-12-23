@@ -263,7 +263,7 @@
 							$.each(data, function(index, value){
 								var strHtml = "";
 								
-								strHtml += "<tr>";
+								strHtml += "<tr partgroupid='"+value.PART_GROUP_ID+"'>";
 								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_no' name='"+value.PART_GROUP_ID+"_no' value='"+value.PART_GROUP_NO+"'></td>";
 								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_name' name='"+value.PART_GROUP_ID+"_name' value='"+value.PART_GROUP_NAME+"'></td>";
 								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_size' name='"+value.PART_GROUP_ID+"_size' value='"+value.PART_GROUP_SIZE+"'></td>";
@@ -332,60 +332,75 @@
 	});
 	
 	
-	$(document).on("click", "div[id$='_save']", function() {
-		var trid = this.id.replace("_save", "");
+	$(document).on("click", "#btn_save", function() {
 		var modelid = $("#modelid").val();
-		var partgroupid = trid;
-		var partgroupno = $("#"+trid+"_no").val();
-		var partgroupname = $("#"+trid+"_name").val();
-		var partgroupsize = $("#"+trid+"_size").val();
-		var partgroupmaterial = $("#"+trid+"_material").val();
-		var partgroupcount = $("#"+trid+"_count").val();
-		var partgroupgubun = $("#"+trid+"_gubun").val();
-		var orderorg = $("#"+trid+"_orderorg").val();
+		var arraystr = "";
 		
-		if(partgroupno == "") {
-			alert("<spring:message code="smart.cad.partlist.partgroupno" />을 입력하세요.");
-			$("#"+trid+"_partgroupno").focus();
-			return;
-		}
 		
-		if(partgroupname == "") {
-			alert("<spring:message code="smart.cad.partlist.partgroupname" />을 입력하세요.");
-			$("#"+trid+"_partgroupname").focus();
-			return;
-		}
+		$("#data_table_tbody tr").each(function() {
+			
+			var trid = $(this).attr("partgroupid");
+			var partgroupid = trid;
+			var partgroupno = $("#"+trid+"_no").val();
+			var partgroupname = $("#"+trid+"_name").val();
+			var partgroupsize = $("#"+trid+"_size").val();
+			var partgroupmaterial = $("#"+trid+"_material").val();
+			var partgroupcount = $("#"+trid+"_count").val();
+			var partgroupgubun = $("#"+trid+"_gubun").val();
+			var orderorg = $("#"+trid+"_orderorg").val();
+			
+			if(partgroupno == "") {
+				alert("<spring:message code="smart.cad.partlist.partgroupno" />을 입력하세요.");
+				$("#"+trid+"_partgroupno").focus();
+				return;
+			}
+			
+			if(partgroupname == "") {
+				alert("<spring:message code="smart.cad.partlist.partgroupname" />을 입력하세요.");
+				$("#"+trid+"_partgroupname").focus();
+				return;
+			}
+			
+			if(partgroupsize == "") {
+				alert("<spring:message code="smart.cad.partlist.partgroupsize" />를 입력하세요.");
+				$("#"+trid+"_partgroupsize").focus();
+				return;
+			}
+			
+			if(partgroupmaterial == "") {
+				alert("<spring:message code="smart.cad.partlist.partgroupmaterial" />을 입력하세요.");
+				$("#"+trid+"_partgroupmaterial").focus();
+				return;
+			}
+			
+			if(partgroupcount == "") {
+				alert("<spring:message code="smart.cad.partlist.partgroupcount" />을 입력하세요.");
+				$("#"+trid+"_partgroupcount").focus();
+				return;
+			}
+			
+			if(partgroupgubun == "") {
+				alert("<spring:message code="smart.cad.partlist.partgroupgubun" />을 선택하세.");
+				$("#"+trid+"_partgroupgubun").focus();
+				return;
+			}
+			
+			arraystr += trid + "♬";
+			arraystr += partgroupno + "♬";
+			arraystr += partgroupname + "♬";
+			arraystr += partgroupsize + "♬";
+			arraystr += partgroupmaterial + "♬";
+			arraystr += partgroupcount + "♬";
+			arraystr += partgroupgubun + "♩";
+			
+		});
 		
-		if(partgroupsize == "") {
-			alert("<spring:message code="smart.cad.partlist.partgroupsize" />를 입력하세요.");
-			$("#"+trid+"_partgroupsize").focus();
-			return;
-		}
-		
-		if(partgroupmaterial == "") {
-			alert("<spring:message code="smart.cad.partlist.partgroupmaterial" />을 입력하세요.");
-			$("#"+trid+"_partgroupmaterial").focus();
-			return;
-		}
-		
-		if(partgroupcount == "") {
-			alert("<spring:message code="smart.cad.partlist.partgroupcount" />을 입력하세요.");
-			$("#"+trid+"_partgroupcount").focus();
-			return;
-		}
-		
-		if(partgroupgubun == "") {
-			alert("<spring:message code="smart.cad.partlist.partgroupgubun" />을 선택하세.");
-			$("#"+trid+"_partgroupgubun").focus();
-			return;
-		}
-		
+		arraystr = arraystr.substring(0, arraystr.length-1);
 		
 		$.ajax({
 			
 			url : "${pageContext.request.contextPath}/smart/cad/SmartCadPartSave.do",
-			data : {"modelid":modelid, "partgroupid":partgroupid, "partgroupno":partgroupno, "partgroupname":partgroupname, "partgroupsize":partgroupsize, 
-				"partgroupmaterial":partgroupmaterial, "partgroupcount":partgroupcount, "partgroupgubun":partgroupgubun},
+			data : {"modelid":modelid, "arraystr":arraystr},
 			type : "POST",
 			datatype : "text",
 			success : function(data) {
@@ -404,7 +419,7 @@
 							$.each(data, function(index, value){
 								var strHtml = "";
 								
-								strHtml += "<tr>";
+								strHtml += "<tr partgroupid='"+value.PART_GROUP_ID+"'>";
 								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_no' name='"+value.PART_GROUP_ID+"_no' value='"+value.PART_GROUP_NO+"'></td>";
 								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_name' name='"+value.PART_GROUP_ID+"_name' value='"+value.PART_GROUP_NAME+"'></td>";
 								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_size' name='"+value.PART_GROUP_ID+"_size' value='"+value.PART_GROUP_SIZE+"'></td>";
@@ -500,7 +515,7 @@
 								$.each(data, function(index, value){
 									var strHtml = "";
 									
-									strHtml += "<tr>";
+									strHtml += "<tr partgroupid='"+value.PART_GROUP_ID+"'>";
 									strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_no' name='"+value.PART_GROUP_ID+"_no' value='"+value.PART_GROUP_NO+"'></td>";
 									strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_name' name='"+value.PART_GROUP_ID+"_name' value='"+value.PART_GROUP_NAME+"'></td>";
 									strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_size' name='"+value.PART_GROUP_ID+"_size' value='"+value.PART_GROUP_SIZE+"'></td>";
@@ -636,7 +651,7 @@
 							$.each(data, function(index, value){
 								var strHtml = "";
 								
-								strHtml += "<tr>";
+								strHtml += "<tr partgroupid='"+value.PART_GROUP_ID+"'>";
 								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_no' name='"+value.PART_GROUP_ID+"_no' value='"+value.PART_GROUP_NO+"'></td>";
 								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_name' name='"+value.PART_GROUP_ID+"_name' value='"+value.PART_GROUP_NAME+"'></td>";
 								strHtml += "	<td><input class='form-control' id='"+value.PART_GROUP_ID+"_size' name='"+value.PART_GROUP_ID+"_size' value='"+value.PART_GROUP_SIZE+"'></td>";
@@ -739,7 +754,9 @@
 							<div class="btn btn-outline-teal btn-sm" id="btn_worksave"><spring:message code="smart.common.button.work.save" /></div>
 					    	&nbsp;
 					    	&nbsp;
-				    		<div class="btn btn-primary btn-sm" id="btn_add"><spring:message code="smart.common.button.add" /></div>
+				    		<div class="btn btn-primary btn-sm" id="btn_add"><spring:message code="smart.common.button.insert" /></div>
+					    	&nbsp;
+					    	<div class="btn btn-green btn-sm" id="btn_save"><spring:message code="smart.common.button.save" /></div>
 					    	&nbsp;
 					    	<div class="btn btn-primary btn-sm" id="btn_close"><spring:message code="smart.common.button.close" /></div>
 				    	</div>
@@ -787,7 +804,7 @@
 					    		</tfoot>
 					    		<tbody id="data_table_tbody">
 					    			<c:forEach var="result" items="${result }" varStatus="status">
-					    				<tr>
+					    				<tr partgroupid=${result.PART_GROUP_ID }>
 						    				<td><input class="form-control" id="${result.PART_GROUP_ID}_no" name="${result.PART_GROUP_ID }_no" value="${result.PART_GROUP_NO }"></td>
 						    				<td><input class="form-control" id="${result.PART_GROUP_ID}_name" name="${result.PART_GROUP_ID }_name" value="${result.PART_GROUP_NAME }"></td>
 						    				<td><input class="form-control" id="${result.PART_GROUP_ID}_size" name="${result.PART_GROUP_ID }_size" value="${result.PART_GROUP_SIZE }"></td>
@@ -841,8 +858,6 @@
 						    				</td>
 						    				<td>${result.REG_DATE }</td>
 						    				<td>
-						    					<div class="btn btn-green btn-sm" id="${result.PART_GROUP_ID }_save"><spring:message code="smart.common.button.save" /></div>
-						    					&nbsp;
 						    					<div class="btn btn-red btn-sm" id="${result.PART_GROUP_ID }_delete"><spring:message code="smart.common.button.delete" /></div>
 						    				</td>
 						    			</tr>

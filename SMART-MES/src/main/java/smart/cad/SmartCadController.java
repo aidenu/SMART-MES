@@ -437,13 +437,7 @@ public class SmartCadController {
 	@ResponseBody
 	public String SmartCadPartSave(
 			@RequestParam(value="modelid", required=false) String modelid,
-			@RequestParam(value="partgroupid", required=false) String partgroupid,
-			@RequestParam(value="partgroupno", required=false) String partgroupno,
-			@RequestParam(value="partgroupname", required=false) String partgroupname,
-			@RequestParam(value="partgroupsize", required=false) String partgroupsize,
-			@RequestParam(value="partgroupmaterial", required=false) String partgroupmaterial,
-			@RequestParam(value="partgroupcount", required=false) String partgroupcount,
-			@RequestParam(value="partgroupgubun", required=false) String partgroupgubun,
+			@RequestParam(value="arraystr", required=false) String arraystr,
 			ModelMap model) throws Exception {
 		
 		String actionresult = "";
@@ -455,13 +449,7 @@ public class SmartCadController {
 			HashMap<String,String> hp = new HashMap<String,String>();
 			hp.put("userid", loginVO.getId());
 			hp.put("modelid", modelid);
-			hp.put("partgroupid", partgroupid);
-			hp.put("partgroupno", partgroupno);
-			hp.put("partgroupname", partgroupname);
-			hp.put("partgroupsize", partgroupsize);
-			hp.put("partgroupmaterial", partgroupmaterial);
-			hp.put("partgroupcount", partgroupcount);
-			hp.put("partgroupgubun", partgroupgubun);
+			hp.put("arraystr", arraystr);
 			
 			List<HashMap> result = SmartCommonDAO.commonDataProc("setPartListSave", hp);
 			if(result != null && result.size() > 0) {

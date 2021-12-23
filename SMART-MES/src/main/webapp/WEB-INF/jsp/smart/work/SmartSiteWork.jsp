@@ -34,6 +34,7 @@
 	
 	.end-work {
 		text-align: center;
+		cursor: pointer;
 	}
 </style>
 <script>
@@ -223,7 +224,7 @@
 							strHtml += "		</td>";
 						}
 					} else {
-						strHtml += "		<td class='end-work'>"+chkNull(value.WORK_START_DATE)+"<br>("+chkNull(value.PLAN_START_DATE)+")</td>";
+						strHtml += "		<td class='end-work' name='worktime_edit' gubun='start' workid='"+value.WORK_ID+"' worktime='"+value.WORK_START_DATE+"'>"+chkNull(value.WORK_START_DATE)+" <i data-feather='edit'></i><br>("+chkNull(value.PLAN_START_DATE)+")</td>";
 					}
 						
 					if(value.WORK_START_DATE != null && value.WORK_END_DATE == null) {
@@ -233,7 +234,7 @@
 							strHtml += "		<td class='bg-teal text-white rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 						}
 					} else {
-						strHtml += "		<td class='end-work'>"+chkNull(value.WORK_END_DATE)+"<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
+						strHtml += "		<td class='end-work' name='worktime_edit' gubun='end' workid='"+value.WORK_ID+"' worktime='"+value.WORK_END_DATE+"'>"+chkNull(value.WORK_END_DATE)+" <i data-feather='edit'></i><br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					}
 					
 					strHtml += "		<td>";
@@ -366,6 +367,25 @@
 	});	//$(document).on("click", "id$='_btn_modify'", function() {})
 	
 	
+	/**
+		.작업시간 수정
+		.attribute
+			name : worktime_edit
+			gubun : start / end
+			workid : WORK_ID
+		.parameter
+			
+	*/
+	$(document).on("click", "td[name=worktime_edit]", function() {
+
+		const gubun = $(this).attr("gubun");
+		const workid = $(this).attr("workid");
+		const worktime = $(this).attr("worktime");
+		
+		console.log("worktime_edit", gubun, workid, worktime);
+		
+	});
+	
 	function setWorkData() {
 		
 		var modelid = $("#modelid").val();
@@ -444,7 +464,7 @@
 							strHtml += "		</td>";
 						}
 					} else {
-						strHtml += "		<td class='end-work'>"+chkNull(value.WORK_START_DATE)+"<br>("+chkNull(value.PLAN_START_DATE)+")</td>";
+						strHtml += "		<td class='end-work' name='worktime_edit' gubun='start' workid='"+value.WORK_ID+"' worktime='"+value.WORK_START_DATE+"'>"+chkNull(value.WORK_START_DATE)+" <i data-feather='edit'></i><br>("+chkNull(value.PLAN_START_DATE)+")</td>";
 					}
 						
 					if(value.WORK_START_DATE != null && value.WORK_END_DATE == null) {
@@ -454,7 +474,7 @@
 							strHtml += "		<td class='bg-teal text-white rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 						}
 					} else {
-						strHtml += "		<td class='end-work'>"+chkNull(value.WORK_END_DATE)+"<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
+						strHtml += "		<td class='end-work' name='worktime_edit' gubun='end' workid='"+value.WORK_ID+"' worktime='"+value.WORK_END_DATE+"'>"+chkNull(value.WORK_END_DATE)+" <i data-feather='edit'></i><br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					}
 					
 					strHtml += "		<td>";
