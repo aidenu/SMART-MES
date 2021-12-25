@@ -44,6 +44,22 @@
 	</procedure>
 	
 	
+	<parameterMap id="paramMapSiteWorkTimeSave" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="workid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="worktime" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="workhour" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setSiteWorkTimeSave" parameterMap="paramMapSiteWorkTimeSave" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_WORK.setSiteWorkTimeSave_Pro(?, ?, ?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
 	<parameterMap id="paramMapSiteWorkModifyPrice" class="java.util.HashMap">
 		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />

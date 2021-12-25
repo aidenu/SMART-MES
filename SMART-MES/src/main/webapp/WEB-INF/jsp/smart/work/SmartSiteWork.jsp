@@ -6,6 +6,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<%
+	String[] arrHour = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"};
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,6 +38,10 @@
 	.end-work {
 		text-align: center;
 		cursor: pointer;
+	}
+	
+	.modal-dialog {
+		max-width: 400px !important;
 	}
 </style>
 <script>
@@ -224,7 +231,7 @@
 							strHtml += "		</td>";
 						}
 					} else {
-						strHtml += "		<td class='end-work' name='worktime_edit' gubun='start' workid='"+value.WORK_ID+"' worktime='"+value.WORK_START_DATE+"'>"+chkNull(value.WORK_START_DATE)+" <i data-feather='edit'></i><br>("+chkNull(value.PLAN_START_DATE)+")</td>";
+						strHtml += "		<td class='end-work' name='worktime_edit' gubun='start' workid='"+value.WORK_ID+"' worktime='"+value.WORK_START_DATE+"' workhour='"+value.WORK_START_HOUR+"'>"+chkNull(value.WORK_START_DATE)+" " + chkNull(value.WORK_START_HOUR)+ "시 <i data-feather='edit'></i><br>("+chkNull(value.PLAN_START_DATE)+")</td>";
 					}
 						
 					if(value.WORK_START_DATE != null && value.WORK_END_DATE == null) {
@@ -234,7 +241,7 @@
 							strHtml += "		<td class='bg-teal text-white rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 						}
 					} else {
-						strHtml += "		<td class='end-work' name='worktime_edit' gubun='end' workid='"+value.WORK_ID+"' worktime='"+value.WORK_END_DATE+"'>"+chkNull(value.WORK_END_DATE)+" <i data-feather='edit'></i><br>("+chkNull(value.PLAN_END_DATE)+")</td>";
+						strHtml += "		<td class='end-work' name='worktime_edit' gubun='end' workid='"+value.WORK_ID+"' worktime='"+value.WORK_END_DATE+"' workhour='"+value.WORK_END_HOUR+"'>"+chkNull(value.WORK_END_DATE)+" " + chkNull(value.WORK_END_HOUR) + "시 <i data-feather='edit'></i><br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					}
 					
 					strHtml += "		<td>";
@@ -367,24 +374,92 @@
 	});	//$(document).on("click", "id$='_btn_modify'", function() {})
 	
 	
+	$('#modifyWorkTimeLayer').on('shown.bs.modal', function () {
+		alert("shown modal");
+	});
+
+	$('#modifyWorkTimeLayer').on('hide.bs.modal', function () {
+		alert("hide modal");
+		$("#modifyWorkTimeLayerTitle").empty();
+		$("#modify_gubun").val("");
+		$("#modify_workid").val("");
+		$("#modify_worktime").val("");
+		$("#singleDateDivmodify_worktime span").html("");
+		$("#modify_hour").val("00");
+		
+	});
+	
 	/**
-		.작업시간 수정
+		.작업시간 수정 Modal Open
 		.attribute
 			name : worktime_edit
 			gubun : start / end
 			workid : WORK_ID
 		.parameter
-			
 	*/
 	$(document).on("click", "td[name=worktime_edit]", function() {
 
 		const gubun = $(this).attr("gubun");
 		const workid = $(this).attr("workid");
 		const worktime = $(this).attr("worktime");
+		const workhour = $(this).attr("workhour");
+		let title = "";
 		
-		console.log("worktime_edit", gubun, workid, worktime);
+		if(gubun == "start") {
+			title = "<spring:message code="smart.work.starttime.modify" />";
+		} else {
+			title = "<spring:message code="smart.work.endtime.modify" />";
+		}
+		
+		$('#modifyWorkTimeLayer').modal("show");
+		
+		$("#modify_workid").val(workid);
+		$("#modify_gubun").val(gubun);
+		//작업시간 입력
+		$("#modifyWorkTimeLayerTitle").empty();
+		$("#modifyWorkTimeLayerTitle").append(title);
+		$("#modify_worktime").val(worktime);
+		$("#singleDateDivmodify_worktime span").html(worktime);
+		$("#modify_hour").val(workhour);
+		//달력 셋팅
+		setSingleDateField("singleDateDivmodify_worktime", worktime);
 		
 	});
+	
+	/**
+		.작업시간 수정 Action
+		.parameter
+			workid, worktime, workhour
+	*/
+	$(document).on("click", "#btn_modify", function() {
+		
+		const modifyGubun = $("#modify_gubun").val();
+		const modifyWorkid = $("#modify_workid").val();
+		const modifyWorkTime = $("#modify_worktime").val();
+		const modifyWorkHour = $("#modify_hour").val();
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/work/SmartSiteWorkTimeSave.do",
+			data : {"workid":modifyWorkid, "worktime":modifyWorkTime, "workhour":modifyWorkHour, "gubun":modifyGubun},
+			type : "POST",
+			datatype : "text",
+			success : function(data) {
+				if(data == "OK") {
+					alert("<spring:message code="smart.common.save.ok" />");
+					setWorkData();
+				} else if(data.indexOf("ERROR") > -1) {
+					alert("<spring:message code="smart.common.save.error" /> :: " + data);
+				}
+			},
+			complete : function(data) {
+				$('#modifyWorkTimeLayer').modal("hide");
+			}
+			
+		});
+		
+	});
+	
 	
 	function setWorkData() {
 		
@@ -464,7 +539,7 @@
 							strHtml += "		</td>";
 						}
 					} else {
-						strHtml += "		<td class='end-work' name='worktime_edit' gubun='start' workid='"+value.WORK_ID+"' worktime='"+value.WORK_START_DATE+"'>"+chkNull(value.WORK_START_DATE)+" <i data-feather='edit'></i><br>("+chkNull(value.PLAN_START_DATE)+")</td>";
+						strHtml += "		<td class='end-work' name='worktime_edit' gubun='start' workid='"+value.WORK_ID+"' worktime='"+value.WORK_START_DATE+"' workhour='"+value.WORK_START_HOUR+"'>"+chkNull(value.WORK_START_DATE)+" " + chkNull(value.WORK_START_HOUR)+ "시 <i data-feather='edit'></i><br>("+chkNull(value.PLAN_START_DATE)+")</td>";
 					}
 						
 					if(value.WORK_START_DATE != null && value.WORK_END_DATE == null) {
@@ -474,7 +549,7 @@
 							strHtml += "		<td class='bg-teal text-white rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 						}
 					} else {
-						strHtml += "		<td class='end-work' name='worktime_edit' gubun='end' workid='"+value.WORK_ID+"' worktime='"+value.WORK_END_DATE+"'>"+chkNull(value.WORK_END_DATE)+" <i data-feather='edit'></i><br>("+chkNull(value.PLAN_END_DATE)+")</td>";
+						strHtml += "		<td class='end-work' name='worktime_edit' gubun='end' workid='"+value.WORK_ID+"' worktime='"+value.WORK_END_DATE+"' workhour='"+value.WORK_END_HOUR+"'>"+chkNull(value.WORK_END_DATE)+" " + chkNull(value.WORK_END_HOUR)+ "시 <i data-feather='edit'></i><br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					}
 					
 					strHtml += "		<td>";
@@ -585,6 +660,51 @@
 											</tr>
 	                                    </tbody>
 									</table>
+									
+									<!-- Modal -->
+									<div class="modal fade" id="modifyWorkTimeLayer" tabindex="-1" role="dialog" aria-labelledby="modifyWorkTimeLayerTitle" aria-hidden="true">
+									    <div class="modal-dialog modal-dialog-centered" role="document">
+									        <div class="modal-content">
+									            <div class="modal-header">
+									                <h5 class="modal-title" id="modifyWorkTimeLayerTitle"></h5>
+									                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+									            </div>
+									            <div class="modal-body">
+									            	<input type="hidden" name="modify_workid" id="modify_workid">
+									            	<input type="hidden" name="modify_gubun" id="modify_gubun">
+									                <div class="row">
+									                	<div class="col-3">
+									                		작업시간 : 
+									                	</div>
+						                				<div class="col-5">
+								                			<div class="btn btn-light btn-sm line-height-normal p-2 singleDatePicker" id="singleDateDivmodify_worktime">
+															    <i class="mr-2 text-primary" data-feather="calendar"></i>
+															    <span></span>
+															    <input type="hidden" name="modify_duedate" id="modify_worktime">
+															    <i class="ml-1" data-feather="chevron-down"></i>
+															</div>
+														</div>
+														<div class="col-3 pr-0">
+															<select class="form-control form-control-solid" id="modify_hour" name="modify_hour" style="height:auto;">
+									    						<c:forEach var="hour" items="<%= arrHour%>" varStatus="status">
+								    								<option value="${hour }">${hour }</option>
+								    							</c:forEach>
+								    						</select>
+														</div>
+														<div class="text-lg pt-2">
+															시
+														</div>
+													</div>
+									            </div>
+									            <div class="modal-footer">
+									            	<div class="btn btn-success" id="btn_modify">수정</div>
+									            	<div class="btn btn-secondary" data-dismiss="modal">닫기</div>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+									<!-- Modal -->
+										
 								</div>
 							</div>
 						</div>
