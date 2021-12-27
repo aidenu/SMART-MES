@@ -124,6 +124,11 @@
 					
 					$('#dataTable').DataTable();	//jquery dataTable Plugin reload
 					feather.replace();	//data-feather reload
+					
+					//알람전송버튼 비활성화
+					$("#btn_alarm").css("display", "none");
+					$("#btn_alarm").attr("modelid", "");
+					
 				}	//success
 			});	//$.ajax
 			
@@ -214,6 +219,10 @@
 // 					$('#dataTable').DataTable();	//jquery dataTable Plugin reload
 					feather.replace();	//data-feather reload
 					/******** dataTable Area Setting End *********/
+					
+					//알람전송 버튼 활성화
+					$("#btn_alarm").css("display", "");
+					$("#btn_alarm").attr("modelid", modelid);
 					
 					//각 부품별 일정 데이터 호출
 					$("#modelid").val(modelid);
@@ -722,6 +731,36 @@
 		});
 		
 		
+		/**
+			.가공작업자에게 알람 전송
+			.버튼 클릭시마다 알람을 전송한다.
+		*/
+		$(document).on("click", "#btn_alarm", function() {
+			
+			const modelid = $(this).attr("modelid");
+			const gubun = "PROCESS";
+			
+			$.ajax({
+				
+				url : "${pageContext.request.contextPath}/smart/common/SmartAlarmMessageSend.do",
+				data : {"modelid":modelid, "gubun":gubun},
+				type : "POST",
+				datatype : "text",
+				success : function(data) {
+					
+					if(data.indexOf("OK") > -1) {
+						alert("<spring:message code="smart.process.procmanage.alarm.send.ok" />");
+					} else {
+						alert("<spring:message code="smart.process.procmanage.alarm.send.error" /> \n :: " + data);
+					}
+					
+				}
+				
+			});
+			
+		});
+		
+		
 	});
 	
 	
@@ -772,6 +811,8 @@
 								</div>
 								&nbsp;
 								<div class="btn btn-outline-primary" id="btn_search"><spring:message code="smart.common.button.search" /></div>
+								&nbsp;
+								<div class="btn btn-outline-green" id="btn_alarm"><i class="ml-1" data-feather="bell"></i><spring:message code="smart.process.procmanage.alarm.send" /></div>
 							</div>
 							<div class="card-body">
 								<div class="datatable table-responsive">

@@ -427,6 +427,39 @@ public class SmartCommonController {
 	}
 	
 	
+	@RequestMapping(value="/smart/common/SmartAlarmMessageSend.do")
+	@ResponseBody
+	public String SmartAlarmMessageSend(
+			@RequestParam(value="gubun", required=false) String gubun,
+			@RequestParam(value="modelid", required=false) String modelid,
+			ModelMap model) throws Exception {
+		
+		String actionresult = "";
+		
+		try {
+			
+			LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			
+			HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("gubun", gubun);
+			hp.put("modelid", modelid);
+			
+			List<HashMap> result = SmartCommonDAO.commonDataProc("setAlarmMessageSend", hp);
+			
+			if(result != null && result.size() > 0) {
+				actionresult = result.get(0).get("ACTION_RESULT").toString();
+			}
+			
+			
+		} catch(Exception e) {
+			logger.error("[/smart/common/SmartAlarmMessageSend.do] Exception :: " + e.toString());
+		}
+		
+		return actionresult;
+	}
+	
+	
 	
 	//화면 우측 상단의 어플설치 화면
 	@RequestMapping("/smart/common/SmartMobileApp.do")

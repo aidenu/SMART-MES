@@ -67,6 +67,24 @@
         ]]>
 	</procedure>
 	
+	
+	
+	<parameterMap id="paramMapAlarmMessageSend" class="java.util.HashMap">
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="gubun" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="modelid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setAlarmMessageSend" parameterMap="paramMapAlarmMessageSend" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_COMMON.setAlarmMessageSend_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
+	
+	
 	<parameterMap id="paramMapLogInfoListTotalCnt" class="java.util.HashMap">
 		<parameter property="startdate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
 		<parameter property="enddate" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
