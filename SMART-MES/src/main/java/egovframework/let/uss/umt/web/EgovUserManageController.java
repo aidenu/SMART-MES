@@ -328,8 +328,10 @@ public class EgovUserManageController {
 	        String uniqId = (String)commandMap.get("uniqId");
 
 	        //패스워드 업데이트
-	        userManageVO.setPassword(EgovFileScrty.encryptPassword(newPassword, userManageVO.getEmplyrId()));
-    		userManageService.updatePassword(userManageVO);
+	        if(!"".equals(newPassword)) {
+	        	userManageVO.setPassword(EgovFileScrty.encryptPassword(newPassword, userManageVO.getEmplyrId()));
+	    		userManageService.updatePassword(userManageVO);
+	        }
     		//그 외 정보 업데이트
     		//업무사용자 수정시 히스토리 정보를 등록한다.
 	        userManageService.insertUserHistory(userManageVO);

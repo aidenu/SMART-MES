@@ -30,14 +30,21 @@
 	  text-align: center;
 	}
 	
+/* 	작업시작 전 Flag (작업 시작 가능) */
 	.start-work {
 		text-align: center;
 		cursor: pointer;
 	}
 	
+/* 	작업완료 후 Flag (작업시간 수정 가능) */
 	.end-work {
 		text-align: center;
 		cursor: pointer;
+	}
+	
+	
+	.non-work {
+		text-align: center;
 	}
 	
 	.modal-dialog {
@@ -240,6 +247,8 @@
 						} else {
 							strHtml += "		<td class='bg-teal text-white rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 						}
+					} else if(value.WORK_START_DATE == null) {
+						strHtml += "		<td class='non-work'><br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					} else {
 						strHtml += "		<td class='end-work' name='worktime_edit' gubun='end' workid='"+value.WORK_ID+"' worktime='"+value.WORK_END_DATE+"' workhour='"+value.WORK_END_HOUR+"'>"+chkNull(value.WORK_END_DATE)+" " + chkNull(value.WORK_END_HOUR) + "시 <i data-feather='edit'></i><br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					}
@@ -548,6 +557,8 @@
 						} else {
 							strHtml += "		<td class='bg-teal text-white rounded-lg start-work' id='"+value.WORK_ID+"_end'><i data-feather='mouse-pointer'></i>(Click 작업완료!)<br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 						}
+					} else if(value.WORK_START_DATE == null) {
+						strHtml += "		<td class='non-work'><br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					} else {
 						strHtml += "		<td class='end-work' name='worktime_edit' gubun='end' workid='"+value.WORK_ID+"' worktime='"+value.WORK_END_DATE+"' workhour='"+value.WORK_END_HOUR+"'>"+chkNull(value.WORK_END_DATE)+" " + chkNull(value.WORK_END_HOUR)+ "시 <i data-feather='edit'></i><br>("+chkNull(value.PLAN_END_DATE)+")</td>";
 					}
