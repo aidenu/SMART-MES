@@ -3,6 +3,7 @@ package smart.common;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -205,19 +206,65 @@ public class SmartCommonController {
 	
 	@RequestMapping(value="/smart/common/SmartDashBoardPxTimeline.do")
 	@ResponseBody
-	public List<HashMap> SmartDashBoardPxTimeline(ModelMap model) throws Exception {
+	public ArrayList<HashMap<String,String>> SmartDashBoardPxTimeline(ModelMap model) throws Exception {
 		
 		List<HashMap> result = null;
+		ArrayList<HashMap<String,String>> convertResult = new ArrayList<HashMap<String,String>>();
+		HashMap<String,String> hp = new HashMap<String,String>();
 		
 		try {
 			
 			result = SmartCommonDAO.commonDataProc("getPxEqpDailyTimeline");
+			
+			String eqpName = "";
+			String beforeEventTime = "";
+			String eventTime = "";
+			String eqpStatus = "";
+			
+			String tempEqpName = "";
+			String tempBeforeEventTime = "";
+			String tempEventTime = "";
+			String tempEqpStatus = "";
+			for(int i=0; i<result.size(); i++) {
 
+				tempEqpName = result.get(i).get("EQP_NAME").toString();
+				tempBeforeEventTime = result.get(i).get("BEFORE_EVENT_TIME").toString();
+				tempEventTime = result.get(i).get("EVENT_TIME").toString();
+				tempEqpStatus = result.get(i).get("EQP_STATUS").toString();
+				
+				if(!eqpName.equals(tempEqpName) || !eqpStatus.equals(tempEqpStatus)) {
+					eqpName = result.get(i).get("EQP_NAME").toString();
+					beforeEventTime = result.get(i).get("BEFORE_EVENT_TIME").toString();
+					eventTime = result.get(i).get("EVENT_TIME").toString();
+					eqpStatus = result.get(i).get("EQP_STATUS").toString();
+				}
+
+				if(i > 0) {
+					if(tempBeforeEventTime.equals(eventTime)) {
+						eventTime = tempEventTime;
+					} else {
+						hp.put("EQP_NAME", eqpName);
+						hp.put("BEFORE_EVENT_TIME", beforeEventTime);
+						hp.put("EVENT_TIME", eventTime);
+						hp.put("EQP_STATUS", eqpStatus);
+						convertResult.add(hp);
+						
+						hp = new HashMap<String,String>();
+						eqpName = tempEqpName;
+						beforeEventTime = tempBeforeEventTime;
+						eventTime = tempEventTime;
+						eqpStatus = tempEqpStatus;
+						
+					}
+				}
+				
+			}
+			
 		} catch(Exception e) {
 			logger.error("[/smart/common/SmartDashBoardPxTimeline.do] Exception :: " + e.toString());
 		}
 		
-		return result;
+		return convertResult;
 	}
 	
 	

@@ -269,7 +269,7 @@
 	function getTimelineData() {
 		
 		$.ajax({
-			url : "${pageContext.request.contextPath}/smart/eqp/SmartPxEqpTimelinekData.do",
+			url : "${pageContext.request.contextPath}/smart/eqp/SmartPxEqpTimelineData.do",
 			data : "",
 			type : "POST",
 			datatype : "json",
@@ -511,7 +511,7 @@
 	function reloadTimer() {
 		
 		if(timer == 0) {
-			getData();
+			getHeaderData();
 			
 			timer = startTimer;
 		}

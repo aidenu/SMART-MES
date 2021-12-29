@@ -272,23 +272,69 @@ public class SmartEqpController {
 	}
 	
 	
-	@RequestMapping(value="/smart/eqp/SmartPxEqpTimelinekData.do")
+	@RequestMapping(value="/smart/eqp/SmartPxEqpTimelineData.do")
 	@ResponseBody
-	public List<HashMap> SmartPxEqpTimelinekData(
+	public ArrayList<HashMap<String,String>> SmartPxEqpTimelineData(
 			ModelMap model) throws Exception {
 		
 		List<HashMap> resultTimeline = null;
+		ArrayList<HashMap<String,String>> convertResult = new ArrayList<HashMap<String,String>>();
+		HashMap<String,String> hp = new HashMap<String,String>();
 		
 		try {
 			
 			resultTimeline = SmartCommonDAO.commonDataProc("getPxEqpDailyTimeline");
 			model.addAttribute("resultTimeline", resultTimeline);
 			
+			String eqpName = "";
+			String beforeEventTime = "";
+			String eventTime = "";
+			String eqpStatus = "";
+			
+			String tempEqpName = "";
+			String tempBeforeEventTime = "";
+			String tempEventTime = "";
+			String tempEqpStatus = "";
+			for(int i=0; i<resultTimeline.size(); i++) {
+
+				tempEqpName = resultTimeline.get(i).get("EQP_NAME").toString();
+				tempBeforeEventTime = resultTimeline.get(i).get("BEFORE_EVENT_TIME").toString();
+				tempEventTime = resultTimeline.get(i).get("EVENT_TIME").toString();
+				tempEqpStatus = resultTimeline.get(i).get("EQP_STATUS").toString();
+				
+				if(!eqpName.equals(tempEqpName) || !eqpStatus.equals(tempEqpStatus)) {
+					eqpName = resultTimeline.get(i).get("EQP_NAME").toString();
+					beforeEventTime = resultTimeline.get(i).get("BEFORE_EVENT_TIME").toString();
+					eventTime = resultTimeline.get(i).get("EVENT_TIME").toString();
+					eqpStatus = resultTimeline.get(i).get("EQP_STATUS").toString();
+				}
+
+				if(i > 0) {
+					if(tempBeforeEventTime.equals(eventTime)) {
+						eventTime = tempEventTime;
+					} else {
+						hp.put("EQP_NAME", eqpName);
+						hp.put("BEFORE_EVENT_TIME", beforeEventTime);
+						hp.put("EVENT_TIME", eventTime);
+						hp.put("EQP_STATUS", eqpStatus);
+						convertResult.add(hp);
+						
+						hp = new HashMap<String,String>();
+						eqpName = tempEqpName;
+						beforeEventTime = tempBeforeEventTime;
+						eventTime = tempEventTime;
+						eqpStatus = tempEqpStatus;
+						
+					}
+				}
+				
+			}
+			
 		} catch(Exception e) {
-			logger.error("[/smart/eqp/SmartPxEqpTimelinekData.do] Exception :: " + e.toString());
+			logger.error("[/smart/eqp/SmartPxEqpTimelineData.do] Exception :: " + e.toString());
 		}
 		
-		return resultTimeline;
+		return convertResult;
 	}
 	
 	
