@@ -834,7 +834,14 @@
 							    								<option value="">-select-</option>
 							    								<c:forEach var="resultBasic" items="${resultBasic }" varStatus="basicStatus">
 							    									<c:if test="${resultBasic.KEY == 'ORDER_ORG' }">
-							    										<option value="${resultBasic.VALUE }">${resultBasic.VALUE }</option>
+							    										<c:choose>
+							    											<c:when test="${resultBasic.VALUE == result.ORDER_ORG }">
+							    												<option value="${resultBasic.VALUE }" selected>${resultBasic.VALUE }</option>
+							    											</c:when>
+							    											<c:otherwise>
+							    												<option value="${resultBasic.VALUE }">${resultBasic.VALUE }</option>
+							    											</c:otherwise>
+							    										</c:choose>
 							    									</c:if>
 							    								</c:forEach>
 							    							</select>

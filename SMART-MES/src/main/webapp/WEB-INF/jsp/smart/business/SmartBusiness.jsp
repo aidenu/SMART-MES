@@ -71,13 +71,18 @@
 						strHtml += "	<td>"+value.PRODUCT_NAME+"</td>";
 						strHtml += "	<td>"+value.ORDER_DATE+"</td>";
 						strHtml += "	<td>"+value.DUE_DATE+"</td>";
-						strHtml += "	<td>";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_detail'>";
+						strHtml += "	<td class='bg-light text-dark'>";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' name='btn_detail' data-modelid='"+value.MODEL_ID+"'>";
 						strHtml += "			<i data-feather='edit'></i>";
 						strHtml += "		</div>";
-						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' id='"+value.MODEL_ID+"_delete' onclick='delData(\""+value.MODEL_ID+"\")'>";
+						strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' name='btn_delete' data-modelid='"+value.MODEL_ID+"' id='"+value.MODEL_ID+"_delete' onclick='delData(\""+value.MODEL_ID+"\")'>";
 						strHtml += "			<i data-feather='trash-2'></i>";
 						strHtml += "		</div>";
+						if(value.CURRENT_STATUS == "COMPLETE") {
+							strHtml += "		<div class='btn btn-datatable btn-icon btn-transparent-dark mr-2' name='btn_copy' data-modelid='"+value.MODEL_ID+"'>";
+							strHtml += "			<i data-feather='copy'></i>";
+							strHtml += "		</div>";
+						}
 						strHtml += "	</td>";
 						strHtml += "</tr>";
 						$("#data_table_tbody").append(strHtml);
@@ -111,6 +116,7 @@
 		});
 
 		$('#modifyModalLayer').on('hide.bs.modal', function () {
+			$("#modify_gubun").val("");
 			$("#modify_modelno").val("");
 			$("#modify_productno").val("");
 			$("#modify_productname").val("");
@@ -181,9 +187,11 @@
 		});	//$("#btn_save")
 		
 		
-		$(document).on("click", "div[id$='_detail']", function() {
+		$(document).on("click", "div[name=btn_detail]", function() {
 			
-			var modelid = this.id.replace("_detail", "");
+			
+			var modelid = $(this).attr("data-modelid");
+			const title = "<spring:message code="smart.business.update.title" />";
 
 			$.ajax({
 				
@@ -196,8 +204,12 @@
 					$('#modifyModalLayer').modal("show");
 					$("#modify_modelid").val(modelid);
 					
+					$("#modifytModalLayerTitle").empty();
+					$("#modifytModalLayerTitle").append(title);
+					
 					$.each(data, function(index, value){
 						
+						$("#modify_gubun").val("update");
 						$("#modify_modelno").val(value.MODEL_NO);
 						$("#modify_productno").val(value.PRODUCT_NO);
 						$("#modify_productname").val(value.PRODUCT_NAME);
@@ -246,9 +258,10 @@
 		*/
 		$("#btn_modify").click(function() {
 			
-			var gubun = "update";
+			var gubun = $("#modify_gubun").val();
 			var modelid = $("#modify_modelid").val();
 			var modelno = $("#modify_modelno").val();
+			var asismodelno = $("#modify_asismodelno").val();
 			var productno = $("#modify_productno").val();
 			var productname = $("#modify_productname").val();
 			var productgroup = $("#modify_productgroup").val();
@@ -268,6 +281,14 @@
 				return;
 			}
 			
+			if(gubun == "copy") {
+				if(asismodelno == modelno) {
+					alert("<spring:message code="smart.business.copy.modelno.valid" />");
+					$("#modify_modelno").focus();
+					return;
+				}
+			}
+			
 			$.ajax({
 				
 				url : "${pageContext.request.contextPath}/smart/business/SmartBusinessSave.do",
@@ -276,11 +297,13 @@
 					"businessworker":businessworker, "orderdate":orderdate, "duedate":duedate, "enddate":enddate, "cadworker":cadworker},
 				datatype : "text",
 				success : function(data) {
+					
 					if("EXIST" == data) {
 						alert("<spring:message code="smart.business.modelno.exist" />");
 					} else if(data.indexOf("ERROR") > -1) {
 						alert("<spring:message code="smart.common.save.error" /> :: " + data);
 					} else {
+						$("#modify_gubun").val("");
 						$("#modify_modelno").val("");
 						$("#modify_productno").val("");
 						$("#modify_productname").val("");
@@ -339,7 +362,9 @@
 		. parameter
 		  - modelid
 	*/
-	function delData(modelid) {
+	$(document).on("click", "div[name=btn_delete]", function() {
+		
+		const modelid = $(this).attr("data-modelid");
 		
 		if(confirm("<spring:message code="smart.common.delete.is" />")) {
 			$.ajax({
@@ -359,8 +384,77 @@
 				}	//success
 			});	//$.ajax
 		}	//if(confirm(msg));
+	});
+	
+	
+	/**
+		. Copy 버튼 클릭
+		. parameter
+		  - modelid
+	*/
+	$(document).on("click", "div[name=btn_copy]", function() {
 		
-	}
+		const modelid = $(this).attr("data-modelid");
+		const title = "<spring:message code="smart.business.copy.title" />";
+		
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath}/smart/business/SmartBusinessView.do",
+			type : "POST",
+			data : {"modelid":modelid},
+			datatype : "json",
+			success : function(data){
+				
+				$('#modifyModalLayer').modal("show");
+				$("#modify_modelid").val(modelid);
+				
+				$("#modifytModalLayerTitle").empty();
+				$("#modifytModalLayerTitle").append(title);
+				
+				$.each(data, function(index, value){
+					
+					$("#modify_gubun").val("copy");
+					$("#modify_modelno").val(value.MODEL_NO);
+					$("#modify_asismodelno").val(value.MODEL_NO);
+					$("#modify_productno").val(value.PRODUCT_NO);
+					$("#modify_productname").val(value.PRODUCT_NAME);
+					$("#modify_productgroup").val(value.PRODUCT_GROUP);
+					$("#modify_vendor").val(value.VENDOR);
+					$("#modify_businessworker").val(value.BUSINESS_WORKER);
+					$("#modify_orderdate").val(value.ORDER_DATE);
+					$("#modify_duedate").val(value.DUE_DATE);
+					$("#modify_enddate").val(value.END_DATE);
+					
+					$("#singleDateDivmodify_orderdate span").html(value.ORDER_DATE);
+					$("#singleDateDivmodify_duedate span").html(value.DUE_DATE);
+					
+					if(value.END_DATE == null) {
+						$("#btn_enddate").css("display", "");
+						$("#singleDateDivmodify_enddate").css("display", "none");
+					} else {
+						$("#btn_enddate").css("display", "none");
+						$("#singleDateDivmodify_enddate").css("display", "");
+						$("#singleDateDivmodify_enddate span").html(value.END_DATE);
+
+						setSingleDateField("singleDateDivmodify_enddate", value.END_DATE);
+					}
+					
+					$("#modify_cadworker").val(value.CAD_WORKER);
+					
+					setSingleDateField("singleDateDivmodify_orderdate", value.ORDER_DATE);
+					setSingleDateField("singleDateDivmodify_duedate", value.DUE_DATE);
+					
+					
+					
+				});	//$.each
+				
+			}	//success
+		});	//$.ajax
+		
+	});
+	
+	
 </script>
 
 </head>
@@ -406,7 +500,8 @@
 								&nbsp;
 								<div class="btn btn-outline-primary" id="btn_add" data-toggle="modal" data-target="#addModalLayer"><spring:message code="smart.common.button.add" /></div>
 <%-- 								<div class="btn btn-outline-primary" id="btn_add"><spring:message code="smart.common.button.add" /></div> --%>
-								<!-- Modal -->
+								
+								<!-- 신규 등록 Modal -->
 								<div class="modal fade" id="addModalLayer" tabindex="-1" role="dialog" aria-labelledby="addModalLayerTitle" aria-hidden="true">
 								    <div class="modal-dialog modal-dialog-centered" role="document">
 								        <div class="modal-content">
@@ -548,7 +643,7 @@
 	                                    </tbody>
 									</table>
 									
-									<!-- Modal -->
+									<!-- 수정 Modal -->
 									<div class="modal fade" id="modifyModalLayer" tabindex="-1" role="dialog" aria-labelledby="modifyModalLayerTitle" aria-hidden="true">
 									    <div class="modal-dialog modal-dialog-centered" role="document">
 									        <div class="modal-content">
@@ -557,7 +652,9 @@
 									                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 									            </div>
 									            <div class="modal-body">
+									            	<input type="hidden" id="modify_gubun" name="modify_gubun">
 									            	<input type="hidden" id="modify_modelid" name="modify_modelid">
+									            	<input type="hidden" id="modify_asismodelno" name="modify_asismodelno">
 									                <table class="addTable">
 									                	<tr>
 									                		<td><spring:message code="smart.business.modelno" /></td>
