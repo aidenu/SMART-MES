@@ -3,6 +3,22 @@
 
 <sqlMap namespace="SmartCommon">
 	
+	
+	
+	<parameterMap id="paramUserUserLoginOutData" class="java.util.HashMap">
+		<parameter property="actiontype" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="userid" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="loginip" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
+	</parameterMap>
+	
+	<procedure id="setUserLoginOutData" parameterMap="paramUserUserLoginOutData" resultClass="java.util.HashMap" remapResults="true">
+		<![CDATA[
+        	{call PKG_Q_COMMON.setUserLoginOutData_Pro(?, ?, ?, ?)}
+        ]]>
+	</procedure>
+	
+	
 	<parameterMap id="paramMapModelSummaryStatus" class="java.util.HashMap">
 		<parameter property="out_data" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" mode="OUT" />
 	</parameterMap>

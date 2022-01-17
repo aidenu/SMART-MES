@@ -2,6 +2,7 @@ package egovframework.let.uat.uia.web;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -166,6 +167,12 @@ public class EgovLoginController {
 	        	EgovHttpSessionBindingListener listener = new EgovHttpSessionBindingListener();
 	        	request.getSession().setAttribute(resultVO.getId(), listener);
 	        	
+	        	HashMap<String,String> hp = new HashMap<String,String>();
+	        	hp.put("actiontype", "LOGIN");
+	        	hp.put("userid", loginVO.getId());
+	        	hp.put("loginip", request.getRemoteAddr());
+	        	List<HashMap> resultLog = SmartCommonDAO.commonDataProc("setUserLoginOutData", hp);
+	        	
 	        	return "forward:/uat/uia/actionMain.do";	// 성공 시 페이지.. (redirect 불가)
         	//}
 
@@ -237,6 +244,17 @@ public class EgovLoginController {
     	
     	if(request.getSession() != null)
     	{
+    		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    		//로그아웃 로그를 인서트 한다
+    		if(loginVO != null)
+    		{
+    			HashMap<String,String> hp = new HashMap<String,String>();
+	        	hp.put("actiontype", "LOGOUT");
+	        	hp.put("userid", loginVO.getId());
+	        	hp.put("loginip", "");
+	        	List<HashMap> resultLog = SmartCommonDAO.commonDataProc("setUserLoginOutData", hp);
+    		}
+    		
     		//request.getSession().setAttribute("LoginVO", null);
     		RequestContextHolder.getRequestAttributes().removeAttribute("LoginVO", RequestAttributes.SCOPE_SESSION);
     		request.getSession().invalidate();
