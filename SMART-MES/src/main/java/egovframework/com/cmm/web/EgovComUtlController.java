@@ -1,8 +1,14 @@
 package egovframework.com.cmm.web;
 
+import egovframework.com.cmm.LoginVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import smart.common.SmartCommonDAOImpl;
+
+import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -32,15 +38,19 @@ public class EgovComUtlController {
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
-    
+
+	@Resource(name="smartCommonDAO")
+	private SmartCommonDAOImpl SmartCommonDAO;
+	
     /**
 	 * JSP 호출작업만 처리하는 공통 함수
 	 */
 	@RequestMapping(value="/EgovPageLink.do")
 	public String moveToPage(@RequestParam(value="link", required=false) String linkPage, 
 			HttpSession session, 
+			HttpServletRequest request,
 			@RequestParam(value="baseMenuNo", required=false) String baseMenuNo,
-			@RequestParam(value="currentMenuNo", required=false) String currentMenuNo){
+			@RequestParam(value="currentMenuNo", required=false) String currentMenuNo) throws Exception{
 		String link = linkPage;
 		// service 사용하여 리턴할 결과값 처리하는 부분은 생략하고 단순 페이지 링크만 처리함
 		if (linkPage==null || linkPage.equals("")){
@@ -55,6 +65,18 @@ public class EgovComUtlController {
 			session.setAttribute("baseMenuNo",baseMenuNo);
 			session.setAttribute("currentMenuNo",currentMenuNo);
 		}
+		
+		LoginVO loginVO = (LoginVO) request.getSession().getAttribute("LoginVO");
+		
+		if(loginVO != null && currentMenuNo != null)
+		{
+			//메뉴 클릭 로그를 인서트 한다
+	    	HashMap<String,String> hp = new HashMap<String,String>();
+			hp.put("userid", loginVO.getId());
+			hp.put("menuid", currentMenuNo);
+			List<HashMap> resultMenu = SmartCommonDAO.commonDataProc("setUserMenuData", hp);
+		}
+		
 		return link;
 	}
 
