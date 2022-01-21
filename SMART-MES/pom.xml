@@ -33,18 +33,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-		<!-- 
-		<repository>
-			<id>egovframe</id>
-			<url>http://www.egovframe.go.kr/maven/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		 -->
+
 		<repository>
 		    <id>egovframe</id>
 		    <url>http://maven.egovframe.kr:8080/maven/</url>
@@ -144,10 +133,6 @@
 			<version>5.1.31</version>
 		</dependency>
 
-		<!-- oracle 10g driver -->
-
-		<!-- <dependency> <groupId>ojdbc</groupId> <artifactId>ojdbc</artifactId> 
-			<version>14</version> </dependency> -->
 
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -162,19 +147,6 @@
 			<version>1.0.2</version>
 		</dependency>
 				
-
-
-		<!-- altibase driver -->
-		<!-- <dependency> <groupId>altibase</groupId> <artifactId>altibase-jdbc-driver</artifactId> 
-			<version>5.1.3.18</version> </dependency> -->
-
-		<!-- tibero driver -->
-		<!-- <dependency> <groupId>com.tmax.tibero</groupId> <artifactId>tibero-jdbc</artifactId> 
-			<version>3.0</version> </dependency> -->
-
-		<!-- cubrid driver -->
-		<!-- <dependency> <groupId>cubrid</groupId> <artifactId>cubrid-jdbc</artifactId> 
-			<version>8.4</version> </dependency> -->
 
 		<dependency>
 			<groupId>com.googlecode.log4jdbc</groupId>
@@ -271,6 +243,18 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.2</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.17.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>2.17.1</version>
+		</dependency>
+				
 		
 		
 	</dependencies>
